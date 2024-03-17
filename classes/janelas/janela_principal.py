@@ -2,6 +2,7 @@
 from tkinter import *
 from tkinter import Tk
 from classes.janelas.janela_registo import JanelaRegisto
+from classes.janelas.janela_login import JanelaLogin
 
 #classe da janela principal
 class JanelaPrincipal:
@@ -34,6 +35,7 @@ class JanelaPrincipal:
         JanelaRegisto()
 
     def abrir_janela_login(self):
-        pass
+        JanelaLogin()
+
 
         

@@ -1,7 +1,9 @@
 from tkinter import *
 from tkinter import Tk, Button
 
-class JanelaPesquisarMenu:
+
+
+class JanelaPesquisarFilme:
     def __init__(self):
         self.janela_pesquisar_menu= Toplevel()
         self.janela_pesquisar_menu.title('Menu pesquisar')
