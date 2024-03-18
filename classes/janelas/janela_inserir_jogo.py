@@ -54,21 +54,25 @@ class JanelaInserirJogo:
         conn= sqlite3.connect('stock.db')
         cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO jogos (titulo, plataforma, ano, genero) VALUES(?,?,?,?)",
-                        (titulo_jogo, plataforma_jogo, ano_jogo, genero_jogo)) # falta o valor para a imagem
-        
-        conn.commit()
-        conn.close()
+        # Verificar se o título do jogo já existe na tabela
+        cursor.execute("SELECT * FROM jogos WHERE titulo=?", (titulo_jogo,))
+        jogo_existente = cursor.fetchone()
 
-        #mensagem de sucesso no registo
-        self.mensagem_registo_concluido = Label(self.janela_inserir_jogo, text='Registo feito com Sucesso', fg='green')
-        self.mensagem_registo_concluido.grid(row=5, column=0, columnspan=2)
-        self.mensagem_registo_concluido.after(3000, self.janela_inserir_jogo.destroy)
+        if jogo_existente:
+            # Se o jogo já existir, exibir mensagem e não realizar a inserção novamente
+            self.mensagem_registo_concluido = Label(self.janela_inserir_jogo, text="Erro, este jogo já está registado.", fg='red')
+            self.mensagem_registo_concluido.grid(row=5, column=0, columnspan=2)
+            self.mensagem_registo_concluido.after(3000, self.mensagem_registo_concluido.destroy)
+        else:
+            # Inserir o jogo apenas se não existir na tabela
+            cursor.execute("INSERT INTO jogos (titulo, plataforma, ano, genero) VALUES (?,?,?,?)",
+                            (titulo_jogo, plataforma_jogo, ano_jogo, genero_jogo))
+            conn.commit()
+            conn.close()
 
-        #Falta fazer verificação de registos
-
-
-
-    
+            # mensagem de sucesso no registo
+            self.mensagem_registo_concluido = Label(self.janela_inserir_jogo, text='Registo feito com Sucesso', fg='green')
+            self.mensagem_registo_concluido.grid(row=5, column=0, columnspan=2)
+            self.mensagem_registo_concluido.after(3000, self.janela_inserir_jogo.destroy)
 
 

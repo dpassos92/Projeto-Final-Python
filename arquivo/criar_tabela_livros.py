@@ -14,7 +14,7 @@ cursor = conn.cursor()
 criar_tabela_3 = '''
     CREATE TABLE IF NOT EXISTS livros(
         id INTEGER PRIMARY KEY,
-        titulo TEXT NOT NULL,
+        titulo TEXT NOT NULL UNIQUE,
         autor TEXT NOT NULL,
         ano INT CHECK (ano >= 1900 AND ano <= 2024),
         genero TEXT NOT NULL,

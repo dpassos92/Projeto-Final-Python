@@ -14,7 +14,7 @@ cursor = conn.cursor()
 criar_tabela_4 = '''
     CREATE TABLE IF NOT EXISTS jogos(
         id INTEGER PRIMARY KEY,
-        titulo TEXT NOT NULL,
+        titulo TEXT NOT NULL UNIQUE,
         plataforma TEXT NOT NULL,
         ano INT CHECK (ano >= 1900 AND ano <= 2024),
         genero TEXT NOT NULL,
