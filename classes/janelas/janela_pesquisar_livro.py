@@ -18,8 +18,8 @@ class JanelaPesquisarLivro:
         self.janela_pesquisar_livro_entry = Entry(self.janela_pesquisar_livro, font='Arial 14')
         self.janela_pesquisar_livro_entry.grid(row=1, column=1, padx=(0,10), sticky='W')
 
-        # criar campo para o ... do livro
-        self.janela_pesquisar_livro_lbl = Label(self.janela_pesquisar_livro, text='Realizador', font='Arial 14')
+        # criar campo para o autor do livro
+        self.janela_pesquisar_livro_lbl = Label(self.janela_pesquisar_livro, text='Autor', font='Arial 14')
         self.janela_pesquisar_livro_lbl.grid(row=2, column=0, padx=(10,0), pady=10, sticky='W')
         self.janela_pesquisar_livro_entry = Entry(self.janela_pesquisar_livro, font='Arial 14')
         self.janela_pesquisar_livro_entry.grid(row=2, column=1, padx=(0, 10), pady=10, sticky='W')
@@ -32,7 +32,7 @@ class JanelaPesquisarLivro:
         
         # configuração do botão para pesquisar
         # falta o command
-        self.pesquisar_btn = Button(self.janela_pesquisar_livro, text='Pesquisar Filme', font='Arial 14')
+        self.pesquisar_btn = Button(self.janela_pesquisar_livro, text='Pesquisar Livro', font='Arial 14')
         self.pesquisar_btn.grid(row=6, column=0, columnspan=2, padx=20, pady=10, sticky='NSEW')
 
         # configuração do botão para retroceder

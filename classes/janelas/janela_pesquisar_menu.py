@@ -2,6 +2,9 @@ from tkinter import *
 from tkinter import Tk, Button
 from classes.janelas.janela_pesquisar_filme import JanelaPesquisarFilme
 from classes.janelas.janela_pesquisar_jogo import JanelaPesquisarJogo
+from classes.janelas.janela_pesquisar_livro import JanelaPesquisarLivro
+from classes.janelas.janela_pesquisar_vinyl import JanelaPesquisarVinyl
+
 
 class JanelaPesquisarMenu:
     def __init__(self):
@@ -17,13 +20,13 @@ class JanelaPesquisarMenu:
         self.botao_filmes = Button(self.janela_pesquisar_menu, text='Filmes', font='Arial 14', command = JanelaPesquisarFilme)
         self.botao_filmes.grid(row=4, column=0, padx=20, pady=20, sticky='NSEW')
 
-        self.botao_livros = Button(self.janela_pesquisar_menu, text='Livros', font='Arial 14')
+        self.botao_livros = Button(self.janela_pesquisar_menu, text='Livros', font='Arial 14', command = JanelaPesquisarLivro)
         self.botao_livros.grid(row=5, column=0, padx=20, pady=20, sticky='NSEW')
 
         self.botao_jogos = Button(self.janela_pesquisar_menu, text='Jogos', font='Arial 14', command = JanelaPesquisarJogo)
         self.botao_jogos.grid(row=6, column=0, padx=20, pady=20, sticky='NSEW')
 
-        self.botao_vinyl = Button(self.janela_pesquisar_menu, text='Vinyl', font='Arial 14')
+        self.botao_vinyl = Button(self.janela_pesquisar_menu, text='Vinyl', font='Arial 14', command = JanelaPesquisarVinyl) 
         self.botao_vinyl.grid(row=7, column=0, padx=20, pady=20, sticky='NSEW')
 
 
