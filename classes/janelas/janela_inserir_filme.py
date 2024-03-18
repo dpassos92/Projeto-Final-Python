@@ -40,6 +40,7 @@ class JanelaInserirFilme:
         self.registar_btn = Button(self.janela_inserir_filme, text='Registar Filme', font='Arial 14', command=self.registar_filme) #falta command
         self.registar_btn.grid(row=6, column=0, columnspan=2, padx=20, pady=10, sticky='NSEW')
 
+        # configuração do botão para voltar atrás
         self.botao_retroceder = Button(self.janela_inserir_filme, text='Voltar atrás', font='Arial 10 bold', command= self.janela_inserir_filme.destroy)
         self.botao_retroceder.grid(row=7, column=0, columnspan=2, padx=20, pady=20, sticky='NSEW')
 
