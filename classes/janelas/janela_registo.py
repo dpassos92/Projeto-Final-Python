@@ -60,14 +60,24 @@ class JanelaRegisto:
         #ligar à base de dados
         conn = sqlite3.connect('stock.db')
         cursor = conn.cursor()
-        cursor.execute(
-            'INSERT INTO utilizadores (utilizador, password) VALUES (?, ?)', (dados_utilizador, password_a_gravar)
-        )
-        conn.commit()
-        conn.close()
 
-        #mensagem de sucesso no registo
-        self.mensagem_registo_concluido = Label(self.janela_registo, text='Registo feito com Sucesso', fg='green')
-        self.mensagem_registo_concluido.grid(row=3, column=0, columnspan=2)
-        self.mensagem_registo_concluido.after(3000, self.janela_registo.destroy)
+        cursor.execute("SELECT utilizador FROM utilizadores WHERE utilizador=?", (dados_utilizador,))
+         # Obtém a primeira linha do resultado da consulta
+        match = cursor.fetchone()
+
+        if match:
+            self.mensagem_registo_concluido = Label(self.janela_registo, text='Registo já existe...', fg='red')
+            self.mensagem_registo_concluido.grid(row=3, column=0, columnspan=2)
+            self.mensagem_registo_concluido.after(3000, self.mensagem_registo_concluido.destroy)
+        else:
+            cursor.execute(
+                'INSERT INTO utilizadores (utilizador, password) VALUES (?, ?)', (dados_utilizador, password_a_gravar)
+            )
+            conn.commit()
+            conn.close()
+            
+            #mensagem de sucesso no registo
+            self.mensagem_registo_concluido = Label(self.janela_registo, text='Registo feito com Sucesso', fg='green')
+            self.mensagem_registo_concluido.grid(row=3, column=0, columnspan=2)
+            self.mensagem_registo_concluido.after(3000, self.janela_registo.destroy)
 
