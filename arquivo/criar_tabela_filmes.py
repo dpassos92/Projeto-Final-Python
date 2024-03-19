@@ -32,3 +32,35 @@ conn.commit()
 conn.close
 
 print('Guardado com sucesso')
+
+
+# Eliminar dados para adicionar atributos "quantidade" e "preço" como NOT NULL
+eliminar_dados = '''
+    DELETE FROM filmes;
+'''
+
+cursor.execute(eliminar_dados)
+conn.commit()
+print('Eliminado com sucesso')
+
+
+# Adicionar quantidade
+alterar_tabela_filmes_2 = '''
+    ALTER TABLE filmes
+    ADD COLUMN quantidade INT NOT NULL;
+'''
+
+cursor.execute(alterar_tabela_filmes_2)
+conn.commit()
+print('Atributo "quantidade" adicionado à tabela "filmes" com sucesso.')
+
+# Adicionar preço
+alterar_tabela_filmes_3 = '''
+    ALTER TABLE filmes
+    ADD COLUMN preco DECIMAL(10, 2) NOT NULL;
+'''
+
+cursor.execute(alterar_tabela_filmes_3)
+conn.commit()
+conn.close
+print('Atributo "preço" adicionado à tabela "filmes" com sucesso.')

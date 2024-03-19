@@ -33,7 +33,6 @@ conn.close
 
 print('Guardado com sucesso')
 
-
 alterar_tabela_livros_2 = '''
     ALTER TABLE livros
     ADD COLUMN autor TEXT NOT NULL;
@@ -49,3 +48,35 @@ conn.commit()
 conn.close()
 
 print('Atributo "autor" adicionado à tabela "livros" com sucesso.')
+
+
+# Eliminar dados para adicionar atributos "quantidade" e "preço" como NOT NULL
+eliminar_dados = '''
+    DELETE FROM livros;
+'''
+
+cursor.execute(eliminar_dados)
+conn.commit()
+print('Eliminado com sucesso')
+
+
+# Adicionar quantidade
+alterar_tabela_livros_3 = '''
+    ALTER TABLE livros
+    ADD COLUMN quantidade INT NOT NULL;
+'''
+
+cursor.execute(alterar_tabela_livros_3)
+conn.commit()
+print('Atributo "quantidade" adicionado à tabela "livros" com sucesso.')
+
+# Adicionar preço
+alterar_tabela_livros_4 = '''
+    ALTER TABLE livros
+    ADD COLUMN preco DECIMAL(10, 2) NOT NULL;
+'''
+
+cursor.execute(alterar_tabela_livros_4)
+conn.commit()
+conn.close
+print('Atributo "preço" adicionado à tabela "livros" com sucesso.')
