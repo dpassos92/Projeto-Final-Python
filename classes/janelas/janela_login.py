@@ -44,7 +44,7 @@ class JanelaLogin:
         utilizador = self.nome_utilizador_entry.get()
         password = self.nome_password_entry.get()
 
-        #ligação  à base de dados
+        #ligação à base de dados
         self.conn = sqlite3.connect('stock.db')
         self.cursor = self.conn.cursor()
         
