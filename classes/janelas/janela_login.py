@@ -1,19 +1,20 @@
 #importações
 from tkinter import *
-from tkinter import Tk
+from tkinter import Tk, messagebox
 import sqlite3
 import hashlib
-import os
-from classes.janelas.janela_menu import  JanelaMenu
+
 
 #Criar a classe para a janela de registo
 class JanelaLogin:
-    def __init__(self):
+    def __init__(self, janela_principal=None):
 
         #criar a janela principal
+        self.janela_principal =  janela_principal
         self.janela_login = Toplevel() #cria a janela
         self.janela_login.title('Registo de utilizadores') #muda o titulo
         self.janela_login.configure(bg='#f0f0f0') #altera a cor de fundo
+        self.janela_login.geometry(self.calcular_posicao()) # Posição da janela no ecrã
 
         #criar label login
         self.login_lbl = Label(self.janela_login, text='Login', font='Arial 20', fg='#333333', bg='#f0f0f0')
@@ -36,48 +37,26 @@ class JanelaLogin:
         self.sair_btn.grid(row=5, column=0, columnspan=2, padx=20, pady=10, sticky='NSEW')
 
         #configuração do bptão de registar
-        self.registar_btn = Button(self.janela_login, text='Entrar', font='Arial 14', command=self.login_utilizador) #falta command
+        self.registar_btn = Button(self.janela_login, text='Entrar', font='Arial 14', command=self.verificar_login)
         self.registar_btn.grid(row=4, column=0, columnspan=2, padx=20, pady=10, sticky='NSEW')
 
-    def login_utilizador(self):
+    def verificar_login(self):
         utilizador = self.nome_utilizador_entry.get()
         password = self.nome_password_entry.get()
-        validar_credentials = DatabaseLogin().verificar_login(utilizador, password)
 
-
-        if validar_credentials:
-            # Mensagem de login bem sucedido
-            self.mensagem_registo_concluido = Label(self.janela_login, text='Login feito com Sucesso', fg='green')
-            self.mensagem_registo_concluido.grid(row=3, column=0, columnspan=2)
-            self.mensagem_registo_concluido.after(3000, self.mensagem_registo_concluido.destroy)
-            self.abrir_janela_menu()
-            
-
-        else:
-            # Mensagem de login inválido
-            self.mensagem_erro = Label(self.janela_login, text='Credenciais inválidas', fg='red')
-            self.mensagem_erro.grid(row=3, column=0, columnspan=2)
-            self.mensagem_erro.after(3000, self.mensagem_erro.destroy)
-    
-    def abrir_janela_menu(self):
-            self.janela_login.withdraw()
-            JanelaMenu()
-
-
-
-class DatabaseLogin():
-    def __init__(self):
+        #ligação  à base de dados
         self.conn = sqlite3.connect('stock.db')
         self.cursor = self.conn.cursor()
         
-    def verificar_login(self, utilizador, password):
+    
          # Executa uma consulta SQL para selecionar a password da tabela utilizadores onde o utilizador corresponde ao fornecido como argumento
-         self.cursor.execute("SELECT password FROM utilizadores WHERE utilizador=?", (utilizador,))
+        self.cursor.execute("SELECT password FROM utilizadores WHERE utilizador=?", (utilizador,))
          # Obtém a primeira linha do resultado da consulta
-         match = self.cursor.fetchone()
+        match = self.cursor.fetchone()
+        self.conn.close()
 
          # Verifica se a linha existe (ou seja, se o utilizador existe)
-         if match:
+        if match:
             # Extrai a password armazenada na linha
             db_password = match[0]
             # Divide a password armazenada em duas partes: o salt e o hash da password
@@ -85,13 +64,29 @@ class DatabaseLogin():
             # Calcula o hash da password fornecida usando o mesmo salt e compara com o hash armazenado na base de dados
             input_hashed_password = hashlib.pbkdf2_hmac('sha256', password.encode(), bytes.fromhex(salt), 100000).hex()
             if input_hashed_password == hash_pass:
-                # Se os hashes coincidirem, retorna True (autenticação bem-sucedida)
-                return True
-
-         # Retorna False se o utilizador não existir ou se as passwords não coincidirem
-         return False
+                messagebox.showinfo("Login", "Login bem-sucedido!")
+                self.janela_login.destroy() # Fecha a janela de login após sucesso
+                if self.janela_principal:
+                    self.janela_principal.abrir_janela_menu() # Abre a janela de menu
+                else:
+                    messagebox.showerror("Erro", "Password incorreta.")
+            else:
+                messagebox.showerror("Erro", "Utilizador não encontrado.")
     
-    def __del__(self):
-        # Fecha a ligação com a base de dados
-        self.conn.close()
+    #definir a posição no ecra
+    def calcular_posicao(self):
+        #definir largura e altura da janela
+        largura_janela = 450
+        altura_janela = 300
 
+        #obter largura e altura do ecrã
+        largura_ecra = self.janela_login.winfo_screenwidth()
+        altura_ecra = self.janela_login.winfo_screenheight()
+
+        #calcular a posição x e y
+        x = (largura_ecra // 2) - (largura_janela // 2)
+        y = (altura_ecra // 2) - (altura_janela // 2)
+
+        #definir a posição da janela
+        return f'{largura_janela}x{altura_janela}+{x}+{y}'
+        
