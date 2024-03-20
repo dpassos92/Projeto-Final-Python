@@ -7,9 +7,10 @@ import sqlite3
 
 
 class CategoriaFilme:
-    def abrir_janela_menu(self, janela_principal):
+    def __init__(self, janela_principal):
         self.janela_principal = janela_principal
 
+    def abrir_janela_menu(self):
 
         for widget in self.janela_principal.winfo_children():
             widget.destroy()

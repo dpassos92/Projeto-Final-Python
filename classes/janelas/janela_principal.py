@@ -86,16 +86,16 @@ class JanelaPrincipal:
         categoria_livro.abrir_janela_menu()  # Chamar o método abrir_janela_menu() neste objeto, na janela principal
 
     def abrir_janela_filmes(self):
-        categoria_filme = CategoriaFilme()  # Criar um objeto da classe CategoriaFilme
-        categoria_filme.abrir_janela_menu(self.janela_principal)  # Chamar o método abrir_janela_menu() neste objeto, na janela principal
+        categoria_filme = CategoriaFilme(self.janela_principal)  # Criar um objeto da classe CategoriaFilme
+        categoria_filme.abrir_janela_menu()  # Chamar o método abrir_janela_menu() neste objeto, na janela principal
 
     def abrir_janela_jogos(self):
-        categoria_jogo = CategoriaJogo()  # Criar um objeto da classe CategoriaJogo
-        categoria_jogo.abrir_janela_menu(self.janela_principal)  # Chamar o método abrir_janela_menu() neste objeto, na janela principal
+        categoria_jogo = CategoriaJogo(self.janela_principal)  # Criar um objeto da classe CategoriaJogo
+        categoria_jogo.abrir_janela_menu()  # Chamar o método abrir_janela_menu() neste objeto, na janela principal
 
     def abrir_janela_vinyl(self):
-        categoria_vinyl = CategoriaVinyl()  # Criar um objeto da classe CategoriaJogo
-        categoria_vinyl.abrir_janela_menu(self.janela_principal)  # Chamar o método abrir_janela_menu() neste objeto, na janela principal
+        categoria_vinyl = CategoriaVinyl(self.janela_principal)  # Criar um objeto da classe CategoriaJogo
+        categoria_vinyl.abrir_janela_menu()  # Chamar o método abrir_janela_menu() neste objeto, na janela principal
 
 
     def reconstruir_interface(self):
