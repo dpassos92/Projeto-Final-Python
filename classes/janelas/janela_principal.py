@@ -102,14 +102,14 @@ class JanelaPrincipal:
         self.treeeview.grid(row=3, column=0, columnspan=10, sticky="NSEW")
         self.janela_principal.grid_columnconfigure(0, weight=1)
 
-        self.mostrar_produtos()
+        self.mostrar_livros()
 
-        self.treeeview.bind("<Double-1>", self.editar_produto)
+        self.treeeview.bind("<Double-1>", self.editar_livro)
 
-        self.botao_novo_produto = Button(self.janela_principal, text="Novo Produto", font="Arial 14",command=self.registar_produto)
+        self.botao_novo_produto = Button(self.janela_principal, text="Novo Produto", font="Arial 14",command=self.registar_produto_livro)
         self.botao_novo_produto.grid(row=4, column=0, columnspan=6, sticky="NSEW")
 
-        self.botao_apagar_produto = Button(self.janela_principal, text="Apagar", font="Arial 14",command=self.apagar_produto)
+        self.botao_apagar_produto = Button(self.janela_principal, text="Apagar", font="Arial 14",command=self.apagar_livro)
         self.botao_apagar_produto.grid(row=4, column=6, columnspan=5, sticky="NSEW")
 
         self.menu_barra = Menu(self.janela_principal)
@@ -125,7 +125,7 @@ class JanelaPrincipal:
         ano_produto.bind('<KeyRelease>', lambda e: self.filtrar_dados(ano_produto))
 
 
-    def apagar_produto(self):
+    def apagar_livro(self):
             
             item_selecionado = self.treeeview.selection()[0]
     
