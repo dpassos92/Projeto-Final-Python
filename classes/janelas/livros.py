@@ -1,19 +1,15 @@
 #importações
 from tkinter import *
 from tkinter import Tk, ttk, messagebox
-from classes.janelas.janela_registo import JanelaRegisto
-from classes.janelas.janela_login import JanelaLogin
 import sqlite3
-
 
 
 class CategoriaLivro:
     def __init__(self, janela_principal):
         self.janela_principal = janela_principal
-
+        
         
     def abrir_janela_menu(self):
-        
         for widget in self.janela_principal.winfo_children():
             widget.destroy()
 
@@ -85,13 +81,18 @@ class CategoriaLivro:
         self.menu_ficheiro = Menu(self.menu_barra, tearoff=0)
         self.menu_barra.add_cascade(label="Ficheiro", menu=self.menu_ficheiro)
         self.menu_ficheiro.add_command(label="Novo", command=self.registar_produto_livro)
-        #self.menu_ficheiro.add_command(label="Retroceder", command=)
+        #self.menu_ficheiro.add_command(label="Retroceder", command=self.janela_principal.reconstruir_menu)
         self.menu_ficheiro.add_command(label="Sair", command=self.janela_principal.destroy)
 
         nome_produto.bind('<KeyRelease>', lambda e: self.filtrar_titulo_livros(nome_produto))
         autor_produto.bind('<KeyRelease>', lambda e: self.filtrar_autor_livros(autor_produto))
         ano_produto.bind('<KeyRelease>', lambda e: self.filtrar_ano_livros(ano_produto))
         genero_produto.bind('<KeyRelease>', lambda e: self.filtrar_genero_livros(genero_produto))
+
+
+    
+    
+    
 
 
     #definir a posição no ecra

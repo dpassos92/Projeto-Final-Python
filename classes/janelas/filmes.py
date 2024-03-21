@@ -1,8 +1,6 @@
 #importações
 from tkinter import *
 from tkinter import Tk, ttk, messagebox
-from classes.janelas.janela_registo import JanelaRegisto
-from classes.janelas.janela_login import JanelaLogin
 import sqlite3
 
 
@@ -83,6 +81,7 @@ class CategoriaFilme:
         self.menu_ficheiro = Menu(self.menu_barra, tearoff=0)
         self.menu_barra.add_cascade(label="Ficheiro", menu=self.menu_ficheiro)
         self.menu_ficheiro.add_command(label="Novo", command=self.registar_produto_filme)
+        #self.menu_ficheiro.add_command(label="Retroceder", command=self.reconstruir_menu)
         self.menu_ficheiro.add_command(label="Sair", command=self.janela_principal.destroy)
 
         nome_produto.bind('<KeyRelease>', lambda e: self.filtrar_titulo_filmes(nome_produto))
@@ -90,6 +89,8 @@ class CategoriaFilme:
         ano_produto.bind('<KeyRelease>', lambda e: self.filtrar_ano_filmes(ano_produto))
         genero_produto.bind('<KeyRelease>', lambda e: self.filtrar_genero_filmes(genero_produto))
 
+
+    
 
     #definir a posição no ecra
     def calcular_posicao(self, largura_janela=400, altura_janela=300):
