@@ -23,7 +23,7 @@ class JanelaRegisto:
         self.nome_utilizador_entry.pack(padx=10, pady=10)
 
         #criar campo password
-        self.nome_password_entry = customtkinter.CTkEntry(self.janela_registo, placeholder_text='Password')
+        self.nome_password_entry = customtkinter.CTkEntry(self.janela_registo, placeholder_text='Password', show='*')
         self.nome_password_entry.pack(padx=10, pady=10)
 
         #configuração do botão de registar
