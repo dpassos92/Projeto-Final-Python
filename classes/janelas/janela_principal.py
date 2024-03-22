@@ -42,7 +42,7 @@ class JanelaPrincipal:
 
 # Ainda por editar com customtkinter
 
-    """
+    
     #definir a posição no ecra
     def calcular_posicao(self, largura_janela=400, altura_janela=300):
 
@@ -55,7 +55,7 @@ class JanelaPrincipal:
         y = (altura_ecra // 2) - (altura_janela // 2)
 
         #definir a posição da janela
-        return f'{largura_janela}x{altura_janela}+{x}+{y}'"""
+        return f'{largura_janela}x{altura_janela}+{x}+{y}'
 
 
     #Definir a janela de menu após login

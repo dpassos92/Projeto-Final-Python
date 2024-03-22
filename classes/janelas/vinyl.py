@@ -67,7 +67,7 @@ class CategoriaVinyl:
         self.treeeview.column("quantidade", anchor=CENTER, width=100)
         self.treeeview.column("preco", anchor=CENTER, width=100)
 
-        self.treeeview.grid(row=4, column=0, columnspan=10, sticky="NSEW")
+        self.treeeview.grid(row=3, column=0, columnspan=10, sticky="NSEW")
         self.janela_principal.grid_columnconfigure(0, weight=1)
 
         self.mostrar_vinyls()
@@ -75,10 +75,13 @@ class CategoriaVinyl:
         self.treeeview.bind("<Double-1>", self.editar_vinyl)
 
         self.botao_novo_produto = Button(self.janela_principal, text="Novo Produto", font="Arial 14",command=self.registar_produto_vinyl)
-        self.botao_novo_produto.grid(row=5, column=0, columnspan=6, sticky="NSEW")
+        self.botao_novo_produto.grid(row=4, column=0, columnspan=3, sticky="NSEW")
 
         self.botao_apagar_produto = Button(self.janela_principal, text="Apagar", font="Arial 14",command=self.apagar_vinyl)
-        self.botao_apagar_produto.grid(row=5, column=6, columnspan=5, sticky="NSEW")
+        self.botao_apagar_produto.grid(row=4, column=3, columnspan=3, sticky="NSEW")
+
+        self.botao_retroceder = Button(self.janela_principal, text="Retroceder", font="Arial 14",command=self.reconstruir_menu)
+        self.botao_retroceder.grid(row=4, column=5, columnspan=5, sticky="NSEW")
 
         self.menu_barra = Menu(self.janela_principal)
         self.janela_principal.configure(menu=self.menu_barra)
@@ -199,7 +202,7 @@ class CategoriaVinyl:
                 cursor = conn.cursor()
 
                 # Verificar se o título já existe na base de dados
-                cursor.execute("SELECT * FROM vinyls WHERE titulo = ?", (novo_nome_vinyl,))
+                cursor.execute("SELECT * FROM vinyl WHERE titulo = ?", (novo_nome_vinyl,))
                 if cursor.fetchone():
                     conn.close()
                     # Exibir uma mensagem de erro se o título já existir na base de dados
@@ -209,7 +212,7 @@ class CategoriaVinyl:
 
                 
                     # Inserir os dados na tabela
-                    cursor.execute("UPDATE vinyls SET titulo = ?, artista = ?, editora = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", (novo_nome_vinyl, novo_artista_vinyl, novo_editora_vinyl, novo_ano_vinyl, novo_genero_vinyl, novo_imagem_vinyl, novo_quantidade_vinyl, novo_preco_vinyl, valores_selecionados[0]))
+                    cursor.execute("UPDATE vinyl SET titulo = ?, artista = ?, editora = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", (novo_nome_vinyl, novo_artista_vinyl, novo_editora_vinyl, novo_ano_vinyl, novo_genero_vinyl, novo_imagem_vinyl, novo_quantidade_vinyl, novo_preco_vinyl, valores_selecionados[0]))
 
 
                     # Confirmar a inserção dos dados
@@ -302,7 +305,7 @@ class CategoriaVinyl:
             cursor = conn.cursor()
 
             # Inserir os dados na tabela
-            cursor.execute("INSERT INTO vinyls (titulo, artista, editora, ano, genero, imagem_path, quantidade, preco) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (titulo, artista, editora, ano, genero, imagem, quantidade, preco))
+            cursor.execute("INSERT INTO vinyl (titulo, artista, editora, ano, genero, imagem_path, quantidade, preco) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (titulo, artista, editora, ano, genero, imagem, quantidade, preco))
 
             # Confirmar a inserção dos dados
             conn.commit()
@@ -470,3 +473,46 @@ class CategoriaVinyl:
     def limparDados(self):
         for i in self.treeeview.get_children():
             self.treeeview.delete(i)
+
+    
+    def reconstruir_menu(self):
+        for widget in self.janela_principal.winfo_children():
+            widget.destroy()
+
+        self.janela_principal.title("Sistema de Gestão de Produtos")  # Título da janela
+        self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
+        self.janela_principal.configure(bg="#f0f0f0")  # Cor de fundo da janela
+        self.janela_principal.geometry(self.calcular_posicao())  # Posição da janela no ecrã
+        self.janela_principal.state('zoomed')  # Maximizar a janela
+
+        self.janela_principal_livros_btn = Button(self.janela_principal, text='Livros', font='Arial 14', command= self.abrir_janela_livros)
+        self.janela_principal_livros_btn.grid(row=1, column=0, columnspan=2, padx=20, pady=10, sticky='NSEW')
+
+        self.janela_principal_filmes_btn = Button(self.janela_principal, text='Filmes', font='Arial 14', command= self.abrir_janela_filmes)
+        self.janela_principal_filmes_btn.grid(row=1, column=3, columnspan=2, padx=20, pady=10, sticky='NSEW')
+
+        self.janela_principal_jogos_btn = Button(self.janela_principal, text='Jogos', font='Arial 14', command= self.abrir_janela_jogos)
+        self.janela_principal_jogos_btn.grid(row=1, column=5, columnspan=2, padx=20, pady=10, sticky='NSEW')
+
+        self.janela_principal_vinyl_btn = Button(self.janela_principal, text='Vinyl', font='Arial 14', command= self.abrir_janela_vinyl)
+        self.janela_principal_vinyl_btn.grid(row=1, column=7, columnspan=2, padx=20, pady=10, sticky='NSEW')
+
+    def abrir_janela_livros(self):
+        from classes.janelas.livros import CategoriaLivro
+        categoria_livro = CategoriaLivro(self.janela_principal)  # Criar um objeto da classe CategoriaLivro
+        categoria_livro.abrir_janela_menu()  # Chamar o método abrir_janela_menu() neste objeto, na janela principal
+
+    def abrir_janela_filmes(self):
+        from classes.janelas.filmes import CategoriaFilme
+        categoria_filme = CategoriaFilme(self.janela_principal)  # Criar um objeto da classe CategoriaFilme
+        categoria_filme.abrir_janela_menu()  # Chamar o método abrir_janela_menu() neste objeto, na janela principal
+
+    def abrir_janela_jogos(self):
+        from classes.janelas.jogos import CategoriaJogo
+        categoria_jogo = CategoriaJogo(self.janela_principal)  # Criar um objeto da classe CategoriaJogo
+        categoria_jogo.abrir_janela_menu()  # Chamar o método abrir_janela_menu() neste objeto, na janela principal
+
+    def abrir_janela_vinyl(self):
+        from classes.janelas.vinyl import CategoriaVinyl
+        categoria_vinyl = CategoriaVinyl(self.janela_principal)  # Criar um objeto da classe CategoriaJogo
+        categoria_vinyl.abrir_janela_menu()  # Chamar o método abrir_janela_menu() neste objeto, na janela principal'''
