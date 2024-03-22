@@ -2,6 +2,7 @@
 from tkinter import *
 from tkinter import Tk, ttk, messagebox
 import sqlite3
+from PIL import Image, ImageTk
 
 
 class CategoriaLivro:
@@ -67,7 +68,7 @@ class CategoriaLivro:
 
         self.mostrar_livros()
 
-        self.treeeview.bind("<Double-1>", self.editar_livro)
+        self.treeeview.bind("<Double-1>", self.handle_selecao)
 
         self.botao_novo_produto = Button(self.janela_principal, text="Novo Produto", font="Arial 14",command=self.registar_produto_livro)
         self.botao_novo_produto.grid(row=4, column=0, columnspan=3, sticky="NSEW")
@@ -475,3 +476,53 @@ class CategoriaLivro:
         from classes.janelas.vinyl import CategoriaVinyl
         categoria_vinyl = CategoriaVinyl(self.janela_principal)  # Criar um objeto da classe CategoriaJogo
         categoria_vinyl.abrir_janela_menu()  # Chamar o método abrir_janela_menu() neste objeto, na janela principal'''
+
+
+    def handle_selecao(self, event):
+        # Obter o livro_id a partir do item selecionado na treeview
+        item_selecionado = self.treeeview.selection()[0]
+        livro_id = self.treeeview.item(item_selecionado)['values'][0]
+        # Chamar a função exibir_filmes com o livro_id
+        self.exibir_filmes(livro_id)
+
+    def exibir_filmes(self, livro_id):
+        # Conectar ao banco de dados e obter os detalhes do livro
+        conn = sqlite3.connect('stock.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM livros WHERE id=?", (livro_id,))
+        livro = cursor.fetchone()
+        conn.close()
+
+        # Criar uma nova janela para exibir os detalhes do livro
+        exibir_window = Tk()
+        exibir_window.title("Detalhes do Livro")
+
+        # Exibir os atributos do livro na janela
+        row = 0
+        Label(exibir_window, text="Título:").grid(row=row, column=0, sticky='w')
+        Label(exibir_window, text=livro[1]).grid(row=row, column=1, sticky='w')
+        row += 1
+
+        Label(exibir_window, text="Autor:").grid(row=row, column=0, sticky='w')
+        Label(exibir_window, text=livro[2]).grid(row=row, column=1, sticky='w')
+        row += 1
+
+        Label(exibir_window, text="Ano:").grid(row=row, column=0, sticky='w')
+        Label(exibir_window, text=livro[3]).grid(row=row, column=1, sticky='w')
+        row += 1
+
+        Label(exibir_window, text="Gênero:").grid(row=row, column=0, sticky='w')
+        Label(exibir_window, text=livro[4]).grid(row=row, column=1, sticky='w')
+        row += 1
+
+        Label(exibir_window, text="Imagem:").grid(row=0, column=2, sticky='w')
+        Label(exibir_window, text=livro[5]).grid(row=row, column=1, sticky='w')
+
+        Label(exibir_window, text="Quantidade:").grid(row=row, column=0, sticky='w')
+        Label(exibir_window, text=livro[6]).grid(row=row, column=1, sticky='w')
+        row += 1
+
+        Label(exibir_window, text="Preço:").grid(row=row, column=0, sticky='w')
+        Label(exibir_window, text=livro[7]).grid(row=row, column=1, sticky='w')
+        row += 1        
+        

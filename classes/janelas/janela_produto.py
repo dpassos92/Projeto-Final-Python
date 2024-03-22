@@ -1,4 +1,4 @@
-import tkinter as tk
+import tkinter 
 import sqlite3
 
 # Função para exibir os dados dos filmes
@@ -12,34 +12,34 @@ def exibir_filmes():
     filmes = cursor.fetchall()
 
     # Criar uma nova janela para exibir os dados
-    exibir_window = tk.Tk()
+    exibir_window = tkinter.Tk()
     exibir_window.title("Filmes")
 
     # Criar e posicionar rótulos e atributos dos filmes usando o método grid
     row = 0
     for filme in filmes:
-        tk.Label(exibir_window, text="Título:").grid(row=row, column=0, sticky='w')
-        tk.Label(exibir_window, text=filme[1]).grid(row=row, column=1, sticky='w')
+        tkinter.Label(exibir_window, text="Título:").grid(row=row, column=0, sticky='w')
+        tkinter.Label(exibir_window, text=filme[1]).grid(row=row, column=1, sticky='w')
         row += 1
 
-        tk.Label(exibir_window, text="Realizador:").grid(row=row, column=0, sticky='w')
-        tk.Label(exibir_window, text=filme[2]).grid(row=row, column=1, sticky='w')
+        tkinter.Label(exibir_window, text="Realizador:").grid(row=row, column=0, sticky='w')
+        tkinter.Label(exibir_window, text=filme[2]).grid(row=row, column=1, sticky='w')
         row += 1
 
-        tk.Label(exibir_window, text="Ano:").grid(row=row, column=0, sticky='w')
-        tk.Label(exibir_window, text=str(filme[3])).grid(row=row, column=1, sticky='w')
+        tkinter.Label(exibir_window, text="Ano:").grid(row=row, column=0, sticky='w')
+        tkinter.Label(exibir_window, text=str(filme[3])).grid(row=row, column=1, sticky='w')
         row += 1
 
-        tk.Label(exibir_window, text="Género:").grid(row=row, column=0, sticky='w')
-        tk.Label(exibir_window, text=filme[4]).grid(row=row, column=1, sticky='w')
+        tkinter.Label(exibir_window, text="Género:").grid(row=row, column=0, sticky='w')
+        tkinter.Label(exibir_window, text=filme[4]).grid(row=row, column=1, sticky='w')
         row += 1
 
-        tk.Label(exibir_window, text="Caminho da Imagem:").grid(row=0, column=2, sticky='w')
-        tk.Label(exibir_window, text=filme[5]).grid(row=row, column=2, sticky='w')
+        tkinter.Label(exibir_window, text="Caminho da Imagem:").grid(row=0, column=2, sticky='w')
+        tkinter.Label(exibir_window, text=filme[5]).grid(row=row, column=2, sticky='w')
         row += 1
 
         # Adicionar um espaço entre os filmes
-        tk.Label(exibir_window, text="").grid(row=row)
+        tkinter.Label(exibir_window, text="").grid(row=row)
         row += 1
 
     # Fechar a conexão com o banco de dados
