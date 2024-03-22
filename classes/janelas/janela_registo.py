@@ -4,39 +4,37 @@ from tkinter import Tk
 import sqlite3
 import hashlib
 import os
+import customtkinter
 
 #Criar a classe para a janela de registo
 class JanelaRegisto:
-    def __init__(self):
+    def __init__(self, janela_principal=None):
 
         #criar a janela principal
-        self.janela_registo = Toplevel() #cria a janela
-        self.janela_registo.title('Registo de utilizadores') #muda o titulo
-        self.janela_registo.configure(bg='#f0f0f0') #altera a cor de fundo
+        self.janela_registo = customtkinter.CTkToplevel() #cria a janela
+        self.janela_registo.geometry('500x300')
 
         #criar label registo
-        self.registo_lbl = Label(self.janela_registo, text='Registo', font='Arial 20', fg='#333333', bg='#f0f0f0')
-        self.registo_lbl.grid(row=0, column=0, columnspan=2, pady=20, sticky='NSEW')
+        self.registo_lbl = customtkinter.CTkLabel(self.janela_registo, text='Registo')
+        self.registo_lbl.pack(padx=10, pady=10)
 
         #criar campo utilizador
-        self.nome_utilizador_lbl = Label(self.janela_registo, text='Utilizador', font='Arial 14 bold')
-        self.nome_utilizador_lbl.grid(row=1, column=0, sticky='e', pady=20)
-        self.nome_utilizador_entry = Entry(self.janela_registo, font='Arial 14 bold', bg='#f0f0f0')
-        self.nome_utilizador_entry.grid(row=1, column=1, pady=10)
+        self.nome_utilizador_entry = customtkinter.CTkEntry(self.janela_registo, placeholder_text='Utilizador')
+        self.nome_utilizador_entry.pack(padx=10, pady=10)
 
         #criar campo password
-        self.nome_password_lbl = Label(self.janela_registo, text='Password', font='Arial 14 bold')
-        self.nome_password_lbl.grid(row=2, column=0, sticky='e', pady=20)
-        self.nome_password_entry = Entry(self.janela_registo, font='Arial 14 bold', bg='#f0f0f0', show='*')
-        self.nome_password_entry.grid(row=2, column=1, pady=10)
+        self.nome_password_entry = customtkinter.CTkEntry(self.janela_registo, placeholder_text='Password')
+        self.nome_password_entry.pack(padx=10, pady=10)
+
+        #configuração do botão de registar
+        self.registar_btn = customtkinter.CTkButton(self.janela_registo, text='Registar', command=self.registar_utilizador)
+        self.registar_btn.pack(padx=10, pady=10)
 
         #configuração do botão de sair
-        self.sair_btn = Button(self.janela_registo, text='Sair', font='Arial 14', command=self.janela_registo.destroy)
-        self.sair_btn.grid(row=5, column=0, columnspan=2, padx=20, pady=10, sticky='NSEW')
+        self.sair_btn = customtkinter.CTkButton(self.janela_registo, text='Sair', command=self.janela_registo.destroy)
+        self.sair_btn.pack(padx=10, pady=10)
 
-        #configuração do bptão de registar
-        self.registar_btn = Button(self.janela_registo, text='Registar', font='Arial 14', command=self.registar_utilizador) #falta command
-        self.registar_btn.grid(row=4, column=0, columnspan=2, padx=20, pady=10, sticky='NSEW')
+# Ainda por editar com o customtkinter
 
     def registar_utilizador(self):
         #pegar nos dados inseridos
@@ -80,4 +78,3 @@ class JanelaRegisto:
             self.mensagem_registo_concluido = Label(self.janela_registo, text='Registo feito com Sucesso', fg='green')
             self.mensagem_registo_concluido.grid(row=3, column=0, columnspan=2)
             self.mensagem_registo_concluido.after(3000, self.janela_registo.destroy)
-
