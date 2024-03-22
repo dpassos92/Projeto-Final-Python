@@ -11,6 +11,7 @@ class JanelaLogin:
     def __init__(self, janela_principal=None):
 
         #criar a janela principal
+        self.janela_principal =  janela_principal
         self.janela_login = customtkinter.CTkToplevel()
         self.janela_login.geometry('500X300') # Posição da janela no ecrã
 
@@ -23,7 +24,7 @@ class JanelaLogin:
         self.nome_utilizador_entry.pack(padx=10, pady=10)
 
         #criar campo password
-        self.nome_password_entry = customtkinter.CTkEntry(self.janela_login, placeholder_text='Password')
+        self.nome_password_entry = customtkinter.CTkEntry(self.janela_login, placeholder_text='Password', show="*")
         self.nome_password_entry.pack(padx=10, pady=10)
 
         #configuração do bptão de registar
