@@ -2,6 +2,7 @@
 from tkinter import *
 from tkinter import Tk, ttk, messagebox
 import sqlite3
+import customtkinter
 
 class CategoriaVinyl:
     def __init__(self, janela_principal):
@@ -485,17 +486,17 @@ class CategoriaVinyl:
         self.janela_principal.geometry(self.calcular_posicao())  # Posição da janela no ecrã
         self.janela_principal.state('zoomed')  # Maximizar a janela
 
-        self.janela_principal_livros_btn = Button(self.janela_principal, text='Livros', font='Arial 14', command= self.abrir_janela_livros)
-        self.janela_principal_livros_btn.grid(row=1, column=0, columnspan=2, padx=20, pady=10, sticky='NSEW')
+        self.janela_principal_livros_btn = customtkinter.CTkButton(self.janela_principal, text='Livros', command= self.abrir_janela_livros)
+        self.janela_principal_livros_btn.pack(padx=10, pady=10)
 
-        self.janela_principal_filmes_btn = Button(self.janela_principal, text='Filmes', font='Arial 14', command= self.abrir_janela_filmes)
-        self.janela_principal_filmes_btn.grid(row=1, column=3, columnspan=2, padx=20, pady=10, sticky='NSEW')
+        self.janela_principal_filmes_btn = customtkinter.CTkButton(self.janela_principal, text='Filmes', command= self.abrir_janela_filmes)
+        self.janela_principal_filmes_btn.pack(padx=10, pady=10)
 
-        self.janela_principal_jogos_btn = Button(self.janela_principal, text='Jogos', font='Arial 14', command= self.abrir_janela_jogos)
-        self.janela_principal_jogos_btn.grid(row=1, column=5, columnspan=2, padx=20, pady=10, sticky='NSEW')
+        self.janela_principal_jogos_btn = customtkinter.CTkButton(self.janela_principal, text='Jogos', command= self.abrir_janela_jogos)
+        self.janela_principal_jogos_btn.pack(padx=10, pady=10)
 
-        self.janela_principal_vinyl_btn = Button(self.janela_principal, text='Vinyl', font='Arial 14', command= self.abrir_janela_vinyl)
-        self.janela_principal_vinyl_btn.grid(row=1, column=7, columnspan=2, padx=20, pady=10, sticky='NSEW')
+        self.janela_principal_vinyl_btn = customtkinter.CTkButton(self.janela_principal, text='Vinyl', command= self.abrir_janela_vinyl)
+        self.janela_principal_vinyl_btn.pack(padx=10, pady=10)
 
     def abrir_janela_livros(self):
         from classes.janelas.livros import CategoriaLivro
