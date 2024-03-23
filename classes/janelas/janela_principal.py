@@ -69,14 +69,14 @@ class JanelaPrincipal:
         self.janela_principal.geometry(self.calcular_posicao())  # Posição da janela no ecrã
         self.janela_principal.state('zoomed')  # Maximizar a janela
 
-        if categoria:
+        '''if categoria:
             self.menu_barra = Menu(self.janela_principal)
             self.janela_principal.configure(menu=self.menu_barra)
 
             self.menu_ficheiro = Menu(self.menu_barra, tearoff=0)
             self.menu_barra.add_cascade(label="Ficheiro", menu=self.menu_ficheiro)
             self.menu_ficheiro.add_command(label="Retroceder", command=self.abrir_janela_menu)
-            self.menu_ficheiro.add_command(label="Sair", command=self.janela_principal.destroy)
+            self.menu_ficheiro.add_command(label="Sair", command=self.janela_principal.destroy)'''
 
         self.janela_principal_livros_btn = customtkinter.CTkButton(self.janela_principal, text='Livros', command= self.abrir_janela_livros)
         self.janela_principal_livros_btn.pack(padx=10, pady=10)
@@ -106,16 +106,3 @@ class JanelaPrincipal:
     def abrir_janela_vinyl(self):
         categoria_vinyl = CategoriaVinyl(self.janela_principal)  # Criar um objeto da classe CategoriaJogo
         categoria_vinyl.abrir_janela_menu()  # Chamar o método abrir_janela_menu() neste objeto, na janela principal
-
-    def reconstruir_menu(self):
-        self.janela_principal_livros_btn = Button(self.janela_principal, text='Livros', font='Arial 14', command= self.abrir_janela_livros)
-        self.janela_principal_livros_btn.grid(row=1, column=0, columnspan=2, padx=20, pady=10, sticky='NSEW')
-
-        self.janela_principal_filmes_btn = Button(self.janela_principal, text='Filmes', font='Arial 14', command= self.abrir_janela_filmes)
-        self.janela_principal_filmes_btn.grid(row=1, column=3, columnspan=2, padx=20, pady=10, sticky='NSEW')
-
-        self.janela_principal_jogos_btn = Button(self.janela_principal, text='Jogos', font='Arial 14', command= self.abrir_janela_jogos)
-        self.janela_principal_jogos_btn.grid(row=1, column=5, columnspan=2, padx=20, pady=10, sticky='NSEW')
-
-        self.janela_principal_vinyl_btn = Button(self.janela_principal, text='Vinyl', font='Arial 14', command= self.abrir_janela_vinyl)
-        self.janela_principal_vinyl_btn.grid(row=1, column=7, columnspan=2, padx=20, pady=10, sticky='NSEW')
