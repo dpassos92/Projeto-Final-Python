@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import Tk, messagebox
 import sqlite3
 import hashlib
+from CTkMessagebox import CTkMessagebox
 import customtkinter
 
 
@@ -14,6 +15,7 @@ class JanelaLogin:
         self.janela_principal =  janela_principal
         self.janela_login = customtkinter.CTkToplevel()
         self.janela_login.geometry('500X300') # Posição da janela no ecrã
+        
 
         #criar label login
         self.login_lbl = customtkinter.CTkLabel(self.janela_login, text='Login')
@@ -63,10 +65,10 @@ class JanelaLogin:
                 self.janela_login.destroy() # Fecha a janela de login após sucesso
                 if self.janela_principal:
                     self.janela_principal.abrir_janela_menu() # Abre a janela de menu
-                else:
-                    messagebox.showerror("Erro", "Password incorreta.")
             else:
-                messagebox.showerror("Erro", "Utilizador não encontrado.")
+                messagebox.showerror("Erro", "Password incorreta.")
+        else:
+            messagebox.showerror("Erro", "Utilizador não encontrado.")
     
     
 # função para definir a posição no ecra

@@ -14,7 +14,7 @@ class CategoriaVinyl:
         for widget in self.janela_principal.winfo_children():
             widget.destroy()
 
-        self.janela_principal.title("Sistema de Gestão de Produtos")  # Título da janela
+        self.janela_principal.title("Sistema de Gestão de Produtos - Vinyl")  # Título da janela
         self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
         self.janela_principal.configure(bg="#f0f0f0")  # Cor de fundo da janela
         self.janela_principal.geometry(self.calcular_posicao())  # Posição da janela no ecrã
@@ -91,7 +91,7 @@ class CategoriaVinyl:
         self.menu_ficheiro = Menu(self.menu_barra, tearoff=0)
         self.menu_barra.add_cascade(label="Ficheiro", menu=self.menu_ficheiro)
         self.menu_ficheiro.add_command(label="Novo", command=self.registar_produto_vinyl)
-        #self.menu_ficheiro.add_command(label="Retroceder", command=self.reconstruir_menu)
+        self.menu_ficheiro.add_command(label="Retroceder", command=self.reconstruir_menu)
         self.menu_ficheiro.add_command(label="Sair", command=self.janela_principal.destroy)
 
         nome_produto.bind('<KeyRelease>', lambda e: self.filtrar_titulo_vinyls(nome_produto))

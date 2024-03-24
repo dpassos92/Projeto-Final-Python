@@ -15,7 +15,7 @@ class CategoriaJogo:
         for widget in self.janela_principal.winfo_children():
             widget.destroy()
 
-        self.janela_principal.title("Sistema de Gestão de Produtos")  # Título da janela
+        self.janela_principal.title("Sistema de Gestão de Produtos - Jogos")  # Título da janela
         self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
         self.janela_principal.configure(bg="#f0f0f0")  # Cor de fundo da janela
         self.janela_principal.geometry(self.calcular_posicao())  # Posição da janela no ecrã
