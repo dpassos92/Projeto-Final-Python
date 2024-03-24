@@ -234,7 +234,7 @@ class CategoriaLivro:
         self.janela_registo_livro.geometry(self.calcular_posicao(400, 350))
 
 
-        estilo_borda = {'borderwidth': 2, 'relief': 'groove'}
+        # estilo_borda = {'borderwidth': 2, 'relief': 'groove'}
 
         customtkinter.CTkLabel(self.janela_registo_livro, text="Sistema de Gestão de Produtos", font=("Arial", 20)).grid(row=0, column=0, columnspan=2, pady=20)
 
