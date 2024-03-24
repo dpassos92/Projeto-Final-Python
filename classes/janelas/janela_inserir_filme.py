@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import Tk, Button, messagebox
 import sqlite3
-
+import customtkinter
 
 class JanelaInserirFilme:
     def __init__(self):
