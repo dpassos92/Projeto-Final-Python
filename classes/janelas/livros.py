@@ -179,6 +179,7 @@ class CategoriaLivro:
         self.preco_livro_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[7]))
         self.preco_livro_editado.grid(row=7, column=1, padx=10, pady=10, sticky="W")
 
+
         def guardar_edicao_livro():
             # Obter os valores dos campos de entrada
             novo_nome_livro = self.nome_livro_editado.get()
