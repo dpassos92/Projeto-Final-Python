@@ -12,7 +12,10 @@ class JanelaRegisto:
 
         #criar a janela principal
         self.janela_registo = customtkinter.CTkToplevel() #cria a janela
+        self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
         self.janela_registo.geometry('500x300')
+
+        self.janela_registo.grab_set()
 
         #criar label registo
         self.registo_lbl = customtkinter.CTkLabel(self.janela_registo, text='Registo')

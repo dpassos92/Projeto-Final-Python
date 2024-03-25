@@ -229,47 +229,39 @@ class CategoriaJogo:
         #criar nova janela para registar os produtos
         self.janela_registo_jogo = customtkinter.CTkToplevel(self.janela_principal)
         self.janela_registo_jogo.title("Registar jogo")
-        self.janela_registo_jogo.iconbitmap("assets/icon/icon.ico")
-        self.janela_registo_jogo.configure(bg="#f0f0f0")
-        self.janela_registo_jogo.geometry(self.calcular_posicao(400, 350))
+        self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
+        self.janela_registo_jogo.geometry("700x600")
 
-        # estilo_borda = {'borderwidth': 2, 'relief': 'groove'}
+        self.janela_registo_jogo.grab_set()
 
-        customtkinter.CTkLabel(self.janela_registo_jogo, text="Sistema de Gestão de Produtos", font=("Arial", 20)).grid(row=0, column=0, columnspan=2, pady=20)
+        customtkinter.CTkLabel(self.janela_registo_jogo, text="Sistema de Gestão de Produtos", font=("Arial", 20)).pack(padx=10, pady=10)
 
-        customtkinter.CTkLabel(self.janela_registo_jogo, text="Título:", font=("Arial", 12)).grid(row=1, column=0, padx=10, pady=10, sticky="W")
-        self.titulo_jogo_entry = customtkinter.CTkEntry(self.janela_registo_jogo, font=("Arial", 12))
-        self.titulo_jogo_entry.grid(row=1, column=1, padx=10, pady=10, sticky="W")
+        self.titulo_jogo_entry = customtkinter.CTkEntry(self.janela_registo_jogo, placeholder_text="Título:", font=("Arial", 12))
+        self.titulo_jogo_entry.pack(padx=10, pady=10)
 
-        customtkinter.CTkLabel(self.janela_registo_jogo, text="Plataforma:", font=("Arial", 12)).grid(row=2, column=0, padx=10, pady=10, sticky="W")
-        self.plataforma_jogo_entry = customtkinter.CTkEntry(self.janela_registo_jogo, font=("Arial", 12))
-        self.plataforma_jogo_entry.grid(row=2, column=1, padx=10, pady=10, sticky="W")
+        self.plataforma_jogo_entry = customtkinter.CTkEntry(self.janela_registo_jogo, placeholder_text="Plataforma:", font=("Arial", 12))
+        self.plataforma_jogo_entry.pack(padx=10, pady=10)
 
-        customtkinter.CTkLabel(self.janela_registo_jogo, text="Ano:", font=("Arial", 12)).grid(row=3, column=0, padx=10, pady=10, sticky="W")
-        self.ano_jogo_entry = customtkinter.CTkEntry(self.janela_registo_jogo, font=("Arial", 12))
-        self.ano_jogo_entry.grid(row=3, column=1, padx=10, pady=10, sticky="W")
+        self.ano_jogo_entry = customtkinter.CTkEntry(self.janela_registo_jogo, placeholder_text="Ano:", font=("Arial", 12))
+        self.ano_jogo_entry.pack(padx=10, pady=10)
 
-        customtkinter.CTkLabel(self.janela_registo_jogo, text="Género:", font=("Arial", 12)).grid(row=4, column=0, padx=10, pady=10, sticky="W")
-        self.genero_jogo_entry = customtkinter.CTkEntry(self.janela_registo_jogo, font=("Arial", 12))
-        self.genero_jogo_entry.grid(row=4, column=1, padx=10, pady=10, sticky="W")
+        self.genero_jogo_entry = customtkinter.CTkEntry(self.janela_registo_jogo, placeholder_text="Género:", font=("Arial", 12))
+        self.genero_jogo_entry.pack(padx=10, pady=10)
 
-        customtkinter.CTkLabel(self.janela_registo_jogo, text="Imagem:", font=("Arial", 12)).grid(row=5, column=0, padx=10, pady=10, sticky="W")
-        self.imagem_jogo_entry = customtkinter.CTkEntry(self.janela_registo_jogo, font=("Arial", 12))
-        self.imagem_jogo_entry.grid(row=5, column=1, padx=10, pady=10, sticky="W")
+        self.imagem_jogo_entry = customtkinter.CTkEntry(self.janela_registo_jogo, placeholder_text="Imagem:", font=("Arial", 12))
+        self.imagem_jogo_entry.pack(padx=10, pady=10)
 
-        customtkinter.CTkLabel(self.janela_registo_jogo, text="Quantidade:", font=("Arial", 12)).grid(row=6, column=0, padx=10, pady=10, sticky="W")
-        self.quantidade_jogo_entry = customtkinter.CTkEntry(self.janela_registo_jogo, font=("Arial", 12))
-        self.quantidade_jogo_entry.grid(row=6, column=1, padx=10, pady=10, sticky="W")
+        self.quantidade_jogo_entry = customtkinter.CTkEntry(self.janela_registo_jogo, placeholder_text="Quantidade:", font=("Arial", 12))
+        self.quantidade_jogo_entry.pack(padx=10, pady=10)
 
-        customtkinter.CTkLabel(self.janela_registo_jogo, text="Preço:", font=("Arial", 12)).grid(row=7, column=0, padx=10, pady=10, sticky="W")
-        self.preco_jogo_entry = customtkinter.CTkEntry(self.janela_registo_jogo, font=("Arial", 12))
-        self.preco_jogo_entry.grid(row=7, column=1, padx=10, pady=10, sticky="W")
+        self.preco_jogo_entry = customtkinter.CTkEntry(self.janela_registo_jogo, placeholder_text="Preço:", font=("Arial", 12))
+        self.preco_jogo_entry.pack(padx=10, pady=10)
 
         self.botao_gravar_edicao = customtkinter.CTkButton(self.janela_registo_jogo, text="Guardar", font=("Arial", 12), command=self.guardar_jogo)
-        self.botao_gravar_edicao.grid(row=8, column=0, columnspan=2, padx=10, pady=10, sticky="NSEW")
+        self.botao_gravar_edicao.pack(padx=10, pady=10)
 
         self.cancelar = customtkinter.CTkButton(self.janela_registo_jogo, text="Cancelar", font=("Arial", 12), command=self.janela_registo_jogo.destroy)
-        self.cancelar.grid(row=9, column=0, columnspan=2, padx=10, pady=10, sticky="NSEW")
+        self.cancelar.pack(padx=10, pady=10)
 
     def guardar_jogo(self):
     

@@ -230,47 +230,39 @@ class CategoriaFilme:
              #criar nova janela para registar os produtos
         self.janela_registo_filme = customtkinter.CTkToplevel(self.janela_principal)
         self.janela_registo_filme.title("Registar filme")
-        self.janela_registo_filme.iconbitmap("assets/icon/icon.ico")
-        self.janela_registo_filme.configure(background="#f0f0f0")
-        self.janela_registo_filme.geometry(self.calcular_posicao(400, 350))
+        self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
+        self.janela_registo_filme.geometry("700x600")
 
-        estilo_borda = {'borderwidth': 2, 'relief': 'groove'}
+        self.janela_registo_filme.grab_set()
 
-        customtkinter.CTkLabel(self.janela_registo_filme, text="Sistema de Gestão de Produtos", font=("Arial", 20)).grid(row=0, column=0, columnspan=2, pady=20)
+        customtkinter.CTkLabel(self.janela_registo_filme, text="Sistema de Gestão de Produtos", font=("Arial", 20)).pack(padx=10, pady=10)
         
-        customtkinter.CTkLabel(self.janela_registo_filme, text="Título:", font=("Arial", 12)).grid(row=1, column=0, padx=10, pady=10, sticky="W")
-        self.titulo_filme_entry = customtkinter.CTkEntry(self.janela_registo_filme, font=("Arial", 12))
-        self.titulo_filme_entry.grid(row=1, column=1, padx=10, pady=10, sticky="W")
+        self.titulo_filme_entry = customtkinter.CTkEntry(self.janela_registo_filme, placeholder_text="Título:", font=("Arial", 12))
+        self.titulo_filme_entry.pack(padx=10, pady=10)
 
-        customtkinter.CTkLabel(self.janela_registo_filme, text="Realizador:", font=("Arial", 12)).grid(row=2, column=0, padx=10, pady=10, sticky="W")
-        self.realizador_filme_entry = customtkinter.CTkEntry(self.janela_registo_filme, font=("Arial", 12))
-        self.realizador_filme_entry.grid(row=2, column=1, padx=10, pady=10, sticky="W")
+        self.realizador_filme_entry = customtkinter.CTkEntry(self.janela_registo_filme, placeholder_text="Realizador:", font=("Arial", 12))
+        self.realizador_filme_entry.pack(padx=10, pady=10)
 
-        customtkinter.CTkLabel(self.janela_registo_filme, text="Ano:", font=("Arial", 12)).grid(row=3, column=0, padx=10, pady=10, sticky="W")
-        self.ano_filme_entry = customtkinter.CTkEntry(self.janela_registo_filme, font=("Arial", 12))
-        self.ano_filme_entry.grid(row=3, column=1, padx=10, pady=10, sticky="W")
+        self.ano_filme_entry = customtkinter.CTkEntry(self.janela_registo_filme, placeholder_text="Ano:", font=("Arial", 12))
+        self.ano_filme_entry.pack(padx=10, pady=10)
 
-        customtkinter.CTkLabel(self.janela_registo_filme, text="Género:", font=("Arial", 12)).grid(row=4, column=0, padx=10, pady=10, sticky="W")
-        self.genero_filme_entry = customtkinter.CTkEntry(self.janela_registo_filme, font=("Arial", 12))
-        self.genero_filme_entry.grid(row=4, column=1, padx=10, pady=10, sticky="W")
+        self.genero_filme_entry = customtkinter.CTkEntry(self.janela_registo_filme, placeholder_text="Género:", font=("Arial", 12))
+        self.genero_filme_entry.pack(padx=10, pady=10)
 
-        customtkinter.CTkLabel(self.janela_registo_filme, text="Imagem:", font=("Arial", 12)).grid(row=5, column=0, padx=10, pady=10, sticky="W")
-        self.imagem_filme_entry = customtkinter.CTkEntry(self.janela_registo_filme, font=("Arial", 12))
-        self.imagem_filme_entry.grid(row=5, column=1, padx=10, pady=10, sticky="W")
+        self.imagem_filme_entry = customtkinter.CTkEntry(self.janela_registo_filme, placeholder_text="Imagem:", font=("Arial", 12))
+        self.imagem_filme_entry.pack(padx=10, pady=10)
 
-        customtkinter.CTkLabel(self.janela_registo_filme, text="Quantidade:", font=("Arial", 12)).grid(row=6, column=0, padx=10, pady=10, sticky="W")
-        self.quantidade_filme_entry = customtkinter.CTkEntry(self.janela_registo_filme, font=("Arial", 12))
-        self.quantidade_filme_entry.grid(row=6, column=1, padx=10, pady=10, sticky="W")
+        self.quantidade_filme_entry = customtkinter.CTkEntry(self.janela_registo_filme, placeholder_text="Quantidade:", font=("Arial", 12))
+        self.quantidade_filme_entry.pack(padx=10, pady=10)
 
-        customtkinter.CTkLabel(self.janela_registo_filme, text="Preço:", font=("Arial", 12)).grid(row=7, column=0, padx=10, pady=10, sticky="W")
-        self.preco_filme_entry = customtkinter.CTkEntry(self.janela_registo_filme, font=("Arial", 12))
-        self.preco_filme_entry.grid(row=7, column=1, padx=10, pady=10, sticky="W")
+        self.preco_filme_entry = customtkinter.CTkEntry(self.janela_registo_filme, placeholder_text="Preço:", font=("Arial", 12))
+        self.preco_filme_entry.pack(padx=10, pady=10)
 
         self.botao_gravar_edicao = customtkinter.CTkButton(self.janela_registo_filme, text="Guardar", font=("Arial", 12), command=self.guardar_filme)
-        self.botao_gravar_edicao.grid(row=8, column=0, columnspan=2, padx=10, pady=10, sticky="NSEW")
+        self.botao_gravar_edicao.pack(padx=10, pady=10)
 
         self.cancelar = customtkinter.CTkButton(self.janela_registo_filme, text="Cancelar", font=("Arial", 12), command=self.janela_registo_filme.destroy)
-        self.cancelar.grid(row=9, column=0, columnspan=2, padx=10, pady=10, sticky="NSEW")
+        self.cancelar.pack(padx=10, pady=10)
 
     def guardar_filme(self):
     

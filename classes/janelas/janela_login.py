@@ -14,8 +14,11 @@ class JanelaLogin:
         #criar a janela principal
         self.janela_principal =  janela_principal
         self.janela_login = customtkinter.CTkToplevel()
+        self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
         self.janela_login.geometry('500X300') # Posição da janela no ecrã
-        
+
+        self.janela_login.grab_set()
+    
 
         #criar label login
         self.login_lbl = customtkinter.CTkLabel(self.janela_login, text='Login')
