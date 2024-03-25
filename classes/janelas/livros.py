@@ -24,23 +24,19 @@ class CategoriaLivro:
         self.janela_principal.state('zoomed')  # Maximizar a janela
         
 
-        customtkinter.CTkLabel(self.janela_principal, text="Título: ", font=("Arial", 16)).grid(row=0,column=1,padx=10,pady=10,sticky="W")
-        nome_produto = customtkinter.CTkEntry(self.janela_principal, font=("Arial", 16))
+        nome_produto = customtkinter.CTkEntry(self.janela_principal, placeholder_text="Título: ", font=("Arial", 16))
         nome_produto.grid(row=0, column=2, padx=10, pady=10, sticky="W")
 
-        customtkinter.CTkLabel(self.janela_principal, text="Autor: ", font=("Arial", 16)).grid(row=0, column=3,padx=10, pady=10,sticky="W")
-        autor_produto = customtkinter.CTkEntry(self.janela_principal, font=("Arial", 16))
-        autor_produto.grid(row=0, column=4, padx=10, pady=10, sticky="W")
+        autor_produto = customtkinter.CTkEntry(self.janela_principal, placeholder_text="Autor: ", font=("Arial", 16))
+        autor_produto.grid(row=0, column=3, padx=10, pady=10, sticky="W")
 
-        customtkinter.CTkLabel(self.janela_principal, text="Ano: ", font=("Arial", 16)).grid(row=0, column=5,padx=10, pady=10,sticky="W")
-        ano_produto = customtkinter.CTkEntry(self.janela_principal, font=("Arial", 16))
-        ano_produto.grid(row=0, column=6, padx=10, pady=10, sticky="W")
+        ano_produto = customtkinter.CTkEntry(self.janela_principal, placeholder_text="Ano: ", font=("Arial", 16))
+        ano_produto.grid(row=0, column=4, padx=10, pady=10, sticky="W")
 
-        customtkinter.CTkLabel(self.janela_principal, text="Género: ", font=("Arial", 16)).grid(row=0, column=7,padx=10, pady=10,sticky="W")
-        genero_produto = customtkinter.CTkEntry(self.janela_principal, font=("Arial", 16))
-        genero_produto.grid(row=0, column=8, padx=10, pady=10, sticky="W")
+        genero_produto = customtkinter.CTkEntry(self.janela_principal, placeholder_text="Género: ", font=("Arial", 16))
+        genero_produto.grid(row=0, column=5, padx=10, pady=10, sticky="W")
 
-        customtkinter.CTkLabel(self.janela_principal, text="Sistema de Gestão de Stock - Livros", font=("Arial", 16)).grid(row=2, column=0, columnspan=10, pady=10, padx=10, sticky="NSEW")
+        customtkinter.CTkLabel(self.janela_principal, text="Sistema de Gestão de Stock - Livros", font=("Arial", 18)).grid(row=2, column=0, columnspan=10, pady=10, padx=10, sticky="NSEW")
 
         self.style = ttk.Style(self.janela_principal)
         self.treeeview = ttk.Treeview(self.janela_principal, style="mystyle.Treeview",columns=("id", "titulo", "autor", "ano", "genero", "imagem_path", "quantidade", "preco"), show="headings")
@@ -74,13 +70,13 @@ class CategoriaLivro:
         self.treeeview.bind("<Double-1>", self.handle_selecao)
 
         self.botao_novo_produto = customtkinter.CTkButton(self.janela_principal, text="Novo Produto", font=("Arial", 14),command=self.registar_produto_livro)
-        self.botao_novo_produto.grid(row=4, column=0, columnspan=2, sticky="NSEW")
+        self.botao_novo_produto.grid(row=5, column=3, padx=10, pady=10, sticky="W")
 
         self.botao_apagar_produto = customtkinter.CTkButton(self.janela_principal, text="Apagar", font=("Arial", 14),command=self.apagar_livro)
-        self.botao_apagar_produto.grid(row=4, column=2, columnspan=2, sticky="NSEW")
+        self.botao_apagar_produto.grid(row=5, column=4, padx=10, pady=10, sticky="W")
 
         self.botao_retroceder = customtkinter.CTkButton(self.janela_principal, text="Retroceder", font=("Arial", 14),command=self.reconstruir_menu)
-        self.botao_retroceder.grid(row=4, column=4, columnspan=2, sticky="NSEW")
+        self.botao_retroceder.grid(row=5, column=5, padx=10, pady=10, sticky="W")
 
         self.menu_barra = Menu(self.janela_principal)
         self.janela_principal.configure(menu=self.menu_barra)
