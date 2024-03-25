@@ -6,6 +6,7 @@ from PIL import Image, ImageTk
 from CTkMessagebox import CTkMessagebox
 import customtkinter
 from classes.janelas.reconstruir_menu import ReconstruirMenu
+import os
 
 
 class CategoriaLivro:
@@ -79,8 +80,11 @@ class CategoriaLivro:
         self.botao_apagar_produto = customtkinter.CTkButton(self.janela_principal, text="Apagar", font=("Arial", 14),command=self.apagar_livro)
         self.botao_apagar_produto.grid(row=4, column=2, columnspan=2, sticky="NSEW")
 
+        self.botao_editar = customtkinter.CTkButton(self.janela_principal, text="Editar", font=("Arial", 14),command=self.editar_livro)
+        self.botao_editar.grid(row=4, column=4, columnspan=2, sticky="NSEW")
+
         self.botao_retroceder = customtkinter.CTkButton(self.janela_principal, text="Retroceder", font=("Arial", 14),command=self.reconstruir_menu)
-        self.botao_retroceder.grid(row=4, column=4, columnspan=2, sticky="NSEW")
+        self.botao_retroceder.grid(row=4, column=6, columnspan=2, sticky="NSEW")
 
         self.menu_barra = Menu(self.janela_principal)
         self.janela_principal.configure(menu=self.menu_barra)
@@ -130,13 +134,13 @@ class CategoriaLivro:
             CTkMessagebox.showinfo("Sucesso", "Produto apagado com sucesso!")
 
     #verificar que ele não guarda produtos
-    def editar_livro(self, event):
+    def editar_livro(self):
 
         item_selecionado = self.treeeview.selection()[0]
 
         valores_selecionados = self.treeeview.item(item_selecionado)["values"]
 
-        self.janela_edicao = Toplevel(self.janela_principal)
+        self.janela_edicao = customtkinter.CTkToplevel(self.janela_principal)
         self.janela_edicao.title("Editar livro")
         self.janela_edicao.iconbitmap("assets/icon/icon.ico")
         self.janela_edicao.configure(background="#f0f0f0")
@@ -151,7 +155,7 @@ class CategoriaLivro:
         self.nome_livro_editado.grid(row=1, column=1, padx=10, pady=10, sticky="W")
 
         customtkinter.CTkLabel(self.janela_edicao, text="Autor:", font=("Arial", 12)).grid(row=2, column=0, padx=10, pady=10, sticky="W")
-        self.autor_livro_editado = customtkinter.CTkEntry(self.janela_edicao, font="Arial 12", textvariable=StringVar(value=valores_selecionados[2]))
+        self.autor_livro_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[2]))
         self.autor_livro_editado.grid(row=2, column=1, padx=10, pady=10, sticky="W")
 
         customtkinter.CTkLabel(self.janela_edicao, text="Ano:", font=("Arial", 12)).grid(row=3, column=0, padx=10, pady=10, sticky="W")
@@ -184,40 +188,45 @@ class CategoriaLivro:
             novo_quantidade_livro = self.quantidade_livro_editado.get()
             novo_preco_livro = self.preco_livro_editado.get()
 
+            
             # Verificar se todos os campos foram preenchidos
-            if novo_nome_livro and novo_autor_livro and novo_ano_livro and novo_genero_livro and novo_imagem_livro and novo_quantidade_livro and novo_preco_livro:
+            if novo_autor_livro and novo_ano_livro and novo_genero_livro and novo_imagem_livro and novo_quantidade_livro and novo_preco_livro:
 
                 # Conectar à base de dados
                 conn = sqlite3.connect("stock.db")
                 cursor = conn.cursor()
 
-                # Verificar se o título já existe na base de dados
-                cursor.execute("SELECT * FROM livros WHERE titulo = ?", (novo_nome_livro,))
-                if cursor.fetchone():
-                    conn.close()
-                    # Exibir uma mensagem de erro se o título já existir na base de dados
-                    CTkMessagebox.showerror("Erro", "Este título já existe na base de dados!")
-                else:
-                    self.treeeview.item(item_selecionado, values=(valores_selecionados[0], novo_nome_livro, novo_autor_livro, novo_ano_livro, novo_genero_livro, novo_imagem_livro, novo_quantidade_livro, novo_preco_livro))
+                # Atualizar o registro na base de dados
+                cursor.execute("UPDATE livros SET autor = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", 
+                            (novo_autor_livro, novo_ano_livro, novo_genero_livro, novo_imagem_livro, novo_quantidade_livro, novo_preco_livro, valores_selecionados[0]))
 
-                
-                    # Inserir os dados na tabela
-                    cursor.execute("UPDATE livros SET titulo = ?, autor = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", (novo_nome_livro, novo_autor_livro, novo_ano_livro, novo_genero_livro, novo_imagem_livro, novo_quantidade_livro, novo_preco_livro, valores_selecionados[0]))
+                # Se o título foi alterado, verificar se o novo título já existe na base de dados
+                if novo_nome_livro != valores_selecionados[1]:
+                    cursor.execute("SELECT * FROM livros WHERE titulo = ?", (novo_nome_livro,))
+                    if cursor.fetchone():
+                        conn.rollback()  # Rollback the transaction
+                        conn.close()
+                        # Exibir uma mensagem de erro se o título já existir na base de dados
+                        messagebox.showerror("Erro", "Este título já existe na base de dados!")
+                        return  # Exit the function
 
+                    # Se o novo título não existir, atualizar o título na base de dados
+                    cursor.execute("UPDATE livros SET titulo = ? WHERE id = ?", (novo_nome_livro, valores_selecionados[0]))
 
-                    # Confirmar a inserção dos dados
-                    conn.commit()
+                # Confirmar a inserção dos dados
+                conn.commit()
 
-                    # Fechar a conexão com a base de dados
-                    conn.close()
+                # Fechar a conexão com a base de dados
+                conn.close()
 
-                    self.mostrar_livros()
+                # Update the Treeview with the edited values
+                self.treeeview.item(item_selecionado, values=(valores_selecionados[0], novo_nome_livro, novo_autor_livro, novo_ano_livro, novo_genero_livro, novo_imagem_livro, novo_quantidade_livro, novo_preco_livro))
 
-                    # Exibir uma mensagem de sucesso
-                    CTkMessagebox.showinfo("Sucesso", "Produto editado com sucesso!")
+                # Exibir uma mensagem de sucesso
+                messagebox.showinfo("Sucesso", "Produto editado com sucesso!")
             else:
                 # Exibir uma mensagem de erro se algum campo estiver vazio
-                CTkMessagebox.showerror("Erro", "Por favor, preencha todos os campos!")
+                messagebox.showerror("Erro", "Por favor, preencha todos os campos!")
 
         self.botao_guardar_produto = customtkinter.CTkButton(self.janela_edicao, text="Guardar Edição", font=("Arial", 12), command=guardar_edicao_livro)
         self.botao_guardar_produto.grid(row=8, column=0, columnspan=2, padx=10, pady=10, sticky="NSEW")
@@ -279,7 +288,7 @@ class CategoriaLivro:
         autor = self.autor_livro_entry.get()
         ano= self.ano_livro_entry.get()
         genero = self.genero_livro_entry.get()
-        imagem = self.imagem_livro_entry.get()
+        imagem = os.path.basename(self.imagem_livro_entry.get())
         quantidade = self.quantidade_livro_entry.get()
         preco = self.preco_livro_entry.get()
 
@@ -311,10 +320,10 @@ class CategoriaLivro:
             self.mostrar_livros()
 
             # Exibir uma mensagem de sucesso
-            CTkMessagebox.showinfo("Sucesso", "Produto guardado com sucesso!")
+            messagebox.showinfo("Sucesso", "Produto guardado com sucesso!")
         else:
             # Exibir uma mensagem de erro se algum campo estiver vazio
-            CTkMessagebox.showerror("Erro", "Por favor, preencha todos os campos!")
+            messagebox.showerror("Erro", "Por favor, preencha todos os campos!")
 
     def mostrar_livros(self):
             
@@ -477,14 +486,19 @@ class CategoriaLivro:
         customtkinter.CTkLabel(exibir_window, text=livro[4]).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text="Imagem:").grid(row=0, column=2, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=livro[5]).grid(row=row, column=1, sticky='w')
-
+    
         customtkinter.CTkLabel(exibir_window, text="Quantidade:").grid(row=row, column=0, sticky='w')
         customtkinter.CTkLabel(exibir_window, text=livro[6]).grid(row=row, column=1, sticky='w')
         row += 1
 
         customtkinter.CTkLabel(exibir_window, text="Preço:").grid(row=row, column=0, sticky='w')
         customtkinter.CTkLabel(exibir_window, text=livro[7]).grid(row=row, column=1, sticky='w')
-        row += 1        
-        
+        row += 1   
+
+        image_file = livro[5]
+        directory_path= "assets\\imagens"
+        image_path = os.path.join(directory_path, image_file)
+        image = Image.open(image_path)
+        tk_image = ImageTk.PhotoImage(image)
+
+        customtkinter.CTkLabel(exibir_window, image=tk_image, text=None).grid(row=0, column=2, rowspan= 6, sticky='e')
