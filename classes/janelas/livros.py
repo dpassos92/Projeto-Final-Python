@@ -146,7 +146,7 @@ class CategoriaLivro:
         self.janela_edicao.configure(background="#f0f0f0")
         self.janela_edicao.geometry(self.calcular_posicao(400, 350))
 
-        estilo_borda = {'borderwidth': 2, 'relief': 'groove'}
+        #estilo_borda = {'borderwidth': 2, 'relief': 'groove'}
 
         customtkinter.CTkLabel(self.janela_edicao, text="Editar Produto", font=("Arial", 20)).grid(row=0, column=0, columnspan=2, pady=20)
 
@@ -184,7 +184,7 @@ class CategoriaLivro:
             novo_autor_livro = self.autor_livro_editado.get()
             novo_ano_livro = self.ano_livro_editado.get()
             novo_genero_livro = self.genero_livro_editado.get()
-            novo_imagem_livro = self.imagem_livro_editado.get()
+            novo_imagem_livro = os.path.basename(self.imagem_livro_editado.get())
             novo_quantidade_livro = self.quantidade_livro_editado.get()
             novo_preco_livro = self.preco_livro_editado.get()
 
@@ -222,8 +222,11 @@ class CategoriaLivro:
                 # Update the Treeview with the edited values
                 self.treeeview.item(item_selecionado, values=(valores_selecionados[0], novo_nome_livro, novo_autor_livro, novo_ano_livro, novo_genero_livro, novo_imagem_livro, novo_quantidade_livro, novo_preco_livro))
 
+                self.mostrar_livros()
+
                 # Exibir uma mensagem de sucesso
                 messagebox.showinfo("Sucesso", "Produto editado com sucesso!")
+                self.janela_edicao.destroy
             else:
                 # Exibir uma mensagem de erro se algum campo estiver vazio
                 messagebox.showerror("Erro", "Por favor, preencha todos os campos!")
@@ -473,7 +476,7 @@ class CategoriaLivro:
         customtkinter.CTkLabel(exibir_window, text=livro[3]).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text="Gênero:").grid(row=row, column=0, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text="Género:").grid(row=row, column=0, sticky='w')
         customtkinter.CTkLabel(exibir_window, text=livro[4]).grid(row=row, column=1, sticky='w')
         row += 1
 
