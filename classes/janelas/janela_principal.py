@@ -65,9 +65,10 @@ class JanelaPrincipal:
 
         self.janela_principal.title("Sistema de Gestão de Produtos")  # Título da janela
         self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
-        self.janela_principal.configure(bg="#f0f0f0")  # Cor de fundo da janela
-        self.janela_principal.geometry(self.calcular_posicao())  # Posição da janela no ecrã
-        self.janela_principal.state('zoomed')  # Maximizar a janela
+        self.janela_principal.geometry("600x500")  # Posição da janela no ecrã
+        self.janela_principal.state('zoomed')  # Maximizar a janela~
+
+        self.janela_principal.grab_set()
 
         '''if categoria:
             self.menu_barra = Menu(self.janela_principal)
