@@ -23,20 +23,16 @@ class CategoriaFilme:
         self.janela_principal.geometry(self.calcular_posicao())  # Posição da janela no ecrã
         self.janela_principal.state('zoomed')  # Maximizar a janela
 
-        customtkinter.CTkLabel(self.janela_principal, text="Título: ", font=("Arial", 16)).grid(row=0,column=1,padx=10,pady=10,sticky="W")
-        nome_produto = customtkinter.CTkEntry(self.janela_principal, font=("Arial", 16))
-        nome_produto.grid(row=0, column=2, padx=10, pady=10, sticky="W")
+        nome_produto = customtkinter.CTkEntry(self.janela_principal, placeholder_text="Título: ", font=("Arial", 16))
+        nome_produto.grid(row=0, column=5, padx=10, pady=10, sticky="W")
 
-        customtkinter.CTkLabel(self.janela_principal, text="Realizador: ", font=("Arial", 16)).grid(row=0, column=3,padx=10, pady=10,sticky="W")
-        realizador_produto = customtkinter.CTkEntry(self.janela_principal, font=("Arial", 16))
-        realizador_produto.grid(row=0, column=4, padx=10, pady=10, sticky="W")
+        realizador_produto = customtkinter.CTkEntry(self.janela_principal, placeholder_text="Realizador: ", font=("Arial", 16))
+        realizador_produto.grid(row=0, column=6, padx=10, pady=10, sticky="W")
 
-        customtkinter.CTkLabel(self.janela_principal, text="Ano: ", font=("Arial", 16)).grid(row=0, column=5,padx=10, pady=10,sticky="W")
-        ano_produto = customtkinter.CTkEntry(self.janela_principal, font=("Arial", 16))
-        ano_produto.grid(row=0, column=6, padx=10, pady=10, sticky="W")
+        ano_produto = customtkinter.CTkEntry(self.janela_principal, placeholder_text="Ano: ", font=("Arial", 16))
+        ano_produto.grid(row=0, column=7, padx=10, pady=10, sticky="W")
 
-        customtkinter.CTkLabel(self.janela_principal, text="Género: ", font=("Arial", 16)).grid(row=0, column=7,padx=10, pady=10,sticky="W")
-        genero_produto = customtkinter.CTkEntry(self.janela_principal, font=("Arial", 16))
+        genero_produto = customtkinter.CTkEntry(self.janela_principal, placeholder_text="Género: ", font=("Arial", 16))
         genero_produto.grid(row=0, column=8, padx=10, pady=10, sticky="W")
 
         customtkinter.CTkLabel(self.janela_principal, text="Sistema de Gestão de Stock - Filmes", font=("Arial", 16)).grid(row=2, column=0, columnspan=10, pady=10, padx=10, sticky="NSEW")
@@ -73,16 +69,16 @@ class CategoriaFilme:
         self.treeeview.bind("<Double-1>", self.handle_selecao)
 
         self.botao_novo_produto = customtkinter.CTkButton(self.janela_principal, text="Novo Produto", font=("Arial", 14),command=self.registar_produto_filme)
-        self.botao_novo_produto.grid(row=4, column=0, columnspan=2, sticky="NSEW")
+        self.botao_novo_produto.grid(row=5, column=5, padx=10, pady=10, sticky="W")
 
         self.botao_apagar_produto = customtkinter.CTkButton(self.janela_principal, text="Apagar", font=("Arial", 14),command=self.apagar_filme)
-        self.botao_apagar_produto.grid(row=4, column=2, columnspan=3, sticky="NSEW")
+        self.botao_apagar_produto.grid(row=5, column=6, padx=10, pady=10, sticky="W")
 
         self.botao_editar = customtkinter.CTkButton(self.janela_principal, text="Editar", font=("Arial", 14),command=self.editar_filme)
-        self.botao_editar.grid(row=4, column=5, columnspan=3, sticky="NSEW")
+        self.botao_editar.grid(row=5, column=7, padx=10, pady=10, sticky="W")
 
         self.botao_retroceder = customtkinter.CTkButton(self.janela_principal, text="Retroceder", font=("Arial", 14),command=self.reconstruir_menu)
-        self.botao_retroceder.grid(row=4, column=8, columnspan=2, sticky="NSEW")
+        self.botao_retroceder.grid(row=5, column=8, padx=10, pady=10, sticky="W")
 
         self.menu_barra = Menu(self.janela_principal)
         self.janela_principal.configure(menu=self.menu_barra)
@@ -274,11 +270,10 @@ class CategoriaFilme:
         self.cancelar.pack(padx=10, pady=10)
 
     def guardar_filme(self):
-    
         # Obter os valores dos campos de entrada
         titulo = self.titulo_filme_entry.get()
         realizador = self.realizador_filme_entry.get()
-        ano= self.ano_filme_entry.get()
+        ano = self.ano_filme_entry.get()
         genero = self.genero_filme_entry.get()
         imagem = os.path.basename(self.imagem_filme_entry.get())
         quantidade = self.quantidade_filme_entry.get()
@@ -286,36 +281,28 @@ class CategoriaFilme:
 
         # Verificar se todos os campos foram preenchidos
         if titulo and realizador and ano and genero and imagem and quantidade and preco:
-
             # Conectar à base de dados
             conn = sqlite3.connect("stock.db")
             cursor = conn.cursor()
-            #falta logica de validar titulos repetidos
+
+            # Verificar se o título já existe na base de dados
+            cursor.execute("SELECT * FROM filmes WHERE titulo = ?", (titulo,))
+            if cursor.fetchone():
+                # Exibir uma mensagem de erro se o título já existir na base de dados
+                messagebox.showerror("Erro", "Este título já existe na base de dados!")
+                conn.close()
+                return  
+
             # Inserir os dados na tabela
             cursor.execute("INSERT INTO filmes (titulo, realizador, ano, genero, imagem_path, quantidade, preco) VALUES (?, ?, ?, ?, ?, ?, ?)", (titulo, realizador, ano, genero, imagem, quantidade, preco))
-
             # Confirmar a inserção dos dados
             conn.commit()
 
             # Fechar a conexão com a base de dados
             conn.close()
-
-            # Limpar os campos de entrada
-            self.titulo_filme_entry.delete(0, END)
-            self.realizador_filme_entry.delete(0, END)
-            self.ano_filme_entry.delete(0, END)
-            self.genero_filme_entry.delete(0, END)
-            self.imagem_filme_entry.delete(0, END)
-            self.quantidade_filme_entry.delete(0, END)
-            self.preco_filme_entry.delete(0, END)
-
-            self.mostrar_filmes()
-
-            # Exibir uma mensagem de sucesso
-            messagebox.showinfo("Sucesso", "Produto guardado com sucesso!")
         else:
             # Exibir uma mensagem de erro se algum campo estiver vazio
-            messagebox.showerror("Erro", "Por favor, preencha todos os campos!")
+            messagebox.showerror("Erro", "Todos os campos devem ser preenchidos!")
 
     def mostrar_filmes(self):
             

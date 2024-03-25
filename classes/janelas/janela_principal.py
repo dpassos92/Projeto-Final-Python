@@ -70,6 +70,8 @@ class JanelaPrincipal:
 
         self.janela_principal.grab_set()
 
+        customtkinter.CTkLabel(self.janela_principal, text="Escolha a categoria de produto: ", font=("Arial", 18)).pack(padx=10, pady=10)
+
         self.janela_principal_livros_btn = customtkinter.CTkButton(self.janela_principal, text='Livros', command= self.abrir_janela_livros)
         self.janela_principal_livros_btn.pack(padx=10, pady=10)
 
