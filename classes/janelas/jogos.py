@@ -76,13 +76,13 @@ class CategoriaJogo:
         self.botao_novo_produto.grid(row=4, column=0, columnspan=2, sticky="NSEW")
 
         self.botao_apagar_produto = customtkinter.CTkButton(self.janela_principal, text="Apagar", font=("Arial", 14),command=self.apagar_jogo)
-        self.botao_apagar_produto.grid(row=4, column=2, columnspan=2, sticky="NSEW")
+        self.botao_apagar_produto.grid(row=4, column=2, columnspan=3, sticky="NSEW")
 
         self.botao_editar = customtkinter.CTkButton(self.janela_principal, text="Editar", font=("Arial", 14),command=self.editar_jogo)
-        self.botao_editar.grid(row=4, column=4, columnspan=2, sticky="NSEW")
+        self.botao_editar.grid(row=4, column=5, columnspan=3, sticky="NSEW")
 
         self.botao_retroceder = customtkinter.CTkButton(self.janela_principal, text="Retroceder", font=("Arial", 14),command=self.reconstruir_menu)
-        self.botao_retroceder.grid(row=4, column=6, columnspan=2, sticky="NSEW")
+        self.botao_retroceder.grid(row=4, column=8, columnspan=2, sticky="NSEW")
 
         self.menu_barra = Menu(self.janela_principal)
         self.janela_principal.configure(menu=self.menu_barra)
@@ -491,6 +491,10 @@ class CategoriaJogo:
         directory_path= "assets\\imagens"
         image_path = os.path.join(directory_path, image_file)
         image = Image.open(image_path)
+        width_proposto = 200
+        height_proposto = 300
+        imagem_tamanho = image.resize((width_proposto, height_proposto), Image.LANCZOS)
+        tk_image = ImageTk.PhotoImage(imagem_tamanho)
         tk_image = ImageTk.PhotoImage(image)
 
         customtkinter.CTkLabel(exibir_window, image=tk_image, text=None).grid(row=0, column=2, rowspan= 6, sticky='e')
