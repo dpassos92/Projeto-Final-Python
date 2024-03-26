@@ -15,9 +15,12 @@ class ReconstruirMenu:
 
         self.janela_principal.title("Sistema de Gestão de Produtos")  # Título da janela
         self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
-        self.janela_principal.configure(bg="#f0f0f0")  # Cor de fundo da janela
-        self.janela_principal.geometry(self.calcular_posicao())  # Posição da janela no ecrã
-        self.janela_principal.state('zoomed')  # Maximizar a janela
+        self.janela_principal.geometry("600x500")  # Posição da janela no ecrã
+        self.janela_principal.state('zoomed')  # Maximizar a janela~
+
+        self.janela_principal.grab_set()
+
+        customtkinter.CTkLabel(self.janela_principal, text="Escolha a categoria de produto: ", font=("Arial", 18)).pack(padx=10, pady=10)
 
         self.janela_principal_livros_btn = customtkinter.CTkButton(self.janela_principal, text='Livros', command= self.abrir_janela_livros)
         self.janela_principal_livros_btn.pack(padx=10, pady=10)
