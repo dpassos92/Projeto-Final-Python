@@ -128,7 +128,7 @@ class CategoriaLivro:
     
             self.mostrar_livros()
     
-            CTkMessagebox.showinfo("Sucesso", "Produto apagado com sucesso!")
+            messagebox.showinfo("Sucesso", "Produto apagado com sucesso!")
 
     #verificar que ele não guarda produtos
     def editar_livro(self):
@@ -224,7 +224,8 @@ class CategoriaLivro:
 
                 # Exibir uma mensagem de sucesso
                 messagebox.showinfo("Sucesso", "Produto editado com sucesso!")
-                self.janela_edicao.destroy
+                self.janela_edicao.destroy()
+
             else:
                 # Exibir uma mensagem de erro se algum campo estiver vazio
                 messagebox.showerror("Erro", "Por favor, preencha todos os campos!")
@@ -235,6 +236,7 @@ class CategoriaLivro:
         self.cancelar_edicao = customtkinter.CTkButton(self.janela_edicao, text="Cancelar", font=("Arial", 12), command=self.janela_edicao.destroy)
         self.cancelar_edicao.grid(row=9, column=0, columnspan=2, padx=10, pady=10, sticky="NSEW")
 
+        
     def registar_produto_livro(self):
         #criar nova janela para registar os produtos
         self.janela_registo_livro = customtkinter.CTkToplevel(self.janela_principal)

@@ -12,8 +12,8 @@ class JanelaRegisto:
 
         #criar a janela principal
         self.janela_registo = customtkinter.CTkToplevel() #cria a janela
-        self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
-        self.janela_registo.geometry('500x300')
+        self.janela_registo.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
+        #self.janela_registo.geometry('500x300')
 
         self.janela_registo.grab_set()
 
@@ -65,8 +65,8 @@ class JanelaRegisto:
         match = cursor.fetchone()
 
         if match:
-            self.mensagem_registo_concluido = Label(self.janela_registo, text='Registo já existe...', fg='red')
-            self.mensagem_registo_concluido.grid(row=3, column=0, columnspan=2)
+            self.mensagem_registo_concluido = customtkinter.CTkLabel(self.janela_registo, text='Registo já existe...')
+            self.mensagem_registo_concluido.pack(padx=10, pady=10)
             self.mensagem_registo_concluido.after(3000, self.mensagem_registo_concluido.destroy)
         else:
             cursor.execute(
@@ -76,6 +76,6 @@ class JanelaRegisto:
             conn.close()
             
             #mensagem de sucesso no registo
-            self.mensagem_registo_concluido = Label(self.janela_registo, text='Registo feito com Sucesso', fg='green')
-            self.mensagem_registo_concluido.grid(row=3, column=0, columnspan=2)
+            self.mensagem_registo_concluido = customtkinter.CTkLabel(self.janela_registo, text='Registo feito com Sucesso')
+            self.mensagem_registo_concluido.pack(padx=10, pady=10)
             self.mensagem_registo_concluido.after(3000, self.janela_registo.destroy)
