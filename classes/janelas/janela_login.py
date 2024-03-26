@@ -14,14 +14,15 @@ class JanelaLogin:
         #criar a janela principal
         self.janela_principal =  janela_principal
         self.janela_login = customtkinter.CTkToplevel()
-        self.janela_login.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
-        self.janela_login.geometry('500X300') # Posição da janela no ecrã
+        self.janela_login.title("Sistema de Gestão de Produtos")
+        self.janela_login.iconbitmap("assets/icon/icon.ico") 
+        self.janela_login.geometry('500x300') # Posição da janela no ecrã
 
         self.janela_login.grab_set()
     
 
         #criar label login
-        self.login_lbl = customtkinter.CTkLabel(self.janela_login, text='Login')
+        self.login_lbl = customtkinter.CTkLabel(self.janela_login, text='Login', font=("Arial bold", 14))
         self.login_lbl.pack(padx=10, pady=10)
 
         #criar campo utilizador    

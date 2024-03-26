@@ -17,6 +17,8 @@ class JanelaPrincipal:
 
         #criar a janela principal
         self.janela_principal = customtkinter.CTk() #cria a janela
+        self.janela_principal.title("Sistema de Gestão de Produtos")  # Título da janela
+        self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
         self.janela_principal.geometry('500x300')
 
         #configuração do texto de boas vindas

@@ -113,21 +113,21 @@ class CategoriaJogo:
 
     def apagar_jogo(self):
             
-            item_selecionado = self.treeeview.selection()[0]
-    
-            valores_selecionados = self.treeeview.item(item_selecionado)["values"]
-    
-            conn = sqlite3.connect("stock.db")
-            cursor = conn.cursor()
-    
-            cursor.execute("DELETE FROM jogos WHERE id = ?", (valores_selecionados[0],))
-    
-            conn.commit()
-            conn.close()
-    
-            self.mostrar_jogos()
-    
-            messagebox.showinfo("Sucesso", "Produto apagado com sucesso!")
+        item_selecionado = self.treeeview.selection()[0]
+
+        valores_selecionados = self.treeeview.item(item_selecionado)["values"]
+
+        conn = sqlite3.connect("stock.db")
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM jogos WHERE id = ?", (valores_selecionados[0],))
+
+        conn.commit()
+        conn.close()
+
+        self.mostrar_jogos()
+
+        messagebox.showinfo("Sucesso", "Produto apagado com sucesso!")
 
     #verificar que ele não guarda produtos
     def editar_jogo(self):
@@ -140,7 +140,7 @@ class CategoriaJogo:
         self.janela_edicao.title("Editar jogo")
         self.janela_edicao.iconbitmap("assets/icon/icon.ico")
         self.janela_edicao.configure(bg="#f0f0f0")
-        self.janela_edicao.geometry(self.calcular_posicao(400, 350))
+        self.janela_edicao.geometry(self.calcular_posicao(400, 550))
 
         #estilo_borda = {'borderwidth': 2, 'relief': 'groove'}
 
@@ -186,40 +186,44 @@ class CategoriaJogo:
 
             # Verificar se todos os campos foram preenchidos
             if novo_nome_jogo and novo_plataforma_jogo and novo_ano_jogo and novo_genero_jogo and novo_imagem_jogo and novo_quantidade_jogo and novo_preco_jogo:
+                # Verificar se o ano está entre 1900 e 2024
+                if 1900 <= int(novo_ano_jogo) <= 2024:
+                    # Conectar à base de dados
+                    conn = sqlite3.connect("stock.db")
+                    cursor = conn.cursor()
 
-                # Conectar à base de dados
-                conn = sqlite3.connect("stock.db")
-                cursor = conn.cursor()
+                    # Inserir os dados na tabela
+                    cursor.execute("UPDATE jogos SET titulo = ?, plataforma = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", (novo_nome_jogo, novo_plataforma_jogo, novo_ano_jogo, novo_genero_jogo, novo_imagem_jogo, novo_quantidade_jogo, novo_preco_jogo, valores_selecionados[0]))
 
-                # Inserir os dados na tabela
-                cursor.execute("UPDATE jogos SET titulo = ?, plataforma = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", (novo_nome_jogo, novo_plataforma_jogo, novo_ano_jogo, novo_genero_jogo, novo_imagem_jogo, novo_quantidade_jogo, novo_preco_jogo, valores_selecionados[0]))
+                    # Verificar se o título já existe na base de dados
+                    if novo_nome_jogo != valores_selecionados[1]:
+                        cursor.execute("SELECT * FROM jogos WHERE titulo = ?", (novo_nome_jogo,))
+                        if cursor.fetchone():
+                            conn.rollback()  # Rollback the transaction
+                            conn.close()
+                            # Exibir uma mensagem de erro se o título já existir na base de dados
+                            messagebox.showerror("Erro", "Este título já existe na base de dados!")
+                            return  # Exit the function
+                        
+                        cursor.execute("UPDATE filmes SET titulo = ? WHERE id = ?", (novo_nome_jogo, valores_selecionados[0]))
 
-                # Verificar se o título já existe na base de dados
-                if novo_nome_jogo != valores_selecionados[1]:
-                    cursor.execute("SELECT * FROM jogos WHERE titulo = ?", (novo_nome_jogo,))
-                    if cursor.fetchone():
-                        conn.rollback()  # Rollback the transaction
-                        conn.close()
-                        # Exibir uma mensagem de erro se o título já existir na base de dados
-                        messagebox.showerror("Erro", "Este título já existe na base de dados!")
-                        return  # Exit the function
-                    
-                    cursor.execute("UPDATE filmes SET titulo = ? WHERE id = ?", (novo_nome_jogo, valores_selecionados[0]))
+                    # Confirmar a inserção dos dados
+                    conn.commit()
 
-                # Confirmar a inserção dos dados
-                conn.commit()
+                    # Fechar a conexão com a base de dados
+                    conn.close()
 
-                # Fechar a conexão com a base de dados
-                conn.close()
+                    # Update the Treeview with the edited values
+                    self.treeeview.item(item_selecionado, values=(valores_selecionados[0], novo_nome_jogo, novo_plataforma_jogo, novo_ano_jogo, novo_genero_jogo, novo_imagem_jogo, novo_quantidade_jogo, novo_preco_jogo))
 
-                # Update the Treeview with the edited values
-                self.treeeview.item(item_selecionado, values=(valores_selecionados[0], novo_nome_jogo, novo_plataforma_jogo, novo_ano_jogo, novo_genero_jogo, novo_imagem_jogo, novo_quantidade_jogo, novo_preco_jogo))
+                    self.mostrar_jogos()
 
-                self.mostrar_jogos()
-
-                # Exibir uma mensagem de sucesso
-                messagebox.showinfo("Sucesso", "Produto editado com sucesso!")
-                self.janela_edicao.destroy
+                    # Exibir uma mensagem de sucesso
+                    messagebox.showinfo("Sucesso", "Produto editado com sucesso!")
+                    self.janela_edicao.destroy()
+                else:
+                    # Exibir uma mensagem de erro se o ano estiver fora do intervalo especificado
+                    messagebox.showerror("Erro", "Por favor, insira um ano entre 1900 e 2024!")
             else:
                 # Exibir uma mensagem de erro se algum campo estiver vazio
                 messagebox.showerror("Erro", "Por favor, preencha todos os campos!")
@@ -234,7 +238,7 @@ class CategoriaJogo:
         #criar nova janela para registar os produtos
         self.janela_registo_jogo = customtkinter.CTkToplevel(self.janela_principal)
         self.janela_registo_jogo.title("Registar jogo")
-        self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
+        self.janela_registo_jogo.iconbitmap("assets/icon/icon.ico")
         self.janela_registo_jogo.geometry("700x600")
 
         self.janela_registo_jogo.grab_set()
@@ -281,41 +285,45 @@ class CategoriaJogo:
 
         # Verificar se todos os campos foram preenchidos
         if titulo and plataforma and ano and genero and imagem and quantidade and preco:
+            # Verificar se o ano está entre 1900 e 2024
+            if 1900 <= int(ano) <= 2024:
+                # Conectar à base de dados
+                conn = sqlite3.connect("stock.db")
+                cursor = conn.cursor()
 
-            # Conectar à base de dados
-            conn = sqlite3.connect("stock.db")
-            cursor = conn.cursor()
+                # Verificar se o título já existe na base de dados
+                cursor.execute("SELECT * FROM jogos WHERE titulo = ?", (titulo,))
+                if cursor.fetchone():
+                    # Exibir uma mensagem de erro se o título já existir na base de dados
+                    messagebox.showerror("Erro", "Este título já existe na base de dados!")
+                    conn.close()
+                    return  
 
-            # Verificar se o título já existe na base de dados
-            cursor.execute("SELECT * FROM jogos WHERE titulo = ?", (titulo,))
-            if cursor.fetchone():
-                # Exibir uma mensagem de erro se o título já existir na base de dados
-                messagebox.showerror("Erro", "Este título já existe na base de dados!")
+                # Inserir os dados na tabela
+                cursor.execute("INSERT INTO jogos (titulo, plataforma, ano, genero, imagem_path, quantidade, preco) VALUES (?, ?, ?, ?, ?, ?, ?)", (titulo, plataforma, ano, genero, imagem, quantidade, preco))
+
+                # Confirmar a inserção dos dados
+                conn.commit()
+
+                # Fechar a conexão com a base de dados
                 conn.close()
-                return  
 
-            # Inserir os dados na tabela
-            cursor.execute("INSERT INTO jogos (titulo, plataforma, ano, genero, imagem_path, quantidade, preco) VALUES (?, ?, ?, ?, ?, ?, ?)", (titulo, plataforma, ano, genero, imagem, quantidade, preco))
+                # Limpar os campos de entrada
+                self.titulo_jogo_entry.delete(0, END)
+                self.plataforma_jogo_entry.delete(0, END)
+                self.ano_jogo_entry.delete(0, END)
+                self.genero_jogo_entry.delete(0, END)
+                self.imagem_jogo_entry.delete(0, END)
+                self.quantidade_jogo_entry.delete(0, END)
+                self.preco_jogo_entry.delete(0, END)
 
-            # Confirmar a inserção dos dados
-            conn.commit()
+                self.mostrar_jogos()
 
-            # Fechar a conexão com a base de dados
-            conn.close()
-
-            # Limpar os campos de entrada
-            self.titulo_jogo_entry.delete(0, END)
-            self.plataforma_jogo_entry.delete(0, END)
-            self.ano_jogo_entry.delete(0, END)
-            self.genero_jogo_entry.delete(0, END)
-            self.imagem_jogo_entry.delete(0, END)
-            self.quantidade_jogo_entry.delete(0, END)
-            self.preco_jogo_entry.delete(0, END)
-
-            self.mostrar_jogos()
-
-            # Exibir uma mensagem de sucesso
-            messagebox.showinfo("Sucesso", "Produto guardado com sucesso!")
+                # Exibir uma mensagem de sucesso
+                messagebox.showinfo("Sucesso", "Produto guardado com sucesso!")
+            else:
+                # Exibir uma mensagem de erro se o ano estiver fora do intervalo especificado
+                messagebox.showerror("Erro", "Por favor, insira um ano entre 1900 e 2024!")
         else:
             # Exibir uma mensagem de erro se algum campo estiver vazio
             messagebox.showerror("Erro", "Por favor, preencha todos os campos!")

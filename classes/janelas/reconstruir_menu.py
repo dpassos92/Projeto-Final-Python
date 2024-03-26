@@ -54,7 +54,7 @@ class ReconstruirMenu:
         categoria_vinyl = CategoriaVinyl(self.janela_principal)  # Criar um objeto da classe CategoriaJogo
         categoria_vinyl.abrir_janela_menu()  # Chamar o método abrir_janela_menu() neste objeto, na janela principal'''
 
-    def calcular_posicao(self, largura_janela=400, altura_janela=300):
+    '''def calcular_posicao(self, largura_janela=400, altura_janela=300):
 
         #obter largura e altura do ecrã
         largura_ecra = self.janela_principal.winfo_screenwidth()
@@ -65,4 +65,4 @@ class ReconstruirMenu:
         y = (altura_ecra // 2) - (altura_janela // 2)
 
         #definir a posição da janela
-        return f'{largura_janela}x{altura_janela}+{x}+{y}'
+        return f'{largura_janela}x{altura_janela}+{x}+{y}'''

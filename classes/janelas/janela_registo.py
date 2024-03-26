@@ -11,14 +11,16 @@ class JanelaRegisto:
     def __init__(self, janela_principal=None):
 
         #criar a janela principal
+        self.janela_principal =  janela_principal
         self.janela_registo = customtkinter.CTkToplevel() #cria a janela
+        self.janela_registo.title("Sistema de Gestão de Produtos")
         self.janela_registo.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
-        #self.janela_registo.geometry('500x300')
+        self.janela_registo.geometry('500x300')
 
         self.janela_registo.grab_set()
 
         #criar label registo
-        self.registo_lbl = customtkinter.CTkLabel(self.janela_registo, text='Registo')
+        self.registo_lbl = customtkinter.CTkLabel(self.janela_registo, text='Registo', font=("Arial bold", 14))
         self.registo_lbl.pack(padx=10, pady=10)
 
         #criar campo utilizador

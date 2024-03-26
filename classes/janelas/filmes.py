@@ -113,21 +113,21 @@ class CategoriaFilme:
 
     def apagar_filme(self):
             
-            item_selecionado = self.treeeview.selection()[0]
-    
-            valores_selecionados = self.treeeview.item(item_selecionado)["values"]
-    
-            conn = sqlite3.connect("stock.db")
-            cursor = conn.cursor()
-    
-            cursor.execute("DELETE FROM filmes WHERE id = ?", (valores_selecionados[0],))
-    
-            conn.commit()
-            conn.close()
-    
-            self.mostrar_filmes()
-    
-            messagebox.showinfo("Sucesso", "Produto apagado com sucesso!")
+        item_selecionado = self.treeeview.selection()[0]
+
+        valores_selecionados = self.treeeview.item(item_selecionado)["values"]
+
+        conn = sqlite3.connect("stock.db")
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM filmes WHERE id = ?", (valores_selecionados[0],))
+
+        conn.commit()
+        conn.close()
+
+        self.mostrar_filmes()
+
+        messagebox.showinfo("Sucesso", "Produto apagado com sucesso!")
 
     #verificar que ele não guarda produtos
     def editar_filme(self):
@@ -140,9 +140,8 @@ class CategoriaFilme:
         self.janela_edicao.title("Editar filme")
         self.janela_edicao.iconbitmap("assets/icon/icon.ico")
         self.janela_edicao.configure(bg="#f0f0f0")
-        self.janela_edicao.geometry(self.calcular_posicao(400, 350))
+        self.janela_edicao.geometry(self.calcular_posicao(400, 550))
 
-        #estilo_borda = {'borderwidth': 2, 'relief': 'groove'}
 
         customtkinter.CTkLabel(self.janela_edicao, text="Editar Produto", font=("Arial", 20)).grid(row=0, column=0, columnspan=2, pady=20)
 
@@ -186,41 +185,46 @@ class CategoriaFilme:
 
             # Verificar se todos os campos foram preenchidos
             if novo_nome_filme and novo_realizador_filme and novo_ano_filme and novo_genero_filme and novo_imagem_filme and novo_quantidade_filme and novo_preco_filme:
-
-                # Conectar à base de dados
-                conn = sqlite3.connect("stock.db")
-                cursor = conn.cursor()
-                
-                # Inserir os dados na tabela
-                cursor.execute("UPDATE filmes SET realizador = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", (novo_realizador_filme, novo_ano_filme, novo_genero_filme, novo_imagem_filme, novo_quantidade_filme, novo_preco_filme, valores_selecionados[0]))
-
-                if novo_nome_filme != valores_selecionados[1]:
-                # Verificar se o título já existe na base de dados
-                    cursor.execute("SELECT * FROM filmes WHERE titulo = ?", (novo_nome_filme,))
-                    if cursor.fetchone():
-                        conn.rollback()  # Rollback the transaction
-                        conn.close()
-                        # Exibir uma mensagem de erro se o título já existir na base de dados
-                        messagebox.showerror("Erro", "Este título já existe na base de dados!")
-                        return  # Exit the function
+                # Verificar se o ano está entre 1900 e 2024
+                if 1900 <= int(novo_ano_filme) <= 2024:
+                   
+                    # Conectar à base de dados
+                    conn = sqlite3.connect("stock.db")
+                    cursor = conn.cursor()
                     
-                    # Se o novo título não existir, atualizar o título na base de dados
-                    cursor.execute("UPDATE filmes SET titulo = ? WHERE id = ?", (novo_nome_filme, valores_selecionados[0]))
+                    # Inserir os dados na tabela
+                    cursor.execute("UPDATE filmes SET realizador = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", (novo_realizador_filme, novo_ano_filme, novo_genero_filme, novo_imagem_filme, novo_quantidade_filme, novo_preco_filme, valores_selecionados[0]))
 
-                # Confirmar a inserção dos dados
-                conn.commit()
+                    if novo_nome_filme != valores_selecionados[1]:
+                    # Verificar se o título já existe na base de dados
+                        cursor.execute("SELECT * FROM filmes WHERE titulo = ?", (novo_nome_filme,))
+                        if cursor.fetchone():
+                            conn.rollback()  # Rollback the transaction
+                            conn.close()
+                            # Exibir uma mensagem de erro se o título já existir na base de dados
+                            messagebox.showerror("Erro", "Este título já existe na base de dados!")
+                            return  # Exit the function
+                        
+                        # Se o novo título não existir, atualizar o título na base de dados
+                        cursor.execute("UPDATE filmes SET titulo = ? WHERE id = ?", (novo_nome_filme, valores_selecionados[0]))
 
-                # Fechar a conexão com a base de dados
-                conn.close()
+                    # Confirmar a inserção dos dados
+                    conn.commit()
 
-                # Update the Treeview with the edited values
-                self.treeeview.item(item_selecionado, values=(valores_selecionados[0], novo_nome_filme, novo_realizador_filme, novo_ano_filme, novo_genero_filme, novo_imagem_filme, novo_quantidade_filme, novo_preco_filme))
+                    # Fechar a conexão com a base de dados
+                    conn.close()
 
-                self.mostrar_filmes()
+                    # Update the Treeview with the edited values
+                    self.treeeview.item(item_selecionado, values=(valores_selecionados[0], novo_nome_filme, novo_realizador_filme, novo_ano_filme, novo_genero_filme, novo_imagem_filme, novo_quantidade_filme, novo_preco_filme))
 
-                # Exibir uma mensagem de sucesso
-                messagebox.showinfo("Sucesso", "Produto editado com sucesso!")
-                self.janela_edicao.destroy
+                    self.mostrar_filmes()
+
+                    # Exibir uma mensagem de sucesso
+                    messagebox.showinfo("Sucesso", "Produto editado com sucesso!")
+                    self.janela_edicao.destroy()
+                else:
+                    # Exibir uma mensagem de erro se o ano estiver fora do intervalo especificado
+                    messagebox.showerror("Erro", "Por favor, insira um ano entre 1900 e 2024!")
             else:
                 # Exibir uma mensagem de erro se algum campo estiver vazio
                 messagebox.showerror("Erro", "Por favor, preencha todos os campos!")
@@ -235,7 +239,7 @@ class CategoriaFilme:
         #criar nova janela para registar os produtos
         self.janela_registo_filme = customtkinter.CTkToplevel(self.janela_principal)
         self.janela_registo_filme.title("Registar filme")
-        self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
+        self.janela_registo_filme.iconbitmap("assets/icon/icon.ico")
         self.janela_registo_filme.geometry("700x600")
 
         self.janela_registo_filme.grab_set()
@@ -281,28 +285,49 @@ class CategoriaFilme:
 
         # Verificar se todos os campos foram preenchidos
         if titulo and realizador and ano and genero and imagem and quantidade and preco:
-            # Conectar à base de dados
-            conn = sqlite3.connect("stock.db")
-            cursor = conn.cursor()
+            # Verificar se o ano está entre 1900 e 2024
+            if 1900 <= int(ano) <= 2024:
+                # Conectar à base de dados
+                conn = sqlite3.connect("stock.db")
+                cursor = conn.cursor()
 
-            # Verificar se o título já existe na base de dados
-            cursor.execute("SELECT * FROM filmes WHERE titulo = ?", (titulo,))
-            if cursor.fetchone():
-                # Exibir uma mensagem de erro se o título já existir na base de dados
-                messagebox.showerror("Erro", "Este título já existe na base de dados!")
+                # Verificar se o título já existe na base de dados
+                cursor.execute("SELECT * FROM filmes WHERE titulo = ?", (titulo,))
+                if cursor.fetchone():
+                    # Exibir uma mensagem de erro se o título já existir na base de dados
+                    messagebox.showerror("Erro", "Este título já existe na base de dados!")
+                    conn.close()
+                    return  
+
+                # Inserir os dados na tabela
+                cursor.execute("INSERT INTO filmes (titulo, realizador, ano, genero, imagem_path, quantidade, preco) VALUES (?, ?, ?, ?, ?, ?, ?)", (titulo, realizador, ano, genero, imagem, quantidade, preco))
+                # Confirmar a inserção dos dados
+                conn.commit()
+
+                # Fechar a conexão com a base de dados
                 conn.close()
-                return  
 
-            # Inserir os dados na tabela
-            cursor.execute("INSERT INTO filmes (titulo, realizador, ano, genero, imagem_path, quantidade, preco) VALUES (?, ?, ?, ?, ?, ?, ?)", (titulo, realizador, ano, genero, imagem, quantidade, preco))
-            # Confirmar a inserção dos dados
-            conn.commit()
+                # Limpar os campos de entrada
+                self.titulo_filme_entry.delete(0, END)
+                self.realizador_filme_entry.delete(0, END)
 
-            # Fechar a conexão com a base de dados
-            conn.close()
+                self.ano_filme_entry.delete(0, END)
+                self.genero_filme_entry.delete(0, END)
+                self.imagem_filme_entry.delete(0, END)
+                self.quantidade_filme_entry.delete(0, END)
+                self.preco_filme_entry.delete(0, END)
+
+                self.mostrar_filmes()
+
+                # Exibir uma mensagem de sucesso
+                messagebox.showinfo("Sucesso", "Produto guardado com sucesso!")
+            else:
+                # Exibir uma mensagem de erro se o ano estiver fora do intervalo especificado
+                messagebox.showerror("Erro", "Por favor, insira um ano entre 1900 e 2024!")
         else:
             # Exibir uma mensagem de erro se algum campo estiver vazio
-            messagebox.showerror("Erro", "Todos os campos devem ser preenchidos!")
+            messagebox.showerror("Erro", "Por favor, preencha todos os campos!")
+      
 
     def mostrar_filmes(self):
             

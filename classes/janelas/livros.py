@@ -5,6 +5,7 @@ import sqlite3
 from PIL import Image, ImageTk
 from CTkMessagebox import CTkMessagebox
 import customtkinter
+from CTkMenuBar import *
 from classes.janelas.reconstruir_menu import ReconstruirMenu
 import os
 
@@ -92,6 +93,7 @@ class CategoriaLivro:
         self.menu_ficheiro.add_command(label="Retroceder", command=self.reconstruir_menu)
         self.menu_ficheiro.add_command(label="Sair", command=self.janela_principal.destroy)
 
+
         nome_produto.bind('<KeyRelease>', lambda e: self.filtrar_titulo_livros(nome_produto))
         autor_produto.bind('<KeyRelease>', lambda e: self.filtrar_autor_livros(autor_produto))
         ano_produto.bind('<KeyRelease>', lambda e: self.filtrar_ano_livros(ano_produto))
@@ -114,21 +116,21 @@ class CategoriaLivro:
 
     def apagar_livro(self):
             
-            item_selecionado = self.treeeview.selection()[0]
-    
-            valores_selecionados = self.treeeview.item(item_selecionado)["values"]
-    
-            conn = sqlite3.connect("stock.db")
-            cursor = conn.cursor()
-    
-            cursor.execute("DELETE FROM livros WHERE id = ?", (valores_selecionados[0],))
-    
-            conn.commit()
-            conn.close()
-    
-            self.mostrar_livros()
-    
-            messagebox.showinfo("Sucesso", "Produto apagado com sucesso!")
+        item_selecionado = self.treeeview.selection()[0]
+
+        valores_selecionados = self.treeeview.item(item_selecionado)["values"]
+
+        conn = sqlite3.connect("stock.db")
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM livros WHERE id = ?", (valores_selecionados[0],))
+
+        conn.commit()
+        conn.close()
+
+        self.mostrar_livros()
+
+        messagebox.showinfo("Sucesso", "Produto apagado com sucesso!")
 
     #verificar que ele não guarda produtos
     def editar_livro(self):
@@ -141,9 +143,8 @@ class CategoriaLivro:
         self.janela_edicao.title("Editar livro")
         self.janela_edicao.iconbitmap("assets/icon/icon.ico")
         self.janela_edicao.configure(background="#f0f0f0")
-        self.janela_edicao.geometry(self.calcular_posicao(400, 350))
+        self.janela_edicao.geometry(self.calcular_posicao(400, 550))
 
-        #estilo_borda = {'borderwidth': 2, 'relief': 'groove'}
 
         customtkinter.CTkLabel(self.janela_edicao, text="Editar Produto", font=("Arial", 20)).grid(row=0, column=0, columnspan=2, pady=20)
 
@@ -189,43 +190,47 @@ class CategoriaLivro:
             
             # Verificar se todos os campos foram preenchidos
             if novo_autor_livro and novo_ano_livro and novo_genero_livro and novo_imagem_livro and novo_quantidade_livro and novo_preco_livro:
+                # Verificar se o ano está entre 1900 e 2024
+                if 1900 <= int(novo_ano_livro) <= 2024:
 
-                # Conectar à base de dados
-                conn = sqlite3.connect("stock.db")
-                cursor = conn.cursor()
+                    # Conectar à base de dados
+                    conn = sqlite3.connect("stock.db")
+                    cursor = conn.cursor()
 
-                # Atualizar o registro na base de dados
-                cursor.execute("UPDATE livros SET autor = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", 
-                            (novo_autor_livro, novo_ano_livro, novo_genero_livro, novo_imagem_livro, novo_quantidade_livro, novo_preco_livro, valores_selecionados[0]))
+                    # Atualizar o registro na base de dados
+                    cursor.execute("UPDATE livros SET autor = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", 
+                                (novo_autor_livro, novo_ano_livro, novo_genero_livro, novo_imagem_livro, novo_quantidade_livro, novo_preco_livro, valores_selecionados[0]))
 
-                # Se o título foi alterado, verificar se o novo título já existe na base de dados
-                if novo_nome_livro != valores_selecionados[1]:
-                    cursor.execute("SELECT * FROM livros WHERE titulo = ?", (novo_nome_livro,))
-                    if cursor.fetchone():
-                        conn.rollback()  # Rollback the transaction
-                        conn.close()
-                        # Exibir uma mensagem de erro se o título já existir na base de dados
-                        messagebox.showerror("Erro", "Este título já existe na base de dados!")
-                        return  # Exit the function
+                    # Se o título foi alterado, verificar se o novo título já existe na base de dados
+                    if novo_nome_livro != valores_selecionados[1]:
+                        cursor.execute("SELECT * FROM livros WHERE titulo = ?", (novo_nome_livro,))
+                        if cursor.fetchone():
+                            conn.rollback()  # Rollback the transaction
+                            conn.close()
+                            # Exibir uma mensagem de erro se o título já existir na base de dados
+                            messagebox.showerror("Erro", "Este título já existe na base de dados!")
+                            return  # Exit the function
 
-                    # Se o novo título não existir, atualizar o título na base de dados
-                    cursor.execute("UPDATE livros SET titulo = ? WHERE id = ?", (novo_nome_livro, valores_selecionados[0]))
+                        # Se o novo título não existir, atualizar o título na base de dados
+                        cursor.execute("UPDATE livros SET titulo = ? WHERE id = ?", (novo_nome_livro, valores_selecionados[0]))
 
-                # Confirmar a inserção dos dados
-                conn.commit()
+                    # Confirmar a inserção dos dados
+                    conn.commit()
 
-                # Fechar a conexão com a base de dados
-                conn.close()
+                    # Fechar a conexão com a base de dados
+                    conn.close()
 
-                # Update the Treeview with the edited values
-                self.treeeview.item(item_selecionado, values=(valores_selecionados[0], novo_nome_livro, novo_autor_livro, novo_ano_livro, novo_genero_livro, novo_imagem_livro, novo_quantidade_livro, novo_preco_livro))
+                    # Update the Treeview with the edited values
+                    self.treeeview.item(item_selecionado, values=(valores_selecionados[0], novo_nome_livro, novo_autor_livro, novo_ano_livro, novo_genero_livro, novo_imagem_livro, novo_quantidade_livro, novo_preco_livro))
 
-                self.mostrar_livros()
+                    self.mostrar_livros()
 
-                # Exibir uma mensagem de sucesso
-                messagebox.showinfo("Sucesso", "Produto editado com sucesso!")
-                self.janela_edicao.destroy()
-
+                    # Exibir uma mensagem de sucesso
+                    messagebox.showinfo("Sucesso", "Produto editado com sucesso!")
+                    self.janela_edicao.destroy()
+                else:
+                    # Exibir uma mensagem de erro se o ano estiver fora do intervalo especificado
+                    messagebox.showerror("Erro", "Por favor, insira um ano entre 1900 e 2024!")
             else:
                 # Exibir uma mensagem de erro se algum campo estiver vazio
                 messagebox.showerror("Erro", "Por favor, preencha todos os campos!")
@@ -241,7 +246,7 @@ class CategoriaLivro:
         #criar nova janela para registar os produtos
         self.janela_registo_livro = customtkinter.CTkToplevel(self.janela_principal)
         self.janela_registo_livro.title("Registar Livro")
-        self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
+        self.janela_registo_livro.iconbitmap("assets/icon/icon.ico")
         self.janela_registo_livro.geometry("700x600")
 
         self.janela_registo_livro.grab_set()
@@ -288,41 +293,45 @@ class CategoriaLivro:
 
         # Verificar se todos os campos foram preenchidos
         if titulo and autor and ano and genero and imagem and quantidade and preco:
+            # Verificar se o ano está entre 1900 e 2024
+            if 1900 <= int(ano) <= 2024:
+                # Conectar à base de dados
+                conn = sqlite3.connect("stock.db")
+                cursor = conn.cursor()
 
-            # Conectar à base de dados
-            conn = sqlite3.connect("stock.db")
-            cursor = conn.cursor()
+                # Verificar se o título já existe na base de dados
+                cursor.execute("SELECT * FROM livros WHERE titulo = ?", (titulo,))
+                if cursor.fetchone():
+                    # Exibir uma mensagem de erro se o título já existir na base de dados
+                    messagebox.showerror("Erro", "Este título já existe na base de dados!")
+                    conn.close()
+                    return 
+                
+                # Inserir os dados na tabela
+                cursor.execute("INSERT INTO livros (titulo, autor, ano, genero, imagem_path, quantidade, preco) VALUES (?, ?, ?, ?, ?, ?, ?)", (titulo, autor, ano, genero, imagem, quantidade, preco))
 
-            # Verificar se o título já existe na base de dados
-            cursor.execute("SELECT * FROM livros WHERE titulo = ?", (titulo,))
-            if cursor.fetchone():
-                # Exibir uma mensagem de erro se o título já existir na base de dados
-                messagebox.showerror("Erro", "Este título já existe na base de dados!")
+                # Confirmar a inserção dos dados
+                conn.commit()
+
+                # Fechar a conexão com a base de dados
                 conn.close()
-                return 
-            
-            # Inserir os dados na tabela
-            cursor.execute("INSERT INTO livros (titulo, autor, ano, genero, imagem_path, quantidade, preco) VALUES (?, ?, ?, ?, ?, ?, ?)", (titulo, autor, ano, genero, imagem, quantidade, preco))
 
-            # Confirmar a inserção dos dados
-            conn.commit()
+                # Limpar os campos de entrada
+                self.titulo_livro_entry.delete(0, END)
+                self.autor_livro_entry.delete(0, END)
+                self.ano_livro_entry.delete(0, END)
+                self.genero_livro_entry.delete(0, END)
+                self.imagem_livro_entry.delete(0, END)
+                self.quantidade_livro_entry.delete(0, END)
+                self.preco_livro_entry.delete(0, END)
 
-            # Fechar a conexão com a base de dados
-            conn.close()
+                self.mostrar_livros()
 
-            # Limpar os campos de entrada
-            self.titulo_livro_entry.delete(0, END)
-            self.autor_livro_entry.delete(0, END)
-            self.ano_livro_entry.delete(0, END)
-            self.genero_livro_entry.delete(0, END)
-            self.imagem_livro_entry.delete(0, END)
-            self.quantidade_livro_entry.delete(0, END)
-            self.preco_livro_entry.delete(0, END)
-
-            self.mostrar_livros()
-
-            # Exibir uma mensagem de sucesso
-            messagebox.showinfo("Sucesso", "Produto guardado com sucesso!")
+                # Exibir uma mensagem de sucesso
+                messagebox.showinfo("Sucesso", "Produto guardado com sucesso!")
+            else:
+                # Exibir uma mensagem de erro se o ano estiver fora do intervalo especificado
+                messagebox.showerror("Erro", "Por favor, insira um ano entre 1900 e 2024!")
         else:
             # Exibir uma mensagem de erro se algum campo estiver vazio
             messagebox.showerror("Erro", "Por favor, preencha todos os campos!")
