@@ -2,6 +2,8 @@
 from tkinter import *
 from tkinter import Tk, ttk, messagebox
 import sqlite3
+from PIL import Image, ImageTk
+import os
 import customtkinter
 from classes.janelas.reconstruir_menu import ReconstruirMenu
 
@@ -21,24 +23,19 @@ class CategoriaFilme:
         self.janela_principal.geometry(self.calcular_posicao())  # Posição da janela no ecrã
         self.janela_principal.state('zoomed')  # Maximizar a janela
 
-        Label(self.janela_principal, text="Título: ", font="Arial 16", fg="#333333", bg="#f0f0f0").grid(row=0,column=1,padx=10,pady=10,sticky="W")
-        nome_produto = Entry(self.janela_principal, font="Arial 16")
-        nome_produto.grid(row=0, column=2, padx=10, pady=10, sticky="W")
+        nome_produto = customtkinter.CTkEntry(self.janela_principal, placeholder_text="Título: ", font=("Arial", 16))
+        nome_produto.grid(row=0, column=5, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_principal, text="Realizador: ", font="Arial 16", fg="#333333", bg="#f0f0f0").grid(row=0, column=3,padx=10, pady=10,sticky="W")
-        realizador_produto = Entry(self.janela_principal, font="Arial 16")
-        realizador_produto.grid(row=0, column=4, padx=10, pady=10, sticky="W")
+        realizador_produto = customtkinter.CTkEntry(self.janela_principal, placeholder_text="Realizador: ", font=("Arial", 16))
+        realizador_produto.grid(row=0, column=6, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_principal, text="Ano: ", font="Arial 16", fg="#333333", bg="#f0f0f0").grid(row=0, column=5,padx=10, pady=10,sticky="W")
-        ano_produto = Entry(self.janela_principal, font="Arial 16")
-        ano_produto.grid(row=0, column=6, padx=10, pady=10, sticky="W")
+        ano_produto = customtkinter.CTkEntry(self.janela_principal, placeholder_text="Ano: ", font=("Arial", 16))
+        ano_produto.grid(row=0, column=7, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_principal, text="Género: ", font="Arial 16", fg="#333333", bg="#f0f0f0").grid(row=0, column=7,padx=10, pady=10,sticky="W")
-        genero_produto = Entry(self.janela_principal, font="Arial 16")
+        genero_produto = customtkinter.CTkEntry(self.janela_principal, placeholder_text="Género: ", font=("Arial", 16))
         genero_produto.grid(row=0, column=8, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_principal, text="Sistema de Gestão de Stock", font="Arial 16", fg="#333333",
-            bg="#f0f0f0").grid(row=2, column=0, columnspan=10, pady=10, padx=10, sticky="NSEW")
+        customtkinter.CTkLabel(self.janela_principal, text="Sistema de Gestão de Stock - Filmes", font=("Arial", 16)).grid(row=2, column=0, columnspan=10, pady=10, padx=10, sticky="NSEW")
 
         self.style = ttk.Style(self.janela_principal)
         self.treeeview = ttk.Treeview(self.janela_principal, style="mystyle.Treeview",columns=("id", "titulo", "realizador", "ano", "genero", "imagem_path", "quantidade", "preco"), show="headings")
@@ -69,16 +66,19 @@ class CategoriaFilme:
 
         self.mostrar_filmes()
 
-        self.treeeview.bind("<Double-1>", self.editar_filme)
+        self.treeeview.bind("<Double-1>", self.handle_selecao)
 
-        self.botao_novo_produto = Button(self.janela_principal, text="Novo Produto", font="Arial 14",command=self.registar_produto_filme)
-        self.botao_novo_produto.grid(row=4, column=0, columnspan=3, sticky="NSEW")
+        self.botao_novo_produto = customtkinter.CTkButton(self.janela_principal, text="Novo Produto", font=("Arial", 14),command=self.registar_produto_filme)
+        self.botao_novo_produto.grid(row=5, column=5, padx=10, pady=10, sticky="W")
 
-        self.botao_apagar_produto = Button(self.janela_principal, text="Apagar", font="Arial 14",command=self.apagar_filme)
-        self.botao_apagar_produto.grid(row=4, column=3, columnspan=3, sticky="NSEW")
+        self.botao_apagar_produto = customtkinter.CTkButton(self.janela_principal, text="Apagar", font=("Arial", 14),command=self.apagar_filme)
+        self.botao_apagar_produto.grid(row=5, column=6, padx=10, pady=10, sticky="W")
 
-        self.botao_retroceder = Button(self.janela_principal, text="Retroceder", font="Arial 14",command=self.reconstruir_menu)
-        self.botao_retroceder.grid(row=4, column=5, columnspan=5, sticky="NSEW")
+        self.botao_editar = customtkinter.CTkButton(self.janela_principal, text="Editar", font=("Arial", 14),command=self.editar_filme)
+        self.botao_editar.grid(row=5, column=7, padx=10, pady=10, sticky="W")
+
+        self.botao_retroceder = customtkinter.CTkButton(self.janela_principal, text="Retroceder", font=("Arial", 14),command=self.reconstruir_menu)
+        self.botao_retroceder.grid(row=5, column=8, padx=10, pady=10, sticky="W")
 
         self.menu_barra = Menu(self.janela_principal)
         self.janela_principal.configure(menu=self.menu_barra)
@@ -86,7 +86,7 @@ class CategoriaFilme:
         self.menu_ficheiro = Menu(self.menu_barra, tearoff=0)
         self.menu_barra.add_cascade(label="Ficheiro", menu=self.menu_ficheiro)
         self.menu_ficheiro.add_command(label="Novo", command=self.registar_produto_filme)
-        #self.menu_ficheiro.add_command(label="Retroceder", command=self.reconstruir_menu)
+        self.menu_ficheiro.add_command(label="Retroceder", command=self.reconstruir_menu)
         self.menu_ficheiro.add_command(label="Sair", command=self.janela_principal.destroy)
 
         nome_produto.bind('<KeyRelease>', lambda e: self.filtrar_titulo_filmes(nome_produto))
@@ -130,48 +130,48 @@ class CategoriaFilme:
             messagebox.showinfo("Sucesso", "Produto apagado com sucesso!")
 
     #verificar que ele não guarda produtos
-    def editar_filme(self, event):
+    def editar_filme(self):
 
         item_selecionado = self.treeeview.selection()[0]
 
         valores_selecionados = self.treeeview.item(item_selecionado)["values"]
 
-        self.janela_edicao = Toplevel(self.janela_principal)
+        self.janela_edicao = customtkinter.CTkToplevel(self.janela_principal)
         self.janela_edicao.title("Editar filme")
         self.janela_edicao.iconbitmap("assets/icon/icon.ico")
         self.janela_edicao.configure(bg="#f0f0f0")
         self.janela_edicao.geometry(self.calcular_posicao(400, 350))
 
-        estilo_borda = {'borderwidth': 2, 'relief': 'groove'}
+        #estilo_borda = {'borderwidth': 2, 'relief': 'groove'}
 
-        Label(self.janela_edicao, text="Editar Produto", font="Arial 20", fg="#333333", bg="#f0f0f0").grid(row=0, column=0, columnspan=2, pady=20)
+        customtkinter.CTkLabel(self.janela_edicao, text="Editar Produto", font=("Arial", 20)).grid(row=0, column=0, columnspan=2, pady=20)
 
-        Label(self.janela_edicao, text="Titulo:", font="Arial 12", fg="Black", bg="#f0f0f0").grid(row=1, column=0, padx=10, pady=10, sticky="W")
-        self.nome_filme_editado = Entry(self.janela_edicao, font="Arial 12", **estilo_borda, textvariable=StringVar(value=valores_selecionados[1]))
+        customtkinter.CTkLabel(self.janela_edicao, text="Titulo:", font=("Arial", 12)).grid(row=1, column=0, padx=10, pady=10, sticky="W")
+        self.nome_filme_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[1]))
         self.nome_filme_editado.grid(row=1, column=1, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_edicao, text="realizador:", font="Arial 12", fg="Black", bg="#f0f0f0").grid(row=2, column=0, padx=10, pady=10, sticky="W")
-        self.realizador_filme_editado = Entry(self.janela_edicao, font="Arial 12", **estilo_borda, textvariable=StringVar(value=valores_selecionados[2]))
+        customtkinter.CTkLabel(self.janela_edicao, text="realizador:", font=("Arial", 12)).grid(row=2, column=0, padx=10, pady=10, sticky="W")
+        self.realizador_filme_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[2]))
         self.realizador_filme_editado.grid(row=2, column=1, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_edicao, text="Ano:", font="Arial 12", fg="Black", bg="#f0f0f0").grid(row=3, column=0, padx=10, pady=10, sticky="W")
-        self.ano_filme_editado = Entry(self.janela_edicao, font="Arial 12", **estilo_borda, textvariable=StringVar(value=valores_selecionados[3]))
+        customtkinter.CTkLabel(self.janela_edicao, text="Ano:", font=("Arial", 12)).grid(row=3, column=0, padx=10, pady=10, sticky="W")
+        self.ano_filme_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[3]))
         self.ano_filme_editado.grid(row=3, column=1, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_edicao, text="Género:", font="Arial 12", fg="Black", bg="#f0f0f0").grid(row=4, column=0, padx=10, pady=10, sticky="W")
-        self.genero_filme_editado = Entry(self.janela_edicao, font="Arial 12", **estilo_borda, textvariable=StringVar(value=valores_selecionados[4]))
+        customtkinter.CTkLabel(self.janela_edicao, text="Género:", font=("Arial", 12)).grid(row=4, column=0, padx=10, pady=10, sticky="W")
+        self.genero_filme_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[4]))
         self.genero_filme_editado.grid(row=4, column=1, padx=10, pady=10, sticky="W")
         
-        Label(self.janela_edicao, text="Imagem:", font="Arial 12", fg="Black", bg="#f0f0f0").grid(row=5, column=0, padx=10, pady=10, sticky="W")
-        self.imagem_filme_editado = Entry(self.janela_edicao, font="Arial 12", **estilo_borda, textvariable=StringVar(value=valores_selecionados[5]))
+        customtkinter.CTkLabel(self.janela_edicao, text="Imagem:", font=("Arial", 12)).grid(row=5, column=0, padx=10, pady=10, sticky="W")
+        self.imagem_filme_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[5]))
         self.imagem_filme_editado.grid(row=5, column=1, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_edicao, text="Quantidade:", font="Arial 12", fg="Black", bg="#f0f0f0").grid(row=6, column=0, padx=10, pady=10, sticky="W")
-        self.quantidade_filme_editado = Entry(self.janela_edicao, font="Arial 12", **estilo_borda, textvariable=StringVar(value=valores_selecionados[6]))
+        customtkinter.CTkLabel(self.janela_edicao, text="Quantidade:", font=("Arial", 12)).grid(row=6, column=0, padx=10, pady=10, sticky="W")
+        self.quantidade_filme_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[6]))
         self.quantidade_filme_editado.grid(row=6, column=1, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_edicao, text="Preço:", font="Arial 12", fg="Black", bg="#f0f0f0").grid(row=7, column=0, padx=10, pady=10, sticky="W")
-        self.preco_filme_editado = Entry(self.janela_edicao, font="Arial 12", **estilo_borda, textvariable=StringVar(value=valores_selecionados[7]))
+        customtkinter.CTkLabel(self.janela_edicao, text="Preço:", font=("Arial", 12)).grid(row=7, column=0, padx=10, pady=10, sticky="W")
+        self.preco_filme_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[7]))
         self.preco_filme_editado.grid(row=7, column=1, padx=10, pady=10, sticky="W")
 
         def guardar_edicao_filme():
@@ -180,7 +180,7 @@ class CategoriaFilme:
             novo_realizador_filme = self.realizador_filme_editado.get()
             novo_ano_filme = self.ano_filme_editado.get()
             novo_genero_filme = self.genero_filme_editado.get()
-            novo_imagem_filme = self.imagem_filme_editado.get()
+            novo_imagem_filme = os.path.basename(self.imagem_filme_editado.get())
             novo_quantidade_filme = self.quantidade_filme_editado.get()
             novo_preco_filme = self.preco_filme_editado.get()
 
@@ -190,44 +190,49 @@ class CategoriaFilme:
                 # Conectar à base de dados
                 conn = sqlite3.connect("stock.db")
                 cursor = conn.cursor()
-
-                # Verificar se o título já existe na base de dados
-                cursor.execute("SELECT * FROM filmes WHERE titulo = ?", (novo_nome_filme,))
-                if cursor.fetchone():
-                    conn.close()
-                    # Exibir uma mensagem de erro se o título já existir na base de dados
-                    messagebox.showerror("Erro", "Este título já existe na base de dados!")
-                else:
-                    self.treeeview.item(item_selecionado, values=(valores_selecionados[0], novo_nome_filme, novo_realizador_filme, novo_ano_filme, novo_genero_filme, novo_imagem_filme, novo_quantidade_filme, novo_preco_filme))
-
                 
-                    # Inserir os dados na tabela
-                    cursor.execute("UPDATE filmes SET titulo = ?, realizador = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", (novo_nome_filme, novo_realizador_filme, novo_ano_filme, novo_genero_filme, novo_imagem_filme, novo_quantidade_filme, novo_preco_filme, valores_selecionados[0]))
+                # Inserir os dados na tabela
+                cursor.execute("UPDATE filmes SET realizador = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", (novo_realizador_filme, novo_ano_filme, novo_genero_filme, novo_imagem_filme, novo_quantidade_filme, novo_preco_filme, valores_selecionados[0]))
 
+                if novo_nome_filme != valores_selecionados[1]:
+                # Verificar se o título já existe na base de dados
+                    cursor.execute("SELECT * FROM filmes WHERE titulo = ?", (novo_nome_filme,))
+                    if cursor.fetchone():
+                        conn.rollback()  # Rollback the transaction
+                        conn.close()
+                        # Exibir uma mensagem de erro se o título já existir na base de dados
+                        messagebox.showerror("Erro", "Este título já existe na base de dados!")
+                        return  # Exit the function
+                    
+                    # Se o novo título não existir, atualizar o título na base de dados
+                    cursor.execute("UPDATE filmes SET titulo = ? WHERE id = ?", (novo_nome_filme, valores_selecionados[0]))
 
-                    # Confirmar a inserção dos dados
-                    conn.commit()
+                # Confirmar a inserção dos dados
+                conn.commit()
 
-                    # Fechar a conexão com a base de dados
-                    conn.close()
+                # Fechar a conexão com a base de dados
+                conn.close()
 
-                    self.mostrar_filmes()
+                # Update the Treeview with the edited values
+                self.treeeview.item(item_selecionado, values=(valores_selecionados[0], novo_nome_filme, novo_realizador_filme, novo_ano_filme, novo_genero_filme, novo_imagem_filme, novo_quantidade_filme, novo_preco_filme))
 
-                    # Exibir uma mensagem de sucesso
-                    messagebox.showinfo("Sucesso", "Produto editado com sucesso!")
+                self.mostrar_filmes()
+
+                # Exibir uma mensagem de sucesso
+                messagebox.showinfo("Sucesso", "Produto editado com sucesso!")
+                self.janela_edicao.destroy
             else:
                 # Exibir uma mensagem de erro se algum campo estiver vazio
                 messagebox.showerror("Erro", "Por favor, preencha todos os campos!")
 
-        self.botao_guardar_produto = Button(self.janela_edicao, text="Guardar Edição", font="Arial 12", command=guardar_edicao_filme)
+        self.botao_guardar_produto = customtkinter.CTkButton(self.janela_edicao, text="Guardar Edição", font=("Arial", 12), command=guardar_edicao_filme)
         self.botao_guardar_produto.grid(row=8, column=0, columnspan=2, padx=10, pady=10, sticky="NSEW")
 
-        self.cancelar_edicao = Button(self.janela_edicao, text="Cancelar", font="Arial 12", command=self.janela_edicao.destroy)
+        self.cancelar_edicao = customtkinter.CTkButton(self.janela_edicao, text="Cancelar", font=("Arial", 12), command=self.janela_edicao.destroy)
         self.cancelar_edicao.grid(row=9, column=0, columnspan=2, padx=10, pady=10, sticky="NSEW")
 
     def registar_produto_filme(self):
         #criar nova janela para registar os produtos
-             #criar nova janela para registar os produtos
         self.janela_registo_filme = customtkinter.CTkToplevel(self.janela_principal)
         self.janela_registo_filme.title("Registar filme")
         self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
@@ -265,48 +270,39 @@ class CategoriaFilme:
         self.cancelar.pack(padx=10, pady=10)
 
     def guardar_filme(self):
-    
         # Obter os valores dos campos de entrada
         titulo = self.titulo_filme_entry.get()
         realizador = self.realizador_filme_entry.get()
-        ano= self.ano_filme_entry.get()
+        ano = self.ano_filme_entry.get()
         genero = self.genero_filme_entry.get()
-        imagem = self.imagem_filme_entry.get()
+        imagem = os.path.basename(self.imagem_filme_entry.get())
         quantidade = self.quantidade_filme_entry.get()
         preco = self.preco_filme_entry.get()
 
         # Verificar se todos os campos foram preenchidos
         if titulo and realizador and ano and genero and imagem and quantidade and preco:
-
             # Conectar à base de dados
             conn = sqlite3.connect("stock.db")
             cursor = conn.cursor()
 
+            # Verificar se o título já existe na base de dados
+            cursor.execute("SELECT * FROM filmes WHERE titulo = ?", (titulo,))
+            if cursor.fetchone():
+                # Exibir uma mensagem de erro se o título já existir na base de dados
+                messagebox.showerror("Erro", "Este título já existe na base de dados!")
+                conn.close()
+                return  
+
             # Inserir os dados na tabela
             cursor.execute("INSERT INTO filmes (titulo, realizador, ano, genero, imagem_path, quantidade, preco) VALUES (?, ?, ?, ?, ?, ?, ?)", (titulo, realizador, ano, genero, imagem, quantidade, preco))
-
             # Confirmar a inserção dos dados
             conn.commit()
 
             # Fechar a conexão com a base de dados
             conn.close()
-
-            # Limpar os campos de entrada
-            self.titulo_filme_entry.delete(0, END)
-            self.realizador_filme_entry.delete(0, END)
-            self.ano_filme_entry.delete(0, END)
-            self.genero_filme_entry.delete(0, END)
-            self.imagem_filme_entry.delete(0, END)
-            self.quantidade_filme_entry.delete(0, END)
-            self.preco_filme_entry.delete(0, END)
-
-            self.mostrar_filmes()
-
-            # Exibir uma mensagem de sucesso
-            messagebox.showinfo("Sucesso", "Produto guardado com sucesso!")
         else:
             # Exibir uma mensagem de erro se algum campo estiver vazio
-            messagebox.showerror("Erro", "Por favor, preencha todos os campos!")
+            messagebox.showerror("Erro", "Todos os campos devem ser preenchidos!")
 
     def mostrar_filmes(self):
             
@@ -431,3 +427,62 @@ class CategoriaFilme:
     def reconstruir_menu(self):
         reconstruir_menu_instance = ReconstruirMenu(janela_principal=self.janela_principal)
         reconstruir_menu_instance.reconstruir_menu()
+
+    
+    
+    def handle_selecao(self, event):
+        # Obter o filme_id a partir do item selecionado na treeview
+        item_selecionado = self.treeeview.selection()[0]
+        filme_id = self.treeeview.item(item_selecionado)['values'][0]
+        # Chamar a função exibir_filmes com o filme_id
+        self.exibir_filmes(filme_id)
+
+    def exibir_filmes(self, filme_id):
+        # Conectar ao banco de dados e obter os detalhes do filme
+        conn = sqlite3.connect('stock.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM filmes WHERE id=?", (filme_id,))
+        filme = cursor.fetchone()
+        conn.close()
+
+        # Criar uma nova janela para exibir os detalhes do filme
+        exibir_window = customtkinter.CTkToplevel(self.janela_principal)
+        exibir_window.title("Detalhes do filme")
+
+        # Exibir os atributos do filme na janela
+        row = 0
+        customtkinter.CTkLabel(exibir_window, text="Título:").grid(row=row, column=0, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=filme[1]).grid(row=row, column=1, sticky='w')
+        row += 1
+
+        customtkinter.CTkLabel(exibir_window, text="Realizador:").grid(row=row, column=0, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=filme[2]).grid(row=row, column=1, sticky='w')
+        row += 1
+
+        customtkinter.CTkLabel(exibir_window, text="Ano:").grid(row=row, column=0, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=filme[3]).grid(row=row, column=1, sticky='w')
+        row += 1
+
+        customtkinter.CTkLabel(exibir_window, text="Género:").grid(row=row, column=0, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=filme[4]).grid(row=row, column=1, sticky='w')
+        row += 1
+
+    
+        customtkinter.CTkLabel(exibir_window, text="Quantidade:").grid(row=row, column=0, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=filme[6]).grid(row=row, column=1, sticky='w')
+        row += 1
+
+        customtkinter.CTkLabel(exibir_window, text="Preço:").grid(row=row, column=0, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=filme[7]).grid(row=row, column=1, sticky='w')
+        row += 1   
+
+        image_file = filme[5]
+        directory_path= "assets\\imagens"
+        image_path = os.path.join(directory_path, image_file)
+        image = Image.open(image_path)
+        width_proposto = 200
+        height_proposto = 300
+        imagem_tamanho = image.resize((width_proposto, height_proposto), Image.LANCZOS)
+        tk_image = ImageTk.PhotoImage(imagem_tamanho)
+
+        customtkinter.CTkLabel(exibir_window, image=tk_image, text=None).grid(row=0, column=2, rowspan= 6, sticky='e')

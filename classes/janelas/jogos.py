@@ -3,6 +3,8 @@ from tkinter import *
 from tkinter import Tk, ttk, messagebox
 import sqlite3
 import customtkinter
+from PIL import Image, ImageTk
+import os
 from classes.janelas.reconstruir_menu import ReconstruirMenu
 
 class CategoriaJogo:
@@ -21,24 +23,19 @@ class CategoriaJogo:
         self.janela_principal.geometry(self.calcular_posicao())  # Posição da janela no ecrã
         self.janela_principal.state('zoomed')  # Maximizar a janela
 
-        Label(self.janela_principal, text="Título: ", font="Arial 16", fg="#333333", bg="#f0f0f0").grid(row=0,column=1,padx=10,pady=10,sticky="W")
-        nome_produto = Entry(self.janela_principal, font="Arial 16")
-        nome_produto.grid(row=0, column=2, padx=10, pady=10, sticky="W")
+        nome_produto = customtkinter.CTkEntry(self.janela_principal, placeholder_text="Título: ", font=("Arial", 16))
+        nome_produto.grid(row=0, column=5, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_principal, text="Plataforma: ", font="Arial 16", fg="#333333", bg="#f0f0f0").grid(row=0, column=3,padx=10, pady=10,sticky="W")
-        plataforma_produto = Entry(self.janela_principal, font="Arial 16")
-        plataforma_produto.grid(row=0, column=4, padx=10, pady=10, sticky="W")
+        plataforma_produto = customtkinter.CTkEntry(self.janela_principal, placeholder_text="Plataforma: ", font=("Arial", 16))
+        plataforma_produto.grid(row=0, column=6, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_principal, text="Ano: ", font="Arial 16", fg="#333333", bg="#f0f0f0").grid(row=0, column=5,padx=10, pady=10,sticky="W")
-        ano_produto = Entry(self.janela_principal, font="Arial 16")
-        ano_produto.grid(row=0, column=6, padx=10, pady=10, sticky="W")
+        ano_produto = customtkinter.CTkEntry(self.janela_principal, placeholder_text="Ano: ", font=("Arial", 16))
+        ano_produto.grid(row=0, column=7, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_principal, text="Género: ", font="Arial 16", fg="#333333", bg="#f0f0f0").grid(row=0, column=7,padx=10, pady=10,sticky="W")
-        genero_produto = Entry(self.janela_principal, font="Arial 16")
+        genero_produto = customtkinter.CTkEntry(self.janela_principal, placeholder_text="Género: ", font=("Arial", 16))
         genero_produto.grid(row=0, column=8, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_principal, text="Sistema de Gestão de Stock", font="Arial 16", fg="#333333",
-            bg="#f0f0f0").grid(row=2, column=0, columnspan=10, pady=10, padx=10, sticky="NSEW")
+        customtkinter.CTkLabel(self.janela_principal, text="Sistema de Gestão de Stock - Jogos", font=("Arial", 16)).grid(row=2, column=0, columnspan=10, pady=10, padx=10, sticky="NSEW")
 
         self.style = ttk.Style(self.janela_principal)
         self.treeeview = ttk.Treeview(self.janela_principal, style="mystyle.Treeview",columns=("id", "titulo", "plataforma", "ano", "genero", "imagem_path", "quantidade", "preco"), show="headings")
@@ -69,16 +66,19 @@ class CategoriaJogo:
 
         self.mostrar_jogos()
 
-        self.treeeview.bind("<Double-1>", self.editar_jogo)
+        self.treeeview.bind("<Double-1>", self.handle_selecao)
 
-        self.botao_novo_produto = Button(self.janela_principal, text="Novo Produto", font="Arial 14",command=self.registar_produto_jogo)
-        self.botao_novo_produto.grid(row=4, column=0, columnspan=3, sticky="NSEW")
+        self.botao_novo_produto = customtkinter.CTkButton(self.janela_principal, text="Novo Produto", font=("Arial", 14),command=self.registar_produto_jogo)
+        self.botao_novo_produto.grid(row=5, column=5, padx=10, pady=10, sticky="W")
 
-        self.botao_apagar_produto = Button(self.janela_principal, text="Apagar", font="Arial 14",command=self.apagar_jogo)
-        self.botao_apagar_produto.grid(row=4, column=3, columnspan=3, sticky="NSEW")
+        self.botao_apagar_produto = customtkinter.CTkButton(self.janela_principal, text="Apagar", font=("Arial", 14),command=self.apagar_jogo)
+        self.botao_apagar_produto.grid(row=5, column=6, padx=10, pady=10, sticky="W")
 
-        self.botao_retroceder = Button(self.janela_principal, text="Retroceder", font="Arial 14",command=self.reconstruir_menu)
-        self.botao_retroceder.grid(row=4, column=5, columnspan=5, sticky="NSEW")
+        self.botao_editar = customtkinter.CTkButton(self.janela_principal, text="Editar", font=("Arial", 14),command=self.editar_jogo)
+        self.botao_editar.grid(row=5, column=7, padx=10, pady=10, sticky="W")
+
+        self.botao_retroceder = customtkinter.CTkButton(self.janela_principal, text="Retroceder", font=("Arial", 14),command=self.reconstruir_menu)
+        self.botao_retroceder.grid(row=5, column=8, padx=10, pady=10, sticky="W")
 
         self.menu_barra = Menu(self.janela_principal)
         self.janela_principal.configure(menu=self.menu_barra)
@@ -86,7 +86,7 @@ class CategoriaJogo:
         self.menu_ficheiro = Menu(self.menu_barra, tearoff=0)
         self.menu_barra.add_cascade(label="Ficheiro", menu=self.menu_ficheiro)
         self.menu_ficheiro.add_command(label="Novo", command=self.registar_produto_jogo)
-        #self.menu_ficheiro.add_command(label="Retroceder", command=self.reconstruir_menu)
+        self.menu_ficheiro.add_command(label="Retroceder", command=self.reconstruir_menu)
         self.menu_ficheiro.add_command(label="Sair", command=self.janela_principal.destroy)
 
         nome_produto.bind('<KeyRelease>', lambda e: self.filtrar_titulo_jogos(nome_produto))
@@ -130,48 +130,48 @@ class CategoriaJogo:
             messagebox.showinfo("Sucesso", "Produto apagado com sucesso!")
 
     #verificar que ele não guarda produtos
-    def editar_jogo(self, event):
+    def editar_jogo(self):
 
         item_selecionado = self.treeeview.selection()[0]
 
         valores_selecionados = self.treeeview.item(item_selecionado)["values"]
 
-        self.janela_edicao = Toplevel(self.janela_principal)
+        self.janela_edicao = customtkinter.CTkToplevel(self.janela_principal)
         self.janela_edicao.title("Editar jogo")
         self.janela_edicao.iconbitmap("assets/icon/icon.ico")
         self.janela_edicao.configure(bg="#f0f0f0")
         self.janela_edicao.geometry(self.calcular_posicao(400, 350))
 
-        estilo_borda = {'borderwidth': 2, 'relief': 'groove'}
+        #estilo_borda = {'borderwidth': 2, 'relief': 'groove'}
 
-        Label(self.janela_edicao, text="Editar Produto", font="Arial 20", fg="#333333", bg="#f0f0f0").grid(row=0, column=0, columnspan=2, pady=20)
+        customtkinter.CTkLabel(self.janela_edicao, text="Editar Produto", font=("Arial", 20)).grid(row=0, column=0, columnspan=2, pady=20)
 
-        Label(self.janela_edicao, text="Titulo:", font="Arial 12", fg="Black", bg="#f0f0f0").grid(row=1, column=0, padx=10, pady=10, sticky="W")
-        self.nome_jogo_editado = Entry(self.janela_edicao, font="Arial 12", **estilo_borda, textvariable=StringVar(value=valores_selecionados[1]))
+        customtkinter.CTkLabel(self.janela_edicao, text="Titulo:", font=("Arial", 12)).grid(row=1, column=0, padx=10, pady=10, sticky="W")
+        self.nome_jogo_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[1]))
         self.nome_jogo_editado.grid(row=1, column=1, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_edicao, text="plataforma:", font="Arial 12", fg="Black", bg="#f0f0f0").grid(row=2, column=0, padx=10, pady=10, sticky="W")
-        self.plataforma_jogo_editado = Entry(self.janela_edicao, font="Arial 12", **estilo_borda, textvariable=StringVar(value=valores_selecionados[2]))
+        customtkinter.CTkLabel(self.janela_edicao, text="plataforma:", font=("Arial", 12)).grid(row=2, column=0, padx=10, pady=10, sticky="W")
+        self.plataforma_jogo_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[2]))
         self.plataforma_jogo_editado.grid(row=2, column=1, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_edicao, text="Ano:", font="Arial 12", fg="Black", bg="#f0f0f0").grid(row=3, column=0, padx=10, pady=10, sticky="W")
-        self.ano_jogo_editado = Entry(self.janela_edicao, font="Arial 12", **estilo_borda, textvariable=StringVar(value=valores_selecionados[3]))
+        customtkinter.CTkLabel(self.janela_edicao, text="Ano:", font=("Arial", 12)).grid(row=3, column=0, padx=10, pady=10, sticky="W")
+        self.ano_jogo_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[3]))
         self.ano_jogo_editado.grid(row=3, column=1, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_edicao, text="Género:", font="Arial 12", fg="Black", bg="#f0f0f0").grid(row=4, column=0, padx=10, pady=10, sticky="W")
-        self.genero_jogo_editado = Entry(self.janela_edicao, font="Arial 12", **estilo_borda, textvariable=StringVar(value=valores_selecionados[4]))
+        customtkinter.CTkLabel(self.janela_edicao, text="Género:", font=("Arial", 12)).grid(row=4, column=0, padx=10, pady=10, sticky="W")
+        self.genero_jogo_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[4]))
         self.genero_jogo_editado.grid(row=4, column=1, padx=10, pady=10, sticky="W")
         
-        Label(self.janela_edicao, text="Imagem:", font="Arial 12", fg="Black", bg="#f0f0f0").grid(row=5, column=0, padx=10, pady=10, sticky="W")
-        self.imagem_jogo_editado = Entry(self.janela_edicao, font="Arial 12", **estilo_borda, textvariable=StringVar(value=valores_selecionados[5]))
+        customtkinter.CTkLabel(self.janela_edicao, text="Imagem:", font=("Arial", 12)).grid(row=5, column=0, padx=10, pady=10, sticky="W")
+        self.imagem_jogo_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[5]))
         self.imagem_jogo_editado.grid(row=5, column=1, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_edicao, text="Quantidade:", font="Arial 12", fg="Black", bg="#f0f0f0").grid(row=6, column=0, padx=10, pady=10, sticky="W")
-        self.quantidade_jogo_editado = Entry(self.janela_edicao, font="Arial 12", **estilo_borda, textvariable=StringVar(value=valores_selecionados[6]))
+        customtkinter.CTkLabel(self.janela_edicao, text="Quantidade:", font=("Arial", 12)).grid(row=6, column=0, padx=10, pady=10, sticky="W")
+        self.quantidade_jogo_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[6]))
         self.quantidade_jogo_editado.grid(row=6, column=1, padx=10, pady=10, sticky="W")
 
-        Label(self.janela_edicao, text="Preço:", font="Arial 12", fg="Black", bg="#f0f0f0").grid(row=7, column=0, padx=10, pady=10, sticky="W")
-        self.preco_jogo_editado = Entry(self.janela_edicao, font="Arial 12", **estilo_borda, textvariable=StringVar(value=valores_selecionados[7]))
+        customtkinter.CTkLabel(self.janela_edicao, text="Preço:", font=("Arial", 12)).grid(row=7, column=0, padx=10, pady=10, sticky="W")
+        self.preco_jogo_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[7]))
         self.preco_jogo_editado.grid(row=7, column=1, padx=10, pady=10, sticky="W")
 
         def guardar_edicao_jogo():
@@ -180,7 +180,7 @@ class CategoriaJogo:
             novo_plataforma_jogo = self.plataforma_jogo_editado.get()
             novo_ano_jogo = self.ano_jogo_editado.get()
             novo_genero_jogo = self.genero_jogo_editado.get()
-            novo_imagem_jogo = self.imagem_jogo_editado.get()
+            novo_imagem_jogo = os.path.basename(self.imagem_jogo_editado.get())
             novo_quantidade_jogo = self.quantidade_jogo_editado.get()
             novo_preco_jogo = self.preco_jogo_editado.get()
 
@@ -191,38 +191,43 @@ class CategoriaJogo:
                 conn = sqlite3.connect("stock.db")
                 cursor = conn.cursor()
 
+                # Inserir os dados na tabela
+                cursor.execute("UPDATE jogos SET titulo = ?, plataforma = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", (novo_nome_jogo, novo_plataforma_jogo, novo_ano_jogo, novo_genero_jogo, novo_imagem_jogo, novo_quantidade_jogo, novo_preco_jogo, valores_selecionados[0]))
+
                 # Verificar se o título já existe na base de dados
-                cursor.execute("SELECT * FROM jogos WHERE titulo = ?", (novo_nome_jogo,))
-                if cursor.fetchone():
-                    conn.close()
-                    # Exibir uma mensagem de erro se o título já existir na base de dados
-                    messagebox.showerror("Erro", "Este título já existe na base de dados!")
-                else:
-                    self.treeeview.item(item_selecionado, values=(valores_selecionados[0], novo_nome_jogo, novo_plataforma_jogo, novo_ano_jogo, novo_genero_jogo, novo_imagem_jogo, novo_quantidade_jogo, novo_preco_jogo))
+                if novo_nome_jogo != valores_selecionados[1]:
+                    cursor.execute("SELECT * FROM jogos WHERE titulo = ?", (novo_nome_jogo,))
+                    if cursor.fetchone():
+                        conn.rollback()  # Rollback the transaction
+                        conn.close()
+                        # Exibir uma mensagem de erro se o título já existir na base de dados
+                        messagebox.showerror("Erro", "Este título já existe na base de dados!")
+                        return  # Exit the function
+                    
+                    cursor.execute("UPDATE filmes SET titulo = ? WHERE id = ?", (novo_nome_jogo, valores_selecionados[0]))
 
-                
-                    # Inserir os dados na tabela
-                    cursor.execute("UPDATE jogos SET titulo = ?, plataforma = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", (novo_nome_jogo, novo_plataforma_jogo, novo_ano_jogo, novo_genero_jogo, novo_imagem_jogo, novo_quantidade_jogo, novo_preco_jogo, valores_selecionados[0]))
+                # Confirmar a inserção dos dados
+                conn.commit()
 
+                # Fechar a conexão com a base de dados
+                conn.close()
 
-                    # Confirmar a inserção dos dados
-                    conn.commit()
+                # Update the Treeview with the edited values
+                self.treeeview.item(item_selecionado, values=(valores_selecionados[0], novo_nome_jogo, novo_plataforma_jogo, novo_ano_jogo, novo_genero_jogo, novo_imagem_jogo, novo_quantidade_jogo, novo_preco_jogo))
 
-                    # Fechar a conexão com a base de dados
-                    conn.close()
+                self.mostrar_jogos()
 
-                    self.mostrar_jogos()
-
-                    # Exibir uma mensagem de sucesso
-                    messagebox.showinfo("Sucesso", "Produto editado com sucesso!")
+                # Exibir uma mensagem de sucesso
+                messagebox.showinfo("Sucesso", "Produto editado com sucesso!")
+                self.janela_edicao.destroy
             else:
                 # Exibir uma mensagem de erro se algum campo estiver vazio
                 messagebox.showerror("Erro", "Por favor, preencha todos os campos!")
 
-        self.botao_guardar_produto = Button(self.janela_edicao, text="Guardar Edição", font="Arial 12", command=guardar_edicao_jogo)
+        self.botao_guardar_produto = customtkinter.CTkButton(self.janela_edicao, text="Guardar Edição", font=("Arial", 12), command=guardar_edicao_jogo)
         self.botao_guardar_produto.grid(row=8, column=0, columnspan=2, padx=10, pady=10, sticky="NSEW")
 
-        self.cancelar_edicao = Button(self.janela_edicao, text="Cancelar", font="Arial 12", command=self.janela_edicao.destroy)
+        self.cancelar_edicao = customtkinter.CTkButton(self.janela_edicao, text="Cancelar", font=("Arial", 12), command=self.janela_edicao.destroy)
         self.cancelar_edicao.grid(row=9, column=0, columnspan=2, padx=10, pady=10, sticky="NSEW")
 
     def registar_produto_jogo(self):
@@ -270,7 +275,7 @@ class CategoriaJogo:
         plataforma = self.plataforma_jogo_entry.get()
         ano= self.ano_jogo_entry.get()
         genero = self.genero_jogo_entry.get()
-        imagem = self.imagem_jogo_entry.get()
+        imagem = os.path.basename(self.imagem_jogo_entry.get())
         quantidade = self.quantidade_jogo_entry.get()
         preco = self.preco_jogo_entry.get()
 
@@ -280,6 +285,14 @@ class CategoriaJogo:
             # Conectar à base de dados
             conn = sqlite3.connect("stock.db")
             cursor = conn.cursor()
+
+            # Verificar se o título já existe na base de dados
+            cursor.execute("SELECT * FROM jogos WHERE titulo = ?", (titulo,))
+            if cursor.fetchone():
+                # Exibir uma mensagem de erro se o título já existir na base de dados
+                messagebox.showerror("Erro", "Este título já existe na base de dados!")
+                conn.close()
+                return  
 
             # Inserir os dados na tabela
             cursor.execute("INSERT INTO jogos (titulo, plataforma, ano, genero, imagem_path, quantidade, preco) VALUES (?, ?, ?, ?, ?, ?, ?)", (titulo, plataforma, ano, genero, imagem, quantidade, preco))
@@ -430,3 +443,62 @@ class CategoriaJogo:
     def reconstruir_menu(self):
         reconstruir_menu_instance = ReconstruirMenu(janela_principal=self.janela_principal)
         reconstruir_menu_instance.reconstruir_menu()
+
+
+    def handle_selecao(self, event):
+        # Obter o jogo_id a partir do item selecionado na treeview
+        item_selecionado = self.treeeview.selection()[0]
+        jogo_id = self.treeeview.item(item_selecionado)['values'][0]
+        # Chamar a função exibir_jogo com o jogo_id
+        self.exibir_filmes(jogo_id)
+
+    def exibir_filmes(self, jogo_id):
+        # Conectar ao banco de dados e obter os detalhes do livro
+        conn = sqlite3.connect('stock.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM jogos WHERE id=?", (jogo_id,))
+        jogo = cursor.fetchone()
+        conn.close()
+
+        # Criar uma nova janela para exibir os detalhes do livro
+        exibir_window = customtkinter.CTkToplevel(self.janela_principal)
+        exibir_window.title("Detalhes do jogo")
+
+        # Exibir os atributos do jogo na janela
+        row = 0
+        customtkinter.CTkLabel(exibir_window, text="Título:").grid(row=row, column=0, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=jogo[1]).grid(row=row, column=1, sticky='w')
+        row += 1
+
+        customtkinter.CTkLabel(exibir_window, text="Plataforma:").grid(row=row, column=0, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=jogo[2]).grid(row=row, column=1, sticky='w')
+        row += 1
+
+        customtkinter.CTkLabel(exibir_window, text="Ano:").grid(row=row, column=0, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=jogo[3]).grid(row=row, column=1, sticky='w')
+        row += 1
+
+        customtkinter.CTkLabel(exibir_window, text="Género:").grid(row=row, column=0, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=jogo[4]).grid(row=row, column=1, sticky='w')
+        row += 1
+
+    
+        customtkinter.CTkLabel(exibir_window, text="Quantidade:").grid(row=row, column=0, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=jogo[6]).grid(row=row, column=1, sticky='w')
+        row += 1
+
+        customtkinter.CTkLabel(exibir_window, text="Preço:").grid(row=row, column=0, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=[7]).grid(row=row, column=1, sticky='w')
+        row += 1   
+
+        image_file = jogo[5]
+        directory_path= "assets\\imagens"
+        image_path = os.path.join(directory_path, image_file)
+        image = Image.open(image_path)
+        width_proposto = 200
+        height_proposto = 300
+        imagem_tamanho = image.resize((width_proposto, height_proposto), Image.LANCZOS)
+        tk_image = ImageTk.PhotoImage(imagem_tamanho)
+        tk_image = ImageTk.PhotoImage(image)
+
+        customtkinter.CTkLabel(exibir_window, image=tk_image, text=None).grid(row=0, column=2, rowspan= 6, sticky='e')

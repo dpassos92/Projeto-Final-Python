@@ -59,7 +59,7 @@ class JanelaPrincipal:
 
 
     #Definir a janela de menu após login
-    def abrir_janela_menu(self, categoria=False):
+    def abrir_janela_menu(self):
         for widget in self.janela_principal.winfo_children():
             widget.destroy()
 
@@ -70,14 +70,7 @@ class JanelaPrincipal:
 
         self.janela_principal.grab_set()
 
-        '''if categoria:
-            self.menu_barra = Menu(self.janela_principal)
-            self.janela_principal.configure(menu=self.menu_barra)
-
-            self.menu_ficheiro = Menu(self.menu_barra, tearoff=0)
-            self.menu_barra.add_cascade(label="Ficheiro", menu=self.menu_ficheiro)
-            self.menu_ficheiro.add_command(label="Retroceder", command=self.abrir_janela_menu)
-            self.menu_ficheiro.add_command(label="Sair", command=self.janela_principal.destroy)'''
+        customtkinter.CTkLabel(self.janela_principal, text="Escolha a categoria de produto: ", font=("Arial", 18)).pack(padx=10, pady=10)
 
         self.janela_principal_livros_btn = customtkinter.CTkButton(self.janela_principal, text='Livros', command= self.abrir_janela_livros)
         self.janela_principal_livros_btn.pack(padx=10, pady=10)

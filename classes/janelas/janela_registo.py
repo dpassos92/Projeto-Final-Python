@@ -36,9 +36,7 @@ class JanelaRegisto:
         #configuração do botão de sair
         self.sair_btn = customtkinter.CTkButton(self.janela_registo, text='Sair', command=self.janela_registo.destroy)
         self.sair_btn.pack(padx=10, pady=10)
-
-# Ainda por editar com o customtkinter
-
+        
     def registar_utilizador(self):
         #pegar nos dados inseridos
         dados_utilizador = self.nome_utilizador_entry.get()
