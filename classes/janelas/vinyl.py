@@ -126,7 +126,7 @@ class CategoriaVinyl:
         conn = sqlite3.connect("stock.db")
         cursor = conn.cursor()
 
-        cursor.execute("DELETE FROM vinyls WHERE id = ?", (valores_selecionados[0],))
+        cursor.execute("DELETE FROM vinyl WHERE id = ?", (valores_selecionados[0],))
 
         conn.commit()
         conn.close()
@@ -160,27 +160,27 @@ class CategoriaVinyl:
         self.artista_vinyl_editado.grid(row=2, column=1, padx=10, pady=10, sticky="W")
 
         customtkinter.CTkLabel(self.janela_edicao, text="Editora:", font=("Arial", 12)).grid(row=3, column=0, padx=10, pady=10, sticky="W")
-        self.editora_vinyl_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[2]))
+        self.editora_vinyl_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[3]))
         self.editora_vinyl_editado.grid(row=3, column=1, padx=10, pady=10, sticky="W")
 
         customtkinter.CTkLabel(self.janela_edicao, text="Ano:", font=("Arial", 12)).grid(row=4, column=0, padx=10, pady=10, sticky="W")
-        self.ano_vinyl_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[3]))
+        self.ano_vinyl_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[4]))
         self.ano_vinyl_editado.grid(row=4, column=1, padx=10, pady=10, sticky="W")
 
         customtkinter.CTkLabel(self.janela_edicao, text="Género:", font=("Arial", 12)).grid(row=5, column=0, padx=10, pady=10, sticky="W")
-        self.genero_vinyl_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[4]))
+        self.genero_vinyl_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[5]))
         self.genero_vinyl_editado.grid(row=5, column=1, padx=10, pady=10, sticky="W")
         
         customtkinter.CTkLabel(self.janela_edicao, text="Imagem:", font=("Arial", 12)).grid(row=6, column=0, padx=10, pady=10, sticky="W")
-        self.imagem_vinyl_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[5]))
+        self.imagem_vinyl_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[6]))
         self.imagem_vinyl_editado.grid(row=6, column=1, padx=10, pady=10, sticky="W")
 
         customtkinter.CTkLabel(self.janela_edicao, text="Quantidade:", font=("Arial", 12)).grid(row=7, column=0, padx=10, pady=10, sticky="W")
-        self.quantidade_vinyl_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[6]))
+        self.quantidade_vinyl_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[7]))
         self.quantidade_vinyl_editado.grid(row=7, column=1, padx=10, pady=10, sticky="W")
 
         customtkinter.CTkLabel(self.janela_edicao, text="Preço:", font=("Arial", 12)).grid(row=8, column=0, padx=10, pady=10, sticky="W")
-        self.preco_vinyl_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[7]))
+        self.preco_vinyl_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[8]))
         self.preco_vinyl_editado.grid(row=8, column=1, padx=10, pady=10, sticky="W")
 
         def guardar_edicao_vinyl():
@@ -203,7 +203,7 @@ class CategoriaVinyl:
                     cursor = conn.cursor()
 
                     # Inserir os dados na tabela
-                    cursor.execute("UPDATE vinyl SET titulo = ?, artista = ?, editora = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", (novo_nome_vinyl, novo_artista_vinyl, novo_editora_vinyl, novo_ano_vinyl, novo_genero_vinyl, novo_imagem_vinyl, novo_quantidade_vinyl, novo_preco_vinyl, valores_selecionados[0]))
+                    cursor.execute("UPDATE vinyl SET artista = ?, editora = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", (novo_artista_vinyl, novo_editora_vinyl, novo_ano_vinyl, novo_genero_vinyl, novo_imagem_vinyl, novo_quantidade_vinyl, novo_preco_vinyl, valores_selecionados[0]))
 
                     # Verificar se o título já existe na base de dados
                     if novo_nome_vinyl != valores_selecionados[1]:
@@ -268,10 +268,10 @@ class CategoriaVinyl:
         self.ano_vinyl_entry = customtkinter.CTkEntry(self.janela_registo_vinyl, placeholder_text="Ano:", font=("Arial", 12))
         self.ano_vinyl_entry.pack(padx=10, pady=10)
 
-        self.genero_vinyl_entry = customtkinter.CTkEntry(self.janela_registo_vinyl, placeholder_text="Imagem", font=("Arial", 12))
+        self.genero_vinyl_entry = customtkinter.CTkEntry(self.janela_registo_vinyl, placeholder_text="Género", font=("Arial", 12))
         self.genero_vinyl_entry.pack(padx=10, pady=10)
 
-        self.imagem_vinyl_entry = customtkinter.CTkEntry(self.janela_registo_vinyl, placeholder_text="Género:", font=("Arial", 12))
+        self.imagem_vinyl_entry = customtkinter.CTkEntry(self.janela_registo_vinyl, placeholder_text="Imagem:", font=("Arial", 12))
         self.imagem_vinyl_entry.pack(padx=10, pady=10)
 
         self.quantidade_vinyl_entry = customtkinter.CTkEntry(self.janela_registo_vinyl, placeholder_text="Quantidade:", font=("Arial", 12))
@@ -372,7 +372,7 @@ class CategoriaVinyl:
             self.mostrar_vinyls()
             return
         
-        sql = "SELECT * FROM vinyls"
+        sql = "SELECT * FROM vinyl"
         params = []
         
         if titulo_vinyl.get():
@@ -395,7 +395,7 @@ class CategoriaVinyl:
             self.mostrar_vinyls()
             return
         
-        sql = "SELECT * FROM vinyls"
+        sql = "SELECT * FROM vinyl"
         params = []
         
         if artista_vinyl.get():
@@ -418,7 +418,7 @@ class CategoriaVinyl:
             self.mostrar_vinyls()
             return
         
-        sql = "SELECT * FROM vinyls"
+        sql = "SELECT * FROM vinyl"
         params = []
         
         if editora_vinyl.get():
@@ -442,7 +442,7 @@ class CategoriaVinyl:
             self.mostrar_vinyls()
             return
         
-        sql = "SELECT * FROM vinyls"
+        sql = "SELECT * FROM vinyl"
         params = []
         
         if ano_vinyl.get():
@@ -465,7 +465,7 @@ class CategoriaVinyl:
             self.mostrar_vinyls()
             return
         
-        sql = "SELECT * FROM vinyls"
+        sql = "SELECT * FROM vinyl"
         params = []
         
         if genero_vinyl.get():
@@ -511,33 +511,33 @@ class CategoriaVinyl:
         exibir_window.title("Detalhes do Vinyl")
 
         # Exibir os atributos do vinyl na janela
-        row = 0
-        customtkinter.CTkLabel(exibir_window, text="Título:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=vinyl[1]).grid(row=row, column=1, sticky='w')
+        row = 1
+        customtkinter.CTkLabel(exibir_window, text="Título:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=vinyl[1], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text="Artista:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=vinyl[2]).grid(row=row, column=1, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text="Artista:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=vinyl[2], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text="Editora:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=vinyl[3]).grid(row=row, column=1, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text="Editora:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=vinyl[3], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text="Ano:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=vinyl[4]).grid(row=row, column=1, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text="Ano:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=vinyl[4], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text="Género:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=vinyl[5]).grid(row=row, column=1, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text="Género:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=vinyl[5], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text="Quantidade:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=vinyl[7]).grid(row=row, column=1, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text="Quantidade:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=vinyl[7], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text="Preço:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=vinyl[8]).grid(row=row, column=1, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text="Preço:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=vinyl[8], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1   
 
         image_file = vinyl[6]
@@ -550,4 +550,4 @@ class CategoriaVinyl:
         tk_image = ImageTk.PhotoImage(imagem_tamanho)
         tk_image = ImageTk.PhotoImage(image)
 
-        customtkinter.CTkLabel(exibir_window, image=tk_image, text=None).grid(row=0, column=2, rowspan= 6, sticky='e')
+        customtkinter.CTkLabel(exibir_window, image=tk_image, text=None).grid(row=0, column=0, columnspan= 2, padx= 20, pady= 10)

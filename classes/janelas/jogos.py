@@ -193,7 +193,7 @@ class CategoriaJogo:
                     cursor = conn.cursor()
 
                     # Inserir os dados na tabela
-                    cursor.execute("UPDATE jogos SET titulo = ?, plataforma = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", (novo_nome_jogo, novo_plataforma_jogo, novo_ano_jogo, novo_genero_jogo, novo_imagem_jogo, novo_quantidade_jogo, novo_preco_jogo, valores_selecionados[0]))
+                    cursor.execute("UPDATE jogos SET plataforma = ?, ano = ?, genero = ?, imagem_path = ?, quantidade = ?, preco = ? WHERE id = ?", (novo_plataforma_jogo, novo_ano_jogo, novo_genero_jogo, novo_imagem_jogo, novo_quantidade_jogo, novo_preco_jogo, valores_selecionados[0]))
 
                     # Verificar se o título já existe na base de dados
                     if novo_nome_jogo != valores_selecionados[1]:
@@ -473,30 +473,30 @@ class CategoriaJogo:
         exibir_window.title("Detalhes do jogo")
 
         # Exibir os atributos do jogo na janela
-        row = 0
-        customtkinter.CTkLabel(exibir_window, text="Título:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=jogo[1]).grid(row=row, column=1, sticky='w')
+        row = 1
+        customtkinter.CTkLabel(exibir_window, text="Título:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=jogo[1], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text="Plataforma:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=jogo[2]).grid(row=row, column=1, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text="Plataforma:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=jogo[2], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text="Ano:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=jogo[3]).grid(row=row, column=1, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text="Ano:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=jogo[3], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text="Género:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=jogo[4]).grid(row=row, column=1, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text="Género:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=jogo[4], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
     
-        customtkinter.CTkLabel(exibir_window, text="Quantidade:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=jogo[6]).grid(row=row, column=1, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text="Quantidade:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=jogo[6], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text="Preço:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=[7]).grid(row=row, column=1, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text="Preço:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=[7], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1   
 
         image_file = jogo[5]
@@ -509,4 +509,4 @@ class CategoriaJogo:
         tk_image = ImageTk.PhotoImage(imagem_tamanho)
         tk_image = ImageTk.PhotoImage(image)
 
-        customtkinter.CTkLabel(exibir_window, image=tk_image, text=None).grid(row=0, column=2, rowspan= 6, sticky='e')
+        customtkinter.CTkLabel(exibir_window, image=tk_image, text=None).grid(row=0, column=0, columnspan= 2, padx= 20, pady= 10)

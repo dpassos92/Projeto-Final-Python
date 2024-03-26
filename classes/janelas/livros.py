@@ -480,40 +480,39 @@ class CategoriaLivro:
         exibir_window.title("Detalhes do Livro")
 
         # Exibir os atributos do livro na janela
-        row = 0
-        customtkinter.CTkLabel(exibir_window, text="Título:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=livro[1]).grid(row=row, column=1, sticky='w')
+        row = 1
+        customtkinter.CTkLabel(exibir_window, text="Título:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=livro[1], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text="Autor:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=livro[2]).grid(row=row, column=1, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text="Autor:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=livro[2], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text="Ano:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=livro[3]).grid(row=row, column=1, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text="Ano:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=livro[3], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text="Género:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=livro[4]).grid(row=row, column=1, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text="Género:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=livro[4], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
     
-        customtkinter.CTkLabel(exibir_window, text="Quantidade:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=livro[6]).grid(row=row, column=1, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text="Quantidade:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=livro[6], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text="Preço:").grid(row=row, column=0, sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=livro[7]).grid(row=row, column=1, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text="Preço:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=livro[7], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1   
 
         image_file = livro[5]
         directory_path= "assets\\imagens"
         image_path = os.path.join(directory_path, image_file)
         image = Image.open(image_path)
-        width_proposto = 200
-        height_proposto = 300
+        width_proposto = 350
+        height_proposto = 500
         imagem_tamanho = image.resize((width_proposto, height_proposto), Image.LANCZOS)
         tk_image = ImageTk.PhotoImage(imagem_tamanho)
-        tk_image = ImageTk.PhotoImage(image)
 
-        customtkinter.CTkLabel(exibir_window, image=tk_image, text=None).grid(row=0, column=2, rowspan= 6, sticky='e')
+        customtkinter.CTkLabel(exibir_window, image=tk_image, text=None).grid(row=0, column=0, columnspan= 2, padx= 20, pady= 10)

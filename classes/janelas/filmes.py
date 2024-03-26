@@ -480,24 +480,24 @@ class CategoriaFilme:
         customtkinter.CTkLabel(exibir_window, text=filme[1], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text=f"Realizador: ", font= ("Arial", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=f"Realizador: ", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
         customtkinter.CTkLabel(exibir_window, text=filme[2], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text=f"Ano: ", font=("Arial", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=f"Ano: ", font=("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
         customtkinter.CTkLabel(exibir_window, text=filme[3], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text=f"Género: ", font= ("Arial", 14)).grid(row=row, column=0, padx= (30,0),sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=f"Género: ", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0),sticky='w')
         customtkinter.CTkLabel(exibir_window, text=filme[4], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
     
-        customtkinter.CTkLabel(exibir_window, text=f"Quantidade: ", font= ("Arial", 14)).grid(row=row, column=0, padx= (30,0),sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=f"Quantidade: ", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0),sticky='w')
         customtkinter.CTkLabel(exibir_window, text=filme[6], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1
 
-        customtkinter.CTkLabel(exibir_window, text=f"Preço: ", font= ("Arial", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=f"Preço: ", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
         customtkinter.CTkLabel(exibir_window, text=filme[7], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1   
 
