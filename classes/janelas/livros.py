@@ -149,7 +149,7 @@ class CategoriaLivro:
         customtkinter.CTkLabel(self.janela_edicao, text="Editar Produto", font=("Arial", 20)).grid(row=0, column=0, columnspan=2, pady=20)
 
         customtkinter.CTkLabel(self.janela_edicao, text="Titulo:", font=("Arial", 12)).grid(row=1, column=0, padx=10, pady=10, sticky="W")
-        self.nome_livro_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[1]))
+        self.nome_livro_editado = customtkinter.CTkEntry(self.janela_edicao, font=("Arial", 12), textvariable=StringVar(value=valores_selecionados[1].strip().title()))
         self.nome_livro_editado.grid(row=1, column=1, padx=10, pady=10, sticky="W")
 
         customtkinter.CTkLabel(self.janela_edicao, text="Autor:", font=("Arial", 12)).grid(row=2, column=0, padx=10, pady=10, sticky="W")
@@ -179,13 +179,20 @@ class CategoriaLivro:
 
         def guardar_edicao_livro():
             # Obter os valores dos campos de entrada
-            novo_nome_livro = self.nome_livro_editado.get()
-            novo_autor_livro = self.autor_livro_editado.get()
-            novo_ano_livro = self.ano_livro_editado.get()
-            novo_genero_livro = self.genero_livro_editado.get()
-            novo_imagem_livro = os.path.basename(self.imagem_livro_editado.get())
-            novo_quantidade_livro = self.quantidade_livro_editado.get()
-            novo_preco_livro = self.preco_livro_editado.get()
+            nnl = self.nome_livro_editado.get().title().strip() # primeira letra maiúscula  
+            novo_nome_livro = " ".join(nnl.split()) # remover espaços a mais entre palavras
+            nal = self.autor_livro_editado.get().title().strip()
+            novo_autor_livro = " ".join(nal.split())
+            nanl = self.ano_livro_editado.get().strip()
+            novo_ano_livro = " ".join(nanl.split())
+            ngl = self.genero_livro_editado.get().title().strip()
+            novo_genero_livro = " ".join(ngl.split())
+            nil = os.path.basename(self.imagem_livro_editado.get()).strip()
+            novo_imagem_livro = " ".join(nil.split())
+            nql = self.quantidade_livro_editado.get().strip()
+            novo_quantidade_livro = " ".join(nql.split())
+            npl = self.preco_livro_editado.get().strip()
+            novo_preco_livro = " ".join(npl.split())
 
             
             # Verificar se todos os campos foram preenchidos
@@ -283,13 +290,20 @@ class CategoriaLivro:
     def guardar_livro(self):
     
         # Obter os valores dos campos de entrada
-        titulo = self.titulo_livro_entry.get()
-        autor = self.autor_livro_entry.get()
-        ano= self.ano_livro_entry.get()
-        genero = self.genero_livro_entry.get()
-        imagem = os.path.basename(self.imagem_livro_entry.get())
-        quantidade = self.quantidade_livro_entry.get()
-        preco = self.preco_livro_entry.get()
+        t = self.titulo_livro_entry.get().title().strip() # primeira letra maiúscula
+        titulo = " ".join(t.split()) # remover espaços a mais entre palavras
+        a = self.autor_livro_entry.get().title().strip() 
+        autor = " ".join(a.split())
+        an = self.ano_livro_entry.get().title().strip() 
+        ano = " ".join(an.split())
+        g = self.genero_livro_entry.get().title().strip() 
+        genero = " ".join(g.split())
+        i = os.path.basename(self.imagem_livro_entry.get()).strip()
+        imagem = " ".join(i.split())
+        q = self.quantidade_livro_entry.get().strip() 
+        quantidade = " ".join(q.split())
+        p = self.preco_livro_entry.get().strip() 
+        preco = " ".join(p.split())
 
         # Verificar se todos os campos foram preenchidos
         if titulo and autor and ano and genero and imagem and quantidade and preco:
@@ -329,6 +343,7 @@ class CategoriaLivro:
 
                 # Exibir uma mensagem de sucesso
                 messagebox.showinfo("Sucesso", "Produto guardado com sucesso!")
+                self.janela_registo_livro.destroy()
             else:
                 # Exibir uma mensagem de erro se o ano estiver fora do intervalo especificado
                 messagebox.showerror("Erro", "Por favor, insira um ano entre 1900 e 2024!")

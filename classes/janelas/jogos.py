@@ -176,13 +176,20 @@ class CategoriaJogo:
 
         def guardar_edicao_jogo():
             # Obter os valores dos campos de entrada
-            novo_nome_jogo = self.nome_jogo_editado.get()
-            novo_plataforma_jogo = self.plataforma_jogo_editado.get()
-            novo_ano_jogo = self.ano_jogo_editado.get()
-            novo_genero_jogo = self.genero_jogo_editado.get()
-            novo_imagem_jogo = os.path.basename(self.imagem_jogo_editado.get())
-            novo_quantidade_jogo = self.quantidade_jogo_editado.get()
-            novo_preco_jogo = self.preco_jogo_editado.get()
+            nnj = self.nome_jogo_editado.get().title().strip()
+            novo_nome_jogo = " ".join(nnj.split())
+            nptj = self.plataforma_jogo_editado.get().title().strip()
+            novo_plataforma_jogo = " ".join(nptj.split())
+            naj = self.ano_jogo_editado.get().strip()
+            novo_ano_jogo = " ".join(naj.split())
+            ngj = self.genero_jogo_editado.get().title().strip()
+            novo_genero_jogo = " ".join(ngj.split())
+            nij = os.path.basename(self.imagem_jogo_editado.get()).strip()
+            novo_imagem_jogo = " ".join(nij.split())
+            nqj = self.quantidade_jogo_editado.get().strip()
+            novo_quantidade_jogo = " ".join(nqj.split())
+            npj = self.preco_jogo_editado.get().strip()
+            novo_preco_jogo = " ".join(npj.split())
 
             # Verificar se todos os campos foram preenchidos
             if novo_nome_jogo and novo_plataforma_jogo and novo_ano_jogo and novo_genero_jogo and novo_imagem_jogo and novo_quantidade_jogo and novo_preco_jogo:
@@ -275,13 +282,20 @@ class CategoriaJogo:
     def guardar_jogo(self):
     
         # Obter os valores dos campos de entrada
-        titulo = self.titulo_jogo_entry.get()
-        plataforma = self.plataforma_jogo_entry.get()
-        ano= self.ano_jogo_entry.get()
-        genero = self.genero_jogo_entry.get()
-        imagem = os.path.basename(self.imagem_jogo_entry.get())
-        quantidade = self.quantidade_jogo_entry.get()
-        preco = self.preco_jogo_entry.get()
+        t = self.titulo_jogo_entry.get().title().strip() # primeira letra maiúscula
+        titulo = " ".join(t.split()) # remover espaços a mais entre palavras
+        p = self.plataforma_jogo_entry.get().title().strip()       
+        plataforma = " ".join(p.split())
+        an = self.ano_jogo_entry.get().strip() 
+        ano = " ".join(an.split())
+        g = self.genero_jogo_entry.get().title().strip() 
+        genero = " ".join(g.split())
+        i = os.path.basename(self.imagem_jogo_entry.get()).strip()
+        imagem = " ".join(i.split())
+        q = self.quantidade_jogo_entry.get().strip() 
+        quantidade = " ".join(q.split())
+        p = self.preco_jogo_entry.get().strip() 
+        preco = " ".join(p.split())
 
         # Verificar se todos os campos foram preenchidos
         if titulo and plataforma and ano and genero and imagem and quantidade and preco:
@@ -321,6 +335,7 @@ class CategoriaJogo:
 
                 # Exibir uma mensagem de sucesso
                 messagebox.showinfo("Sucesso", "Produto guardado com sucesso!")
+                self.janela_registo_jogo.destroy()
             else:
                 # Exibir uma mensagem de erro se o ano estiver fora do intervalo especificado
                 messagebox.showerror("Erro", "Por favor, insira um ano entre 1900 e 2024!")

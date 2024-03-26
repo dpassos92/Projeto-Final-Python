@@ -175,13 +175,20 @@ class CategoriaFilme:
 
         def guardar_edicao_filme():
             # Obter os valores dos campos de entrada
-            novo_nome_filme = self.nome_filme_editado.get()
-            novo_realizador_filme = self.realizador_filme_editado.get()
-            novo_ano_filme = self.ano_filme_editado.get()
-            novo_genero_filme = self.genero_filme_editado.get()
-            novo_imagem_filme = os.path.basename(self.imagem_filme_editado.get())
-            novo_quantidade_filme = self.quantidade_filme_editado.get()
-            novo_preco_filme = self.preco_filme_editado.get()
+            nnf = self.nome_filme_editado.get().title().strip() 
+            novo_nome_filme = " ".join(nnf.split())
+            nrf = self.realizador_filme_editado.get().title().strip() 
+            novo_realizador_filme = " ".join(nrf.split())
+            naf = self.ano_filme_editado.get().title().strip() 
+            novo_ano_filme = " ".join(naf.split())
+            ngf = self.genero_filme_editado.get().title().strip() 
+            novo_genero_filme = " ".join(ngf.split())
+            nif = os.path.basename(self.imagem_filme_editado.get()).title().strip() 
+            novo_imagem_filme = " ".join(nif.split())
+            nqf = self.quantidade_filme_editado.get().title().strip() 
+            novo_quantidade_filme = " ".join(nqf.split())
+            npf = self.preco_filme_editado.get().title().strip() 
+            novo_preco_filme = " ".join(npf.split())
 
             # Verificar se todos os campos foram preenchidos
             if novo_nome_filme and novo_realizador_filme and novo_ano_filme and novo_genero_filme and novo_imagem_filme and novo_quantidade_filme and novo_preco_filme:
@@ -275,13 +282,20 @@ class CategoriaFilme:
 
     def guardar_filme(self):
         # Obter os valores dos campos de entrada
-        titulo = self.titulo_filme_entry.get()
-        realizador = self.realizador_filme_entry.get()
-        ano = self.ano_filme_entry.get()
-        genero = self.genero_filme_entry.get()
-        imagem = os.path.basename(self.imagem_filme_entry.get())
-        quantidade = self.quantidade_filme_entry.get()
-        preco = self.preco_filme_entry.get()
+        t = self.titulo_filme_entry.get().title().strip() # primeira letra maiúscula
+        titulo = " ".join(t.split()) # remover espaços a mais entre palavras
+        r = self.realizador_filme_entry.get().title().strip()
+        realizador = " ".join(r.split())
+        an = self.ano_filme_entry.get().strip() 
+        ano = " ".join(an.split())
+        g = self.genero_filme_entry.get().title().strip() 
+        genero = " ".join(g.split())
+        i = os.path.basename(self.imagem_filme_entry.get()).strip()
+        imagem = " ".join(i.split())
+        q = self.quantidade_filme_entry.get().strip() 
+        quantidade = " ".join(q.split())
+        p = self.preco_filme_entry.get().strip() 
+        preco = " ".join(p.split())
 
         # Verificar se todos os campos foram preenchidos
         if titulo and realizador and ano and genero and imagem and quantidade and preco:
@@ -321,6 +335,7 @@ class CategoriaFilme:
 
                 # Exibir uma mensagem de sucesso
                 messagebox.showinfo("Sucesso", "Produto guardado com sucesso!")
+                self.janela_registo_filme.destroy()
             else:
                 # Exibir uma mensagem de erro se o ano estiver fora do intervalo especificado
                 messagebox.showerror("Erro", "Por favor, insira um ano entre 1900 e 2024!")

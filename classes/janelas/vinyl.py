@@ -185,14 +185,22 @@ class CategoriaVinyl:
 
         def guardar_edicao_vinyl():
             # Obter os valores dos campos de entrada
-            novo_nome_vinyl = self.nome_vinyl_editado.get()
-            novo_artista_vinyl = self.artista_vinyl_editado.get()
-            novo_editora_vinyl = self.editora_vinyl_editado.get()
-            novo_ano_vinyl = self.ano_vinyl_editado.get()
-            novo_genero_vinyl = self.genero_vinyl_editado.get()
-            novo_imagem_vinyl = os.path.basename(self.imagem_vinyl_editado.get())
-            novo_quantidade_vinyl = self.quantidade_vinyl_editado.get()
-            novo_preco_vinyl = self.preco_vinyl_editado.get()
+            nnv = self.nome_vinyl_editado.get().title().strip() # primeira letra maiúscula
+            novo_nome_vinyl = " ".join(nnv.split()) # remover espaços a mais entre palavras
+            narv = self.artista_vinyl_editado.get().title().strip()
+            novo_artista_vinyl = " ".join(narv.split())
+            nev = self.editora_vinyl_editado.get().title().strip()
+            novo_editora_vinyl = " ".join(nev.split())
+            nanv = self.ano_vinyl_editado.get().strip()
+            novo_ano_vinyl = " ".join(nanv.split())
+            ngv = self.genero_vinyl_editado.get().title().strip()
+            novo_genero_vinyl = " ".join(ngv.split())
+            niv = os.path.basename(self.imagem_vinyl_editado.get()).strip()
+            novo_imagem_vinyl = " ".join(niv.split())
+            nqv = self.quantidade_vinyl_editado.get().strip()
+            novo_quantidade_vinyl = " ".join(nqv.split())
+            npv = self.preco_vinyl_editado.get().strip()
+            novo_preco_vinyl = " ".join(npv.split())
 
             # Verificar se todos os campos foram preenchidos
             if novo_nome_vinyl and novo_artista_vinyl and novo_editora_vinyl and novo_ano_vinyl and novo_genero_vinyl and novo_imagem_vinyl and novo_quantidade_vinyl and novo_preco_vinyl:
@@ -289,14 +297,22 @@ class CategoriaVinyl:
     def guardar_vinyl(self):
     
         # Obter os valores dos campos de entrada
-        titulo = self.titulo_vinyl_entry.get()
-        artista = self.artista_vinyl_entry.get()
-        editora = self.editora_vinyl_entry.get()
-        ano= self.ano_vinyl_entry.get()
-        genero = self.genero_vinyl_entry.get()
-        imagem = self.imagem_vinyl_entry.get()
-        quantidade = self.quantidade_vinyl_entry.get()
-        preco = self.preco_vinyl_entry.get()
+        t = self.titulo_vinyl_entry.get().title().strip() # primeira letra maiúscula
+        titulo = " ".join(t.split()) # remover espaços a mais entre palavras
+        ar = self.artista_vinyl_entry.get().title().strip()
+        artista = " ".join(ar.split())
+        e = self.editora_vinyl_entry.get().title().strip()
+        editora = " ".join(e.split())
+        an = self.ano_vinyl_entry.get().strip() 
+        ano = " ".join(an.split())
+        g = self.genero_vinyl_entry.get().title().strip() 
+        genero = " ".join(g.split())
+        i = self.imagem_vinyl_entry.get().strip()
+        imagem = " ".join(i.split())
+        q = self.quantidade_vinyl_entry.get().strip() 
+        quantidade = " ".join(q.split())
+        p = self.preco_vinyl_entry.get().strip() 
+        preco = " ".join(p.split())
 
         # Verificar se todos os campos foram preenchidos
         if titulo and artista and editora and ano and genero and imagem and quantidade and preco:
@@ -337,6 +353,7 @@ class CategoriaVinyl:
 
                 # Exibir uma mensagem de sucesso
                 messagebox.showinfo("Sucesso", "Produto guardado com sucesso!")
+                self.janela_registo_vinyl.destroy()
             else:
                 # Exibir uma mensagem de erro se o ano estiver fora do intervalo especificado
                 messagebox.showerror("Erro", "Por favor, insira um ano entre 1900 e 2024!")
