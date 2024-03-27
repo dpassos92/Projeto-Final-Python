@@ -195,12 +195,10 @@ class CategoriaVinyl:
             novo_ano_vinyl = " ".join(nanv.split())
             ngv = self.genero_vinyl_editado.get().title().strip()
             novo_genero_vinyl = " ".join(ngv.split())
-            niv = os.path.basename(self.imagem_vinyl_editado.get()).strip()
-            novo_imagem_vinyl = " ".join(niv.split())
-            nqv = self.quantidade_vinyl_editado.get().strip()
-            novo_quantidade_vinyl = " ".join(nqv.split())
-            npv = self.preco_vinyl_editado.get().strip()
-            novo_preco_vinyl = " ".join(npv.split())
+            novo_imagem_vinyl = os.path.basename(self.imagem_vinyl_editado.get())
+            novo_quantidade_vinyl = self.quantidade_vinyl_editado.get().strip()
+            novo_preco_vinyl = self.preco_vinyl_editado.get().strip()
+
 
             # Verificar se todos os campos foram preenchidos
             if novo_nome_vinyl and novo_artista_vinyl and novo_editora_vinyl and novo_ano_vinyl and novo_genero_vinyl and novo_imagem_vinyl and novo_quantidade_vinyl and novo_preco_vinyl:
@@ -307,12 +305,10 @@ class CategoriaVinyl:
         ano = " ".join(an.split())
         g = self.genero_vinyl_entry.get().title().strip() 
         genero = " ".join(g.split())
-        i = self.imagem_vinyl_entry.get().strip()
-        imagem = " ".join(i.split())
-        q = self.quantidade_vinyl_entry.get().strip() 
-        quantidade = " ".join(q.split())
-        p = self.preco_vinyl_entry.get().strip() 
-        preco = " ".join(p.split())
+        imagem  = os.path.basename(self.imagem_vinyl_entry.get())
+        quantidade = self.quantidade_vinyl_entry.get().strip() 
+        preco = self.preco_vinyl_entry.get().strip() 
+        
 
         # Verificar se todos os campos foram preenchidos
         if titulo and artista and editora and ano and genero and imagem and quantidade and preco:

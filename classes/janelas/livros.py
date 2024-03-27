@@ -187,12 +187,9 @@ class CategoriaLivro:
             novo_ano_livro = " ".join(nanl.split())
             ngl = self.genero_livro_editado.get().title().strip()
             novo_genero_livro = " ".join(ngl.split())
-            nil = os.path.basename(self.imagem_livro_editado.get()).strip()
-            novo_imagem_livro = " ".join(nil.split())
-            nql = self.quantidade_livro_editado.get().strip()
-            novo_quantidade_livro = " ".join(nql.split())
-            npl = self.preco_livro_editado.get().strip()
-            novo_preco_livro = " ".join(npl.split())
+            novo_imagem_livro = os.path.basename(self.imagem_livro_editado.get())
+            novo_quantidade_livro = self.quantidade_livro_editado.get().strip()
+            novo_preco_livro = self.preco_livro_editado.get().strip()
 
             
             # Verificar se todos os campos foram preenchidos
@@ -298,12 +295,9 @@ class CategoriaLivro:
         ano = " ".join(an.split())
         g = self.genero_livro_entry.get().title().strip() 
         genero = " ".join(g.split())
-        i = os.path.basename(self.imagem_livro_entry.get()).strip()
-        imagem = " ".join(i.split())
-        q = self.quantidade_livro_entry.get().strip() 
-        quantidade = " ".join(q.split())
-        p = self.preco_livro_entry.get().strip() 
-        preco = " ".join(p.split())
+        imagem  = os.path.basename(self.imagem_livro_entry.get())
+        quantidade = self.quantidade_livro_entry.get().strip() 
+        preco = self.preco_livro_entry.get().strip() 
 
         # Verificar se todos os campos foram preenchidos
         if titulo and autor and ano and genero and imagem and quantidade and preco:

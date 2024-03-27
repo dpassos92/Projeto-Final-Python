@@ -183,12 +183,9 @@ class CategoriaFilme:
             novo_ano_filme = " ".join(naf.split())
             ngf = self.genero_filme_editado.get().title().strip() 
             novo_genero_filme = " ".join(ngf.split())
-            nif = os.path.basename(self.imagem_filme_editado.get()).title().strip() 
-            novo_imagem_filme = " ".join(nif.split())
-            nqf = self.quantidade_filme_editado.get().title().strip() 
-            novo_quantidade_filme = " ".join(nqf.split())
-            npf = self.preco_filme_editado.get().title().strip() 
-            novo_preco_filme = " ".join(npf.split())
+            novo_imagem_filme = os.path.basename(self.imagem_filme_editado.get())
+            novo_quantidade_filme = self.quantidade_filme_editado.get().strip()
+            novo_preco_filme = self.preco_filme_editado.get().strip()
 
             # Verificar se todos os campos foram preenchidos
             if novo_nome_filme and novo_realizador_filme and novo_ano_filme and novo_genero_filme and novo_imagem_filme and novo_quantidade_filme and novo_preco_filme:
@@ -290,12 +287,9 @@ class CategoriaFilme:
         ano = " ".join(an.split())
         g = self.genero_filme_entry.get().title().strip() 
         genero = " ".join(g.split())
-        i = os.path.basename(self.imagem_filme_entry.get()).strip()
-        imagem = " ".join(i.split())
-        q = self.quantidade_filme_entry.get().strip() 
-        quantidade = " ".join(q.split())
-        p = self.preco_filme_entry.get().strip() 
-        preco = " ".join(p.split())
+        imagem  = os.path.basename(self.imagem_filme_entry.get())
+        quantidade = self.quantidade_filme_entry.get().strip() 
+        preco = self.preco_filme_entry.get().strip() 
 
         # Verificar se todos os campos foram preenchidos
         if titulo and realizador and ano and genero and imagem and quantidade and preco:

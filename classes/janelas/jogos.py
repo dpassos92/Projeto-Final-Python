@@ -184,12 +184,9 @@ class CategoriaJogo:
             novo_ano_jogo = " ".join(naj.split())
             ngj = self.genero_jogo_editado.get().title().strip()
             novo_genero_jogo = " ".join(ngj.split())
-            nij = os.path.basename(self.imagem_jogo_editado.get()).strip()
-            novo_imagem_jogo = " ".join(nij.split())
-            nqj = self.quantidade_jogo_editado.get().strip()
-            novo_quantidade_jogo = " ".join(nqj.split())
-            npj = self.preco_jogo_editado.get().strip()
-            novo_preco_jogo = " ".join(npj.split())
+            novo_imagem_jogo = os.path.basename(self.imagem_jogo_editado.get())
+            novo_quantidade_jogo = self.quantidade_jogo_editado.get().strip()
+            novo_preco_jogo = self.preco_jogo_editado.get().strip()
 
             # Verificar se todos os campos foram preenchidos
             if novo_nome_jogo and novo_plataforma_jogo and novo_ano_jogo and novo_genero_jogo and novo_imagem_jogo and novo_quantidade_jogo and novo_preco_jogo:
@@ -290,12 +287,9 @@ class CategoriaJogo:
         ano = " ".join(an.split())
         g = self.genero_jogo_entry.get().title().strip() 
         genero = " ".join(g.split())
-        i = os.path.basename(self.imagem_jogo_entry.get()).strip()
-        imagem = " ".join(i.split())
-        q = self.quantidade_jogo_entry.get().strip() 
-        quantidade = " ".join(q.split())
-        p = self.preco_jogo_entry.get().strip() 
-        preco = " ".join(p.split())
+        imagem  = os.path.basename(self.imagem_jogo_entry.get())
+        quantidade = self.quantidade_jogo_entry.get().strip() 
+        preco = self.preco_jogo_entry.get().strip() 
 
         # Verificar se todos os campos foram preenchidos
         if titulo and plataforma and ano and genero and imagem and quantidade and preco:
