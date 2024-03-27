@@ -435,7 +435,7 @@ class CategoriaVinyl:
         params = []
         
         if editora_vinyl.get():
-            sql += " WHERE artista LIKE ?"
+            sql += " WHERE editora LIKE ?"
             params.append("%" + editora_vinyl.get() + "%")
 
         

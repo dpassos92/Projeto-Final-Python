@@ -209,7 +209,7 @@ class CategoriaJogo:
                             messagebox.showerror("Erro", "Este título já existe na base de dados!")
                             return  # Exit the function
                         
-                        cursor.execute("UPDATE filmes SET titulo = ? WHERE id = ?", (novo_nome_jogo, valores_selecionados[0]))
+                        cursor.execute("UPDATE jogos SET titulo = ? WHERE id = ?", (novo_nome_jogo, valores_selecionados[0]))
 
                     # Confirmar a inserção dos dados
                     conn.commit()
