@@ -14,7 +14,7 @@ class JanelaRegisto:
         self.janela_principal =  janela_principal
         self.janela_registo = customtkinter.CTkToplevel() #cria a janela
         self.janela_registo.title("Sistema de Gestão de Produtos")
-        self.janela_registo.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
+        #self.janela_registo.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
         self.janela_registo.geometry('500x300')
 
         self.janela_registo.grab_set()

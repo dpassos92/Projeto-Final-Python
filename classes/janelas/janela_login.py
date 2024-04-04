@@ -15,7 +15,7 @@ class JanelaLogin:
         self.janela_principal =  janela_principal
         self.janela_login = customtkinter.CTkToplevel()
         self.janela_login.title("Sistema de Gestão de Produtos")
-        self.janela_login.iconbitmap("assets/icon/icon.ico") 
+        #self.janela_login.iconbitmap("assets/icon/icon.ico") 
         self.janela_login.geometry('500x300') # Posição da janela no ecrã
 
         self.janela_login.grab_set()

@@ -14,7 +14,7 @@ class ReconstruirMenu:
             widget.destroy()
 
         self.janela_principal.title("Sistema de Gestão de Produtos")  # Título da janela
-        self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
+        #self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
         self.janela_principal.geometry("600x500")  # Posição da janela no ecrã
         self.janela_principal.state('zoomed')  # Maximizar a janela~
 
