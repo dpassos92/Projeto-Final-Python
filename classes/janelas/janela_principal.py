@@ -41,9 +41,6 @@ class JanelaPrincipal:
     def abrir_janela_login(self):
         JanelaLogin(janela_principal=self)
 
-
-# Ainda por editar com customtkinter
-
     
     #definir a posição no ecra
     def calcular_posicao(self, largura_janela=400, altura_janela=300):
@@ -66,7 +63,7 @@ class JanelaPrincipal:
             widget.destroy()
 
         self.janela_principal.title("Sistema de Gestão de Produtos")  # Título da janela
-        self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
+        #self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
         self.janela_principal.geometry("600x500")  # Posição da janela no ecrã
         self.janela_principal.state('zoomed')  # Maximizar a janela~
 

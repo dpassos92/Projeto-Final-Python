@@ -75,20 +75,5 @@ class JanelaLogin:
             messagebox.showerror("Erro", "Utilizador não encontrado.")
     
     
-# função para definir a posição no ecra
-"""def calcular_posicao(self):
-    #definir largura e altura da janela
-    largura_janela = 450
-    altura_janela = 300
 
-    #obter largura e altura do ecrã
-    largura_ecra = self.janela_login.winfo_screenwidth()
-    altura_ecra = self.janela_login.winfo_screenheight()
-
-    #calcular a posição x e y
-    x = (largura_ecra // 2) - (largura_janela // 2)
-    y = (altura_ecra // 2) - (altura_janela // 2)
-
-    #definir a posição da janela
-    return f'{largura_janela}x{altura_janela}+{x}+{y}'"""
         

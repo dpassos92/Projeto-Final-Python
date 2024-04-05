@@ -17,7 +17,7 @@ class CategoriaVinyl:
             widget.destroy()
 
         self.janela_principal.title("Sistema de Gestão de Produtos - Vinyl")  # Título da janela
-        self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
+        #self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
         self.janela_principal.configure(bg="#f0f0f0")  # Cor de fundo da janela
         self.janela_principal.geometry(self.calcular_posicao())  # Posição da janela no ecrã
         self.janela_principal.state('zoomed')  # Maximizar a janela
@@ -99,9 +99,6 @@ class CategoriaVinyl:
         ano_produto.bind('<KeyRelease>', lambda e: self.filtrar_ano_vinyls(ano_produto))
         genero_produto.bind('<KeyRelease>', lambda e: self.filtrar_genero_vinyls(genero_produto))
 
-    
-
-
 
     #definir a posição no ecra
     def calcular_posicao(self, largura_janela=400, altura_janela=300):
@@ -144,7 +141,7 @@ class CategoriaVinyl:
 
         self.janela_edicao = customtkinter.CTkToplevel(self.janela_principal)
         self.janela_edicao.title("Editar vinyl")
-        self.janela_edicao.iconbitmap("assets/icon/icon.ico")
+        #self.janela_edicao.iconbitmap("assets/icon/icon.ico")
         self.janela_edicao.configure(bg="#f0f0f0")
         self.janela_edicao.geometry(self.calcular_posicao(400, 550))
 
@@ -255,7 +252,7 @@ class CategoriaVinyl:
         #criar nova janela para registar os produtos
         self.janela_registo_vinyl = customtkinter.CTkToplevel(self.janela_principal)
         self.janela_registo_vinyl.title("Registar vinyl")
-        self.janela_registo_vinyl.iconbitmap("assets/icon/icon.ico")
+        #self.janela_registo_vinyl.iconbitmap("assets/icon/icon.ico")
         self.janela_registo_vinyl.geometry("700x600")
 
         self.janela_registo_vinyl.grab_set()

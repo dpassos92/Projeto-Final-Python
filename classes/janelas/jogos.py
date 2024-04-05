@@ -18,7 +18,7 @@ class CategoriaJogo:
             widget.destroy()
 
         self.janela_principal.title("Sistema de Gestão de Produtos - Jogos")  # Título da janela
-        self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
+        #self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
         self.janela_principal.configure(bg="#f0f0f0")  # Cor de fundo da janela
         self.janela_principal.geometry(self.calcular_posicao())  # Posição da janela no ecrã
         self.janela_principal.state('zoomed')  # Maximizar a janela
@@ -138,7 +138,7 @@ class CategoriaJogo:
 
         self.janela_edicao = customtkinter.CTkToplevel(self.janela_principal)
         self.janela_edicao.title("Editar jogo")
-        self.janela_edicao.iconbitmap("assets/icon/icon.ico")
+        #self.janela_edicao.iconbitmap("assets/icon/icon.ico")
         self.janela_edicao.configure(bg="#f0f0f0")
         self.janela_edicao.geometry(self.calcular_posicao(400, 550))
 
@@ -242,7 +242,7 @@ class CategoriaJogo:
         #criar nova janela para registar os produtos
         self.janela_registo_jogo = customtkinter.CTkToplevel(self.janela_principal)
         self.janela_registo_jogo.title("Registar jogo")
-        self.janela_registo_jogo.iconbitmap("assets/icon/icon.ico")
+        #self.janela_registo_jogo.iconbitmap("assets/icon/icon.ico")
         self.janela_registo_jogo.geometry("700x600")
 
         self.janela_registo_jogo.grab_set()
@@ -505,7 +505,7 @@ class CategoriaJogo:
         row += 1
 
         customtkinter.CTkLabel(exibir_window, text="Preço:", font= ("Arial bold", 14)).grid(row=row, column=0, padx= (30,0), sticky='w')
-        customtkinter.CTkLabel(exibir_window, text=[7], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
+        customtkinter.CTkLabel(exibir_window, text=jogo[7], font= ("Arial", 14)).grid(row=row, column=1, sticky='w')
         row += 1   
 
         image_file = jogo[5]

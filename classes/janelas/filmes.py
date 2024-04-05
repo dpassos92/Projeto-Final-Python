@@ -18,7 +18,7 @@ class CategoriaFilme:
             widget.destroy()
 
         self.janela_principal.title("Sistema de Gestão de Produtos - Filmes")  # Título da janela
-        self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
+        #self.janela_principal.iconbitmap("assets/icon/icon.ico")  # Ícone da janela
         self.janela_principal.configure(bg="#f0f0f0")  # Cor de fundo da janela
         self.janela_principal.geometry(self.calcular_posicao())  # Posição da janela no ecrã
         self.janela_principal.state('zoomed')  # Maximizar a janela
@@ -95,8 +95,6 @@ class CategoriaFilme:
         genero_produto.bind('<KeyRelease>', lambda e: self.filtrar_genero_filmes(genero_produto))
 
 
-    
-
     #definir a posição no ecra
     def calcular_posicao(self, largura_janela=400, altura_janela=300):
 
@@ -138,7 +136,7 @@ class CategoriaFilme:
 
         self.janela_edicao = customtkinter.CTkToplevel(self.janela_principal)
         self.janela_edicao.title("Editar filme")
-        self.janela_edicao.iconbitmap("assets/icon/icon.ico")
+        #self.janela_edicao.iconbitmap("assets/icon/icon.ico")
         self.janela_edicao.configure(bg="#f0f0f0")
         self.janela_edicao.geometry(self.calcular_posicao(400, 550))
 
@@ -243,7 +241,7 @@ class CategoriaFilme:
         #criar nova janela para registar os produtos
         self.janela_registo_filme = customtkinter.CTkToplevel(self.janela_principal)
         self.janela_registo_filme.title("Registar filme")
-        self.janela_registo_filme.iconbitmap("assets/icon/icon.ico")
+        #self.janela_registo_filme.iconbitmap("assets/icon/icon.ico")
         self.janela_registo_filme.geometry("700x600")
 
         self.janela_registo_filme.grab_set()
@@ -462,7 +460,6 @@ class CategoriaFilme:
         reconstruir_menu_instance = ReconstruirMenu(janela_principal=self.janela_principal)
         reconstruir_menu_instance.reconstruir_menu()
 
-    
     
     def handle_selecao(self, event):
         # Obter o filme_id a partir do item selecionado na treeview
